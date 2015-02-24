@@ -53,66 +53,48 @@
                 <div class="border-line"></div>	      
             </div>
             <!-- START COMMENTS -->
+            @if($homepage->best_deal_wisata_show == 'Y')
             <div class="page type-page status-publish hentry group">
                 <h2>Favourite Destination</h2>
-
+                @foreach($favdests as $fd)
                 <div class="one-fourth ">
-                    <p><a   href="images/home-vi/dd2.jpg"><img style="width: 186px; height: 123px;" src="frnt/images/home-vi/dd2.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
+                    <p><a   href="images/paket/{{$fd->travpack->img_1}}"><img style="width: 186px; height: 123px;" src="images/paket/{{$fd->travpack->img_1}}" alt="" /></a></p>
+                    <h3>{{$fd->travpack->nama}}</h3>
+                    <!--<p><?php echo substr($fd->travpack->desc, 0, 100); ?></p>-->
                 </div>
-
-                <div class="one-fourth ">
-
-                    <p><a href="images/home-vi/00213.jpg"><img style="width: 186px; height: 123px;" src="frnt/images/home-vi/00213.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>   
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
-                <div class="one-fourth ">
-                    <p><a href="images/home-vi/00315.jpg"><img style="width: 186px; height: 123px;" src="frnt/images/home-vi/00315.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
-                <div class="one-fourth last">
-                    <p><a href="images/home-vi/0048.jpg"><img style="width: 186px; height: 123px;" src="frnt/images/home-vi/0048.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
+                @endforeach
             </div>
             <div class="border-line"></div>	
+            @endif
+
+            @if($homepage->best_deal_hotel_show == 'Y')
             <div class="page type-page status-publish hentry group">
                 <h2>Best Deal Hotels</h2>
-
+                @foreach($hotels as $row)
                 <div class="one-fourth ">
-                    <p><a href="images/home-vi/dd2.jpg"><img style="width: 186px; height: 123px;" src="http://nusantaratrip.com/wp-content/uploads/2013/09/Kamar_cozzy1.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
+                    <p><a href="images/hotel/{{$row->hotel->foto_1}}"><img style="width: 186px; height: 123px;" src="images/hotel/{{$row->hotel->foto_1}}" alt="" /></a></p>
+                    <h3>{{$row->hotel->nama}}</h3>
+                    <!--<p><?php echo substr($row->hotel->desc, 0, 100); ?></p>-->
                 </div>
-
-                <div class="one-fourth ">
-
-                    <p><a href="images/home-vi/00213.jpg"><img style="width: 186px; height: 123px;" src="http://nusantaratrip.com/wp-content/uploads/2013/09/media-2012-03-31-deluxe-714-440x294.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>   
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
-                <div class="one-fourth ">
-                    <p><a href="images/home-vi/00315.jpg"><img style="width: 186px; height: 123px;" src="http://nusantaratrip.com/wp-content/uploads/2013/09/det_4_Suite-Room-1_20120204092958-440x279.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
-                <div class="one-fourth last">
-                    <p><a href="images/home-vi/0048.jpg"><img style="width: 186px; height: 123px;" src="http://nusantaratrip.com/wp-content/uploads/2013/09/facility-3-440x293.jpg" alt="" /></a></p>
-                    <h3>Open Trip, Tour Kawah Ijen Bluefire 2D1N</h3>
-                    <p>Nunc felis urna, mattis non blandit vitae, porttitor ac enim. Nunc scelerisque sagittis sollicitudin nam gravida blandir optesimer.</p>
-                </div>
-
-            </div>
+                @endforeach
+            </div>            
             <div class="border-line"></div>	
+            @endif
+            
+            @if($homepage->best_deal_rental_show == 'Y')
+            <div class="page type-page status-publish hentry group">
+                <h2>Rent Car</h2>
+                @foreach($rentals as $row)
+                <div class="one-fourth ">
+                    <p><a href="images/car/{{$row->car->foto_1}}"><img style="width: 186px; height: 123px;" src="images/car/{{$row->car->foto_1}}" alt="" /></a></p>
+                    <h3>{{$row->car->nama}}</h3>
+                    <!--<p><?php echo substr($row->car->desc, 0, 100); ?></p>-->
+                </div>
+                @endforeach
+            </div>            
+            <div class="border-line"></div>	
+            @endif
+            
             <!-- END COMMENTS -->
             <div class="page type-page status-publish hentry group">
                 <h2>Our customers say..</h2>
@@ -194,20 +176,20 @@
             @endif
             <div class="clear"></div>
             <p>{{$contactpage->customer_support_desc}} </p>
-            
+
             <div class="sidebar-nav">
-                    <ul>
-                        <li>
-                            <i class="icon-info-sign" style="color:#979797;font-size:20pxpx"></i> Phone: 0823156431
-                        </li>
-                        <li>
-                            <i class="icon-print" style="color:#979797;font-size:20pxpx"></i> Fax: 031653465
-                        </li>
-                        <li>
-                            <i class="icon-envelope" style="color:#979797;font-size:20pxpx"></i> Email: info@telusurindonesia.com
-                        </li>
-                    </ul>
-                </div>
+                <ul>
+                    <li>
+                        <i class="icon-info-sign" style="color:#979797;font-size:20pxpx"></i> Phone: 0823156431
+                    </li>
+                    <li>
+                        <i class="icon-print" style="color:#979797;font-size:20pxpx"></i> Fax: 031653465
+                    </li>
+                    <li>
+                        <i class="icon-envelope" style="color:#979797;font-size:20pxpx"></i> Email: info@telusurindonesia.com
+                    </li>
+                </ul>
+            </div>
         </div>
         <!-- END SIDEBAR -->
         <!-- START EXTRA CONTENT -->

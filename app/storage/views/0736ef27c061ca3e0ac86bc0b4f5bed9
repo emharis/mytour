@@ -1,0 +1,24 @@
+<?php $idx = 1; ?>
+<?php foreach($dests as $dst): ?>
+
+<li class="<?php echo ($idx==1 ? 'first':''); ?> one-third <?php echo ($idx==3 ? 'group last':''); ?>">
+    <div class="overlay_a">
+        <div class="overlay_wrapper">
+            <img src="<?php echo $dst->img_path; ?>" style="width: 364px;height: 162px;" alt="<?php echo $dst->nama; ?>" title="<?php echo $dst->nama; ?>" />										
+            <div class="overlay">
+                <a class="overlay_project" href="front/destination/show/<?php echo $dst->id; ?>" style="width: 100%;background-position-x: center;" ></a>
+                <span class="overlay_title"><?php echo $dst->nama; ?></span>
+            </div>
+        </div>
+    </div>
+    <h4><a href="front/destination/show/<?php echo $dst->id; ?>"><?php echo $dst->nama; ?></a></h4>                      
+</li>
+<?php $idx++; ?>
+<?php endforeach; ?>
+
+<br/>
+<?php if($dests->getCurrentPage() < $dests->getLastPage()): ?>
+<a class="jscroll-next"   href="<?php echo URL::to('front/destination/kategoripager/'.$destkat->id); ?>?page=<?php echo $dests->getCurrentPage()+1; ?>" >Next</a>
+<?php else: ?>
+<a class="jscroll-next"   ></a>
+<?php endif; ?>

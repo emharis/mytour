@@ -1,0 +1,68 @@
+<?php $__env->startSection('main-content'); ?>
+<div id="page-meta">
+    <div class="inner group">
+        <h3><?php echo $dest->nama; ?></h3>
+        <h4><?php echo $dest->subtitle; ?></h4>
+    </div>
+</div>
+<!-- END PAGE META -->
+<!-- START PRIMARY -->
+<div id="primary" class="sidebar-right">
+    <div class="inner group">
+        <!-- START CONTENT -->
+        <div id="content-page" class="content group">
+            <div class="page type-page status-publish group">
+                <?php echo str_replace('../', '', $dest->desc); ?>
+
+                <p>&nbsp;</p>
+            </div>
+            <!-- START COMMENTS -->
+            <div id="comments">
+            </div>
+            <!-- END COMMENTS -->
+        </div>
+        <!-- END CONTENT -->
+
+        <!-- START SIDEBAR -->
+        <div class="sidebar group">
+
+            <div class="widget-first widget recent-posts">
+                <h3>Others in <?php echo $dest->destkat->nama; ?></h3>
+                <div class="recent-post group">
+                    <?php foreach($dests as $dst): ?>
+                    <div class="hentry-post group">
+                        <div class="thumb-img">
+                            <a href="front/destination/show/<?php echo $dst->id; ?>">
+                            <img src="<?php echo $dst->img_path; ?>" width="55px" height="55px" alt="001" title="001" />
+                            </a>
+                        </div>
+                        <div class="text">
+                            <a href="front/destination/show/<?php echo $dst->id; ?>" title="<?php echo $dst->nama . ', ' . $dst->subtitle; ?>" class="title"><?php echo $dst->nama; ?></a>
+                            <p class="post-date"><?php echo $dst->subtitle; ?></p>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>                    
+                </div>
+            </div>
+
+            <div class="widget-last widget text-image">
+                <h3>Others in <?php echo $dest->kategori->nama; ?></h3>
+                <?php foreach($destsbykat as $dstk): ?>
+                <div class="text-image" style="text-align:left">
+                    <a href="front/destination/show/<?php echo $dstk->id; ?>">
+                    <img src="<?php echo $dstk->img_path; ?>" alt="<?php echo $dstk->nama; ?>" width="87px" height="56px" />
+                    </a>
+                </div>
+                <p><?php echo $dstk->nama .', ' . $dstk->subtitle; ?></p>
+                <?php endforeach; ?>
+                
+            </div>
+
+        </div>
+        <!-- END SIDEBAR -->
+        <!-- START EXTRA CONTENT -->
+        <!-- END EXTRA CONTENT -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -96,6 +96,12 @@ Route::group(array('prefix' => 'admin'), function() {
             Route::controller('photo', 'App\Controllers\Admin\PhotoController');
             Route::controller('video', 'App\Controllers\Admin\VideoController');
         });
+        Route::group(array('prefix' => 'paket'), function() {
+            Route::controller('travpack', 'App\Controllers\Admin\TravpackController');
+            Route::controller('travpackcat', 'App\Controllers\Admin\TravpackcatController');
+            Route::controller('hotel', 'App\Controllers\Admin\HotelController');
+            Route::controller('car', 'App\Controllers\Admin\CarController');
+        });
         Route::controller('statpage', 'App\Controllers\Admin\StatpageController');
         Route::controller('menu', 'App\Controllers\Admin\MenuController');
         Route::controller('testimoni', 'App\Controllers\Admin\TestimoniController');
@@ -103,9 +109,14 @@ Route::group(array('prefix' => 'admin'), function() {
         Route::controller('destination', 'App\Controllers\Admin\DestinationController');
         Route::controller('setting', 'App\Controllers\Admin\SettingController');
         Route::controller('comment', 'App\Controllers\Admin\CommentController');
-        Route::controller('travpack', 'App\Controllers\Admin\TravpackController');
     });
 });
+
+
+/**
+ * Untuk testing hal hal yang gak penting
+ */
+Route::controller('test', 'App\Controllers\TestController');
 
 // =============================================
 // CATCH ALL ROUTE =============================

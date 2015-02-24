@@ -1,0 +1,40 @@
+<table class="table table-bordered datatable-general">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th class="col-sm-3" >Foto</th>
+            <th>Nama</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $rownum = 1; ?>
+        <?php foreach($bestcars as $car): ?>
+        <tr>
+            <td><?php echo $rownum++; ?></td>
+            <td>
+                <img class="col-sm-12" src="images/car/<?php echo $car->foto_1; ?>"/>
+            </td>
+            <td>
+                <?php echo $car->nama; ?>
+
+            </td>
+            <td>
+                <?php echo $car->price; ?>
+
+            </td>
+            <td>
+                <a arridx="<?php echo $rownum-2; ?>" class="btn btn-success btn-xs btn-pilih-rental-mobil" data-dismiss="modal"  >Pilih</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    var rentalmobil = <?php echo $bestcars->toJson(); ?>;
+    $(document).ready(function () {
+        datatableInit();
+    });
+</script>

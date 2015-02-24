@@ -22,7 +22,10 @@ class HomeController extends \BaseController {
                     'homepage' => \App\Models\Homepage::first(),
                     'sliders' => \App\Models\Homepageslider::get(),
                     'testimonis' => \App\Models\Testimoni::orderByRaw('rand()')->where('publish', 'Y')->limit(\App\Models\Konfig::where('nama', 'testimonial_list_count')->first()->value)->get(),
-                    'contactpage' => \App\Models\Contactpage::first()
+                    'contactpage' => \App\Models\Contactpage::first(),
+                    'rentals' => \App\Models\Bestcar::all(),
+                    'favdests' => \App\Models\Favdest::all(),
+                    'hotels' => \App\Models\Besthotel::all()
         ));
     }
 

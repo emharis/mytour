@@ -12,5 +12,12 @@ class Travpack extends \Eloquent {
 	 */
 	protected $table = 'travpack';
         
+        function travpackcategory(){
+            return $this->belongsTo('App\Models\Travpackcategory');
+        }
+        
+        function favdests(){
+            return $this->hasMany('App\Models\Favdest');
+        }
     
 }

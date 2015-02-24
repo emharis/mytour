@@ -1,0 +1,15 @@
+<?php $__env->startSection('main-content'); ?>
+<div id="page-meta">
+    <div class="inner group">
+        <h3>Login</h3>
+        <!--<h4>..i hope you enjoy my works</h4>-->
+    </div>
+</div>
+<div id="primary" class="sidebar-no">
+    <div class="inner group">
+        
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

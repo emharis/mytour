@@ -1,0 +1,40 @@
+<table class="table table-bordered datatable-general">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th class="col-sm-3" >Foto</th>
+            <th>Nama</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $rownum = 1; ?>
+        <?php foreach($besthotels as $hotel): ?>
+        <tr>
+            <td><?php echo $rownum++; ?></td>
+            <td>
+                <img class="col-sm-12" src="images/hotel/<?php echo $hotel->foto_1; ?>"/>
+            </td>
+            <td>
+                <?php echo $hotel->nama; ?>
+
+            </td>
+            <td>
+                <?php echo $hotel->price; ?>
+
+            </td>
+            <td>
+                <a arridx="<?php echo $rownum-2; ?>" class="btn btn-success btn-xs btn-pilih-hotel" data-dismiss="modal"  >Pilih</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    var hotel = <?php echo $besthotels->toJson(); ?>;
+    $(document).ready(function () {
+        datatableInit();
+    });
+</script>

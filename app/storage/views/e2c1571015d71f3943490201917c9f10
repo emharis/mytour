@@ -1,0 +1,51 @@
+<div class="menu classic" >
+    <ul id="nav" class="menu" >
+        <?php foreach($topmenu as $menu): ?>
+        <?php if($menu->type == '1'): ?>
+        <li class="<?php echo (Request::is('front/home') ? 'active':''); ?>" >
+            <a href="front/home" ><?php echo strtoupper($menu->nama); ?></a>
+            
+        </li>
+        <?php elseif($menu->type == '2'): ?>
+        <li class="<?php echo (Request::is('front/statpage') ? 'active':''); ?>" >
+            <a href="front/statpage/index/<?php echo $menu->statpage_id; ?>" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php elseif($menu->type == '3'): ?>
+        <li class="<?php echo (Request::is('front/blog') ? 'active':''); ?>" >
+            <a href="front/blog" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php elseif($menu->type == '4'): ?>
+        <li class="<?php echo (Request::is('front/contact') ? 'active':''); ?>" >
+            <a href="front/contact" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php elseif($menu->type == '5'): ?>
+        <li class="<?php echo (Request::is('front/gallery') ? 'active':''); ?>" >
+            <a href="#" ><?php echo strtoupper($menu->nama); ?></a>
+            <ul class="sub-menu">
+                <li><a href="front/gallery/photo" >Photos</a></li>
+                <li><a href="front/gallery/video" >Videos</a></li>
+            </ul>
+        </li>
+        <?php elseif($menu->type == '6'): ?>
+        <li class="<?php echo (Request::is('front/destination') ? 'active':''); ?>" >
+            <a href="front/destination" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php elseif($menu->type == '7'): ?>
+        <li class="<?php echo (Request::is('front/book') ? 'active':''); ?>" >
+            <a href="front/book" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php elseif($menu->type == '8'): ?>
+        <li class="<?php echo (Request::is('front/testimoni') ? 'active':''); ?>" >
+            <a href="front/testimoni" ><?php echo strtoupper($menu->nama); ?></a>
+        </li>
+        <?php endif; ?>
+        
+        <!--<a href="<?php echo ($menu->type == '2' ? 'front/statpage/index/'.$menu->statpage_id :($menu->type == '3' ? 'front/blog' : '' ) ); ?>" ><?php echo strtoupper($menu->nama); ?></a>-->
+        <?php endforeach; ?>
+        
+        <li class="<?php echo (Request::is('front/user/login') ? 'active':''); ?>" >
+            <a id="btn-login" href="front/user/login" >LOGIN</a>
+        </li>
+
+    </ul>
+</div>

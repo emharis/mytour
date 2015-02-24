@@ -34,6 +34,7 @@
 
         <!-- page specific plugin styles -->
         <link rel="stylesheet" href="adm/css/dropzone.css" />
+        <link rel="stylesheet" href="adm/css/custom.css" />
 
         <!-- inline styles related to this page -->
 
@@ -100,7 +101,7 @@ tinymce.init({
         "advlist autolink lists link image charmap print preview hr anchor pagebreak",
         "searchreplace wordcount visualblocks visualchars code fullscreen",
         "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
+        "emoticons template paste textcolor colorpicker textpattern autoresize"
     ],
     toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
     toolbar2: "print preview media | forecolor backcolor emoticons",
@@ -109,6 +110,7 @@ tinymce.init({
     max_height: 200,
     min_height: 160,
     height: 180,
+    autoresize_max_height: 800,
     file_browser_callback: RoxyFileBrowser
 });
 function RoxyFileBrowser(field_name, url, type, win) {
@@ -136,6 +138,12 @@ function RoxyFileBrowser(field_name, url, type, win) {
     return false;
 }
 tinymce.init({
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern autoresize"
+    ],
     selector: "textarea.mini",
     toolbar: "undo redo | bold italic",
     menubar: false,
@@ -143,7 +151,8 @@ tinymce.init({
     autosave_ask_before_unload: false,
     max_height: 100,
     min_height: 80,
-    height: 90
+    height: 90,
+    autoresize_max_height: 800,
 });
             </script>
 
@@ -486,6 +495,17 @@ tinymce.init({
 
         <!-- inline scripts related to this page -->
         <script type="text/javascript">
+            function datatableInit() {
+                $('.datatable-general').dataTable({
+                    bAutoWidth: false,
+                    "bDestroy": true,
+                    aLengthMenu: [
+                        [25, 50, 100, 200, -1],
+                        [25, 50, 100, 200, "All"]
+                    ]
+                });
+            }
+
             jQuery(function ($) {
                 var $sidebar = $('.sidebar').eq(0);
                 if (!$sidebar.hasClass('h-sidebar'))

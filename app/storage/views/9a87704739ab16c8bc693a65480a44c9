@@ -1,0 +1,43 @@
+<?php $__env->startSection('main-content'); ?>
+<div id="page-meta">
+    <div class="inner group">
+        <h3>Our customers say...</h3>
+        <h4>we made great things</h4>
+    </div>
+</div>
+<!-- END PAGE META -->
+<!-- START PRIMARY -->
+<div id="primary" class="sidebar-no">
+    <div class="inner group">
+        <!-- START CONTENT -->
+        <div id="content-page" class="content group">
+            <div class="hentry group">
+                <?php $idx = 1; ?>
+                <?php foreach($testimonials as $tst): ?>
+                <div class="testimonial two-fourth <?php echo ($idx==2 ? 'last':''); ?>">
+                    <div class="thumbnail">
+                        <img src="<?php echo $tst->img; ?>" alt="<?php echo $tst->img; ?>" title="<?php echo $tst->img; ?>" />   
+                    </div>
+                    <div class="testimonial-text">
+                        <p><?php echo substr($tst->message,0,205); ?>[...]</p>
+                    </div>
+                    <div class="testimonial-name"><a href="front/testimoni/show/<?php echo $tst->id; ?>" class="name"><?php echo $tst->nama; ?></a><a class="website" href="<?php echo $tst->website; ?>"><?php echo $tst->company; ?></a></div>
+                </div>
+                <?php $idx++; ?>
+                <?php if($idx > 2): ?>
+                <?php $idx = 1; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <!-- START COMMENTS -->
+            <div id="comments">
+            </div>
+            <!-- END COMMENTS -->
+        </div>
+        <!-- END CONTENT -->
+        <!-- START EXTRA CONTENT -->
+        <!-- END EXTRA CONTENT -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

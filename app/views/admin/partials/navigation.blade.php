@@ -14,8 +14,8 @@
             <span class="menu-text"> User </span>
         </a>
 
-        <b class="arrow"></b>
-    </li>
+        <b class="arrow"></b> 
+   </li>
     
     <li class="{{ Request::is('*homepage*') ? 'active open hover' : 'hover' }}">
         <a href="#" class="dropdown-toggle">
@@ -184,14 +184,61 @@
         </ul>
     </li>
     
-    <li class="{{ Request::is('travpack') ? 'active open hover' : 'hover' }}">
-        <a href="admin/travpack">
+    <li class="{{ Request::is('*paket*') ? 'active open hover' : 'hover' }}">
+        <a href="#" class="dropdown-toggle">
             <i class="menu-icon fa fa-briefcase"></i>
-            <span class="menu-text"> Travel Pakcage </span>
+            <span class="menu-text"> Paket Wisata </span>
+
+            <b class="arrow fa fa-angle-down"></b>
         </a>
 
         <b class="arrow"></b>
+
+        <ul class="submenu">
+            <li class="hover">
+                <a href="admin/paket/travpackcat">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Kategori Paket Wisata
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+            <li class="hover">
+                <a href="admin/paket/travpack">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Paket Wisata
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+            <li class="hover">
+                <a href="admin/paket/hotel">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Hotel
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+            <li class="hover">
+                <a href="admin/paket/car">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Rental Mobil
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+        </ul>
     </li>
+    
+<!--    <li class="{{ Request::is('travpack') ? 'active open hover' : 'hover' }}">
+        <a href="admin/travpack">
+            <i class="menu-icon fa fa-briefcase"></i>
+            <span class="menu-text"> Travel Package </span>
+        </a>
+
+        <b class="arrow"></b>
+    </li>-->
     
     <li class="{{ Request::is('setting') ? 'active open hover' : 'hover' }}">
         <a href="admin/setting">

@@ -3,7 +3,7 @@
 @section('main_content')
 
 <div class="page-header">
-    <a href="admin/travpack/new" class="btn btn-sm btn-primary pull-right">New</a>
+    <a href="admin/paket/travpack/new" class="btn btn-sm btn-primary pull-right">New</a>
     <h1>
         Travel Package
     </h1>
@@ -17,7 +17,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Price</th>
+                        <th>Kategori</th>
+                        <th>Price ($)</th>
                         <th class="col-sm-2">Publish</th>
                         <th class="col-sm-1"></th>
                     </tr>
@@ -27,7 +28,8 @@
                     <tr>
                         <td ></td>
                         <td >{{$tst->nama}}</td>
-                        <td >{{$tst->company}}</td>
+                        <td >{{$tst->travpackcategory->nama}}</td>
+                        <td class="uang" >{{$tst->price}}</td>
                         <td  style="text-align: center;">
                             @if($tst->publish == 'Y')
                             <span class="label label-info arrowed-in arrowed-in-right">Published</span>
@@ -37,11 +39,11 @@
                         </td>
                         <td class="center">
                             <div class="hidden-sm hidden-xs action-buttons">
-                                <a class="green" href="admin/travpack/edit/{{$tst->id}}">
+                                <a class="green" href="admin/paket/travpack/edit/{{$tst->id}}">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
 
-                                <a class="red btn-delete" href="admin/travpack/delete/{{$tst->id}}" >
+                                <a class="red btn-delete" href="admin/paket/travpack/delete/{{$tst->id}}" >
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             </div>
@@ -71,7 +73,7 @@
                 [25, 50, 100, 200, "All"]
             ],
             aoColumns: [
-                {"bSortable": false}, null,null, null, {"bSortable": false}
+                {"bSortable": false}, null,null,null, null, {"bSortable": false}
             ],
             aaSorting: [],
             fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {

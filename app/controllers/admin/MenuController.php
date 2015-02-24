@@ -26,10 +26,17 @@ class MenuController extends \BaseController {
         foreach ($kats as $kat) {
             $kategoris[$kat->id] = $kat->nama;
         }
+        $menus = \App\Models\Menu::where('publish','Y')->whereMenuId(0)->get();
+        $parentmenu[0] = '_Top Menu';
+        foreach($menus as $mn){
+            $parentmenu[$mn->id] = $mn->nama;
+        }
+        
         return \View::make('admin.menu.new', array(
                     'kategoris' => $kategoris,
                     'menutype' => $this->getTypeSelect(),
-                    'position' => $this->getPositionSelect()
+                    'position' => $this->getPositionSelect(),
+                    'parentmenus'=>$parentmenu
         ));
     }
 

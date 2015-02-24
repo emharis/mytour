@@ -30,6 +30,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Parent Menu</td>
+                            <td>
+                                {{Form::select('parent',$parentmenus,null,array('class'=>'col-sm-4'))}}
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Position</td>
                             <td>
                                 {{$position}}  
