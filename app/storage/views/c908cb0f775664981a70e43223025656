@@ -16,6 +16,7 @@
                         <th>No</th>
                         <th>Title</th>
                         <th class="col-sm-2">Type</th>
+                        <th class="col-sm-2">Parent Menu</th>
                         <th class="col-sm-1">Publish</th>
                         <th class="col-sm-1">Menu Order</th>
                         <th class="col-sm-1"></th>
@@ -27,23 +28,17 @@
                         <td class="col-sm-1"></td>
                         <td><?php echo $mn->nama; ?></td>
                         <td>
-                            <?php if($mn->type == 1): ?>
-                            Home Page
-                            <?php elseif($mn->type == 2): ?>
-                            Static Page
-                            <?php elseif($mn->type == 3): ?>
-                            Blog List
-                            <?php elseif($mn->type == 4): ?>
-                            Contact Page
-                            <?php elseif($mn->type == 5): ?>
-                            Image/Video Gallery
-                            <?php elseif($mn->type == 6): ?>
-                            List of Destination
-                            <?php elseif($mn->type == 7): ?>
-                            Booking System
-                            <?php elseif($mn->type == 8): ?>
-                            Testimony Page
+                            <?php echo $mn->type->nama; ?>
+
+                        </td>
+                        <td>
+                            <?php if($mn->parent_id == 0): ?>
+                            -
+                            <?php else: ?>
+                            <?php echo $mn->parentmenu->nama; ?>
+
                             <?php endif; ?>
+                            
                         </td>
                         <td class="center">
                             <?php if($mn->publish == 'Y'): ?>
@@ -85,21 +80,8 @@
             }
         });
 
-        $('.datatable').dataTable({
-            bAutoWidth: false,
-            aLengthMenu: [
-                [25, 50, 100, 200, -1],
-                [25, 50, 100, 200, "All"]
-            ],
-            "bSort": false,
-            aaSorting: [],
-            fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                // Bold the grade for all 'A' grade browsers
-                var index = iDisplayIndexFull + 1;
-                $('td:eq(0)', nRow).html(index);
-                return nRow;
-            }
-        });
+        inittable();
+        
     });
 </script>
 <?php $__env->stopSection(); ?>

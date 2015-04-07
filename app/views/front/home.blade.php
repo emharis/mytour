@@ -1,200 +1,320 @@
-@extends('front.partials.master')
+@extends('front.partials.homemaster')
 
-@section('main-content')
-<!-- BEGIN #slider -->
-<div id="slider-elastic" class="slider elastic ei-slider" style="width: 100%; height: 400px;">
-    <div class="ei-slider-loading">Loading</div>
-    <ul class="ei-slider-large">
-        <?php $sldnum = 0; ?>
-        <?php $sldcount = count($sliders); ?>
-        @foreach($sliders as $sld)
-        <li class="{{'count_'.$sldcount}} {{($sldnum++ == 1 ? 'first': ($sldnum == $sldcount ? 'last':''))}} {{'num_'.$sldnum}} slide-{{$sldnum}} slide">
-            <a href="{{$sld->link}}" target="_blank"><img src="images/slider/{{$sld->img_name}}" alt="sci11" title="sci11" /></a>
-            <div class="ei-title">
-                <h2 style="color: white;"><a style="color: white;" href="{$sld->link}}" target="_blank">{{$sld->title}}</a></h2>
-                <h3 style="color: white;" >{{$sld->subtitle}}</h3>
-            </div>
-        </li>
-        @endforeach
-    </ul>
-    <!-- ei-slider-large -->
-    <ul class="ei-slider-thumbs">
-        <li class="ei-slider-element">Current</li>
-        @foreach($sliders as $sld)
-        <li><a href="frnt/#">{{$sld->subtitle}} </a><img src="images/slider/{{$sld->img_name}}" alt=" - " /></li>
-        @endforeach
-    </ul>
-    <!-- ei-slider-thumbs -->    
-    <div class="shadow"></div>
-</div>
-<!-- ei-slider -->    
-<!-- END #slider -->
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('#slider-elastic.elastic').eislideshow({
-            easing: 'easeOutExpo',
-            titleeasing: 'easeOutExpo',
-            titlespeed: 1200,
-            autoplay: true,
-            slideshow_interval: 3000,
-            speed: 800,
-            animation: 'sides'
-        });
-    });
-</script>
+@section('styles')
+@stop
 
-<!-- START PRIMARY -->
-<div id="primary" class="sidebar-right">
-    <div class="inner group">
-        <!-- START CONTENT -->
-        <div id="content-home" class="content group">
-            <div class="page type-page status-publish hentry group">
-                {{str_replace('../', '', $homepage->welcome_say)}}
-                <div class="border-line"></div>	      
-            </div>
-            <!-- START COMMENTS -->
-            @if($homepage->best_deal_wisata_show == 'Y')
-            <div class="page type-page status-publish hentry group">
-                <h2>Favourite Destination</h2>
-                @foreach($favdests as $fd)
-                <div class="one-fourth ">
-                    <p><a   href="images/paket/{{$fd->travpack->img_1}}"><img style="width: 186px; height: 123px;" src="images/paket/{{$fd->travpack->img_1}}" alt="" /></a></p>
-                    <h3>{{$fd->travpack->nama}}</h3>
-                    <!--<p><?php echo substr($fd->travpack->desc, 0, 100); ?></p>-->
-                </div>
-                @endforeach
-            </div>
-            <div class="border-line"></div>	
-            @endif
+@section('content')
+<div class="row headline"><!-- Begin Headline -->
 
-            @if($homepage->best_deal_hotel_show == 'Y')
-            <div class="page type-page status-publish hentry group">
-                <h2>Best Deal Hotels</h2>
-                @foreach($hotels as $row)
-                <div class="one-fourth ">
-                    <p><a href="images/hotel/{{$row->hotel->foto_1}}"><img style="width: 186px; height: 123px;" src="images/hotel/{{$row->hotel->foto_1}}" alt="" /></a></p>
-                    <h3>{{$row->hotel->nama}}</h3>
-                    <!--<p><?php echo substr($row->hotel->desc, 0, 100); ?></p>-->
-                </div>
+    <style>
+        @media only screen and (min-width: 959px) {
+            .slides img {
+                max-width: 770px;
+                max-height: 354px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                background: none;
+
+            }
+            .flexslider{
+                border: solid 7px whitesmoke;
+                -moz-box-shadow: 1px 1px 5px #999; -webkit-box-shadow: 1px 1px 5px #999; box-shadow: 1px 1px 5px #999;
+            }
+        }
+    </style>
+
+    <!-- Slider Carousel
+    ================================================== -->
+    <div class="span8">
+        <div class="flexslider">
+            <ul class="slides">
+                @foreach($sliders as $sld)
+                <li><a href="#"><img src="{{$constval['img_slider_path'].$sld->filename}}" alt="slider" /></a></li>
                 @endforeach
-            </div>            
-            <div class="border-line"></div>	
-            @endif
-            
-            @if($homepage->best_deal_rental_show == 'Y')
-            <div class="page type-page status-publish hentry group">
-                <h2>Rent Car</h2>
-                @foreach($rentals as $row)
-                <div class="one-fourth ">
-                    <p><a href="images/car/{{$row->car->foto_1}}"><img style="width: 186px; height: 123px;" src="images/car/{{$row->car->foto_1}}" alt="" /></a></p>
-                    <h3>{{$row->car->nama}}</h3>
-                    <!--<p><?php echo substr($row->car->desc, 0, 100); ?></p>-->
-                </div>
-                @endforeach
-            </div>            
-            <div class="border-line"></div>	
-            @endif
-            
-            <!-- END COMMENTS -->
-            <div class="page type-page status-publish hentry group">
-                <h2>Our customers say..</h2>
-                <div class="testimonials-slider">
-                    <ul class="testimonials group">
-                        @foreach($testimonis as $tst)
-                        <li>
-                            <blockquote>
-                                <p><a href="front/testimoni/show/{{$tst->id}}">&rdquo;<?php echo substr($tst->message, 0, 100) ?>[...]&rdquo;</a></p>
-                            </blockquote>
-                            <p class="meta"><strong><a href="frnt/testimonial.html" class="name">{{$tst->nama}}</a></strong>  - <a href="{{$tst->website}}">{{$tst->company}}</a></p>
-                        </li>
-                        @endforeach
-                    </ul>
-                    <div class="prev"></div>
-                    <div class="next"></div>
-                </div>
-                <script type="text/javascript">
-                    jQuery(function ($) {
-                        $('.testimonials-slider ul').cycle({
-                            fx: 'scrollHorz',
-                            speed: 500,
-                            timeout: 5000,
-                            next: '.testimonials-slider .next',
-                            prev: '.testimonials-slider .prev'
-                        });
-                    });
-                </script>
-            </div>
+
+            </ul>
         </div>
-        <!-- END CONTENT -->
-        <!-- START SIDEBAR -->
-        <div class="sidebar group">
-
-            <div class="widget-first widget popular-posts">
-                <h3>Explore us</h3>
-            </div>
-
-            @if($homepage->find_a_dest_show=='Y')
-            <div class="widget widget-icon-text group">
-                <a href="front/destination" ><img class="icon-img" src="frnt/images/icons/find-dest.png" alt="" /></a>
-                <a href="front/destination" ><h3>{{$homepage->find_a_dest_head}}</h3></a>
-                <p>{{$homepage->find_a_dest_desc}}</p>
-            </div>
-            @endif
-            @if($homepage->read_news_show=='Y')
-            <div class="widget widget-icon-text group">
-                <a href="front/blog"><img class="icon-img" src="frnt/images/icons/news.png" alt="" /></a>
-                <a href="front/blog"><h3>{{$homepage->read_news_head}}</h3></a>
-                <p>{{$homepage->read_news_desc}}</p>
-            </div>
-            @endif
-            @if($homepage->buy_travel_guide_show=='Y')
-            <div class="widget widget-icon-text group">
-                <a href="front/book"><img class="icon-img" src="frnt/images/icons/ticket.png" alt="" /></a>
-                <a href="front/book"><h3>{{$homepage->buy_travel_guide_head}}</h3></a>
-                <p>{{$homepage->buy_travel_guide_desc}}</p>
-            </div>
-            @endif
-            @if($homepage->what_they_say_show=='Y')
-            <div class="widget widget-icon-text group">
-                <a href="front/testimoni"><img class="icon-img" src="frnt/images/icons/what-they-say.png" alt="" /></a>
-                <a href="front/testimoni"><h3>{{$homepage->what_they_say_head}}</h3></a>
-                <p>{{$homepage->what_they_say_desc}}</p>
-            </div>
-            @endif
-
-            <div class="border-line"></div>	
-            <div class="widget-first widget popular-posts">
-                <h3>Contact Us</h3>
-            </div>
-                <!--<div class="text-image" style="text-align:left"><img src="frnt/images/callus.gif" alt="Customer Support" /></div>-->
-
-            @if($contactpage->ym_visible == 'Y')
-            <div class="text-image" style="text-align:center">
-                <a href="ymsgr:SendIM?{{$contactpage->ym}}">
-                    <img border=0 src="http://opi.yahoo.com/online?u={{$contactpage->ym}}&m=g&t=14"></a>
-            </div>
-            @endif
-            <div class="clear"></div>
-            <p>{{$contactpage->customer_support_desc}} </p>
-
-            <div class="sidebar-nav">
-                <ul>
-                    <li>
-                        <i class="icon-info-sign" style="color:#979797;font-size:20pxpx"></i> Phone: 0823156431
-                    </li>
-                    <li>
-                        <i class="icon-print" style="color:#979797;font-size:20pxpx"></i> Fax: 031653465
-                    </li>
-                    <li>
-                        <i class="icon-envelope" style="color:#979797;font-size:20pxpx"></i> Email: info@telusurindonesia.com
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- END SIDEBAR -->
-        <!-- START EXTRA CONTENT -->
-        <!-- END EXTRA CONTENT -->
     </div>
+
+    <!-- Headline Text
+    ================================================== -->
+    <div class="span4">
+        {{$homepage['welcome_title']['big_value']}}
+        {{$homepage['welcome_subtitle']['big_value']}}
+    </div>
+</div><!-- End Headline -->
+
+<div class="row">
+    <div class="span8" >
+
+        @if($homepage['show_fav_dest']['value']=='Y')
+        <h5 class="title-bg">Favourite Travel Packs
+            <small></small>
+            <button class="btn btn-mini btn-inverse hidden-phone" type="button">more travel packs</button>
+        </h5>
+        <!-- Destination Thumbnails
+        ================================================== -->
+        <div class="row clearfix no-margin">
+            <ul class="gallery-post-grid holder">
+
+                <!-- Gallery Item 1 -->
+                @foreach($favtrav as $ft)
+                <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
+                    <span class="gallery-hover-6col hidden-phone hidden-tablet">
+                        <span class="gallery-icons">
+                            <a href="{{$constval['travelpack_img_path'].$ft->filename}}" class="item-zoom-link lightbox" title="{{$ft->judul}}" data-rel="prettyPhoto"></a>
+                            <a href="gallery-single.htm" class="item-details-link"></a>
+                        </span>
+                    </span>
+                    <a href="gallery-single.htm" >
+                        <img src="{{$constval['travelpack_img_path'].$ft->filename}}" alt="Gallery">
+                    </a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$ft->judul}}</a>
+                        @if($ft->currency == $constval['default_currency'])
+                        {{$ft->currency}}  {{$ft->harga}}
+                        @else
+                        <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($ft->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
+                        @endif
+                    </span>
+                </li>
+                @endforeach
+
+            </ul>
+        </div>
+        @endif
+
+        @if($homepage['show_hotel']['value']=='Y')
+        <h5 class="title-bg">Best deal hotels
+            <small></small>
+            <button class="btn btn-mini btn-inverse hidden-phone" type="button">more hotels</button>
+        </h5>
+        <!-- Hotel Thumbnails
+        ================================================== -->
+        <div class="row clearfix no-margin">
+            <ul class="gallery-post-grid holder">
+                <!-- Gallery Item 1 -->
+                @foreach($hotels as $htl)
+                <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
+                    <span class="gallery-hover-6col hidden-phone hidden-tablet">
+                        <span class="gallery-icons">
+                            <a href="{{$constval['hotel_img_path'].$htl->filename}}" class="item-zoom-link lightbox" title="{{$htl->nama}}" data-rel="prettyPhoto"></a>
+                            <a href="gallery-single.htm" class="item-details-link"></a>
+                        </span>
+                    </span>
+                    <a href="gallery-single.htm"><img src="{{$constval['hotel_img_path'].$htl->filename}}" alt="Gallery"></a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$htl->nama .' ['. $htl->room.']' }}</a>
+                        @if($htl->currency == $constval['default_currency'])
+                        {{$htl->currency}}  {{$htl->harga}}
+                        @else
+                        <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($htl->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
+                        @endif
+                    </span>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+
+        @if($homepage['show_car']['value']=='Y')
+        <h5 class="title-bg">Best deal car rental
+            <small></small>
+            <button class="btn btn-mini btn-inverse hidden-phone" type="button">more cars</button>
+        </h5>        
+        <!-- Car Rental Thumbnails
+        ================================================== -->
+        <div class="row clearfix no-margin">
+            <ul class="gallery-post-grid holder">
+                <!-- Gallery Item 1 -->
+                @foreach($rentals as $rntl)
+                <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
+                    <span class="gallery-hover-6col hidden-phone hidden-tablet">
+                        <span class="gallery-icons">
+                            <a href="{{$constval['rental_img_path'].$rntl->filename}}" class="item-zoom-link lightbox" title="Custom Illustration" data-rel="prettyPhoto"></a>
+                            <a href="gallery-single.htm" class="item-details-link"></a>
+                        </span>
+                    </span>
+                    <a href="gallery-single.htm"><img src="{{$constval['rental_img_path'].$rntl->filename}}" alt="Gallery"></a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$rntl->nama}}</a>
+                        @if($rntl->currency == $constval['default_currency'])
+                        {{$rntl->currency}}  {{$rntl->harga}}
+                        @else
+                        <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($rntl->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
+                        @endif
+                    </span>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        @if($constval['show_main_banner']=='Y')
+        <div class="row clearfix ">
+            <div class="span12 ">
+                <img src="images/banner/hosting.gif"/>
+            </div>
+        </div>
+        @endif
+    </div>
+
+    <div class="span4 sidebar page-sidebar"><!-- Begin sidebar column -->
+
+        @if($constval['show_search_input']=='Y')
+        <h5 class="title-bg">Search</h5>        
+        <section>
+            <div class="input-append">
+                <form action="#">
+                    <input size="16" type="text" placeholder="Search"><button class="btn" type="button"><i class="icon-search"></i></button>
+                </form>
+            </div>
+        </section>
+        @endif
+
+        @if($constval['show_customer_support']=='Y')
+        <!--        CUSTOMER SERVICE -->
+        <h5 class="title-bg">Customer Support</h5>        
+        <address style="position: relative;">
+            <img   src="frontend/img/ctcus.png" />
+            <h2 style="position: absolute;left:10px;top:50%;">{{$constval['phone']}}</h2>
+        </address>    
+        <br/>
+        @if($constval['ym_show']=='Y')
+        <address style="text-align: center;">
+            <a href="ymsgr:SendIM?yahuuy">
+                <img border="0" src="http://opi.yahoo.com/online?u={{$constval['ym']}}&amp;m=g&amp;t=14" />
+            </a>
+<!--            <strong>Jimmy Doe</strong><br>
+        <a href="mailto:#">first.last@gmail.com</a>-->
+        </address>
+        @endif
+        @endif
+
+        @if($homepage['show_sidenav']['value']=='Y')
+        <!--        RIGHT NAVIGATION-->
+        <h5 class="title-bg">Explore us</h5>        
+        <ul class="popular-posts">
+            <li>
+                <a href="#"><img src="frontend/img/icon/find-dest.png" alt="Popular Post"></a>
+                <h6><a href="#">{{$homepage['sidenav_find_destination']['value']}}</a></h6>
+                <em>{{$homepage['sidenav_find_destination_subtitle']['value']}}</em>
+            </li>
+            <li>
+                <a href="#"><img src="frontend/img/icon/news.png" alt="Popular Post"></a>
+                <h6><a href="#">{{$homepage['sidenav_read_news']['value']}}</a></h6>
+                <em>{{$homepage['sidenav_read_news_subtitle']['value']}}</em>
+            <li>
+                <a href="#"><img src="frontend/img/icon/ticket.png" alt="Popular Post"></a>
+                <h6><a href="#">{{$homepage['sidenav_buy_travel']['value']}}</a></h6>
+                <em>{{$homepage['sidenav_buy_travel_subtitle']['value']}}</em>
+            </li>
+            <li>
+                <a href="#"><img src="frontend/img/icon/what-they-say.png" alt="Popular Post"></a>
+                <h6><a href="#">{{$homepage['sidenav_wts']['value']}}</a></h6>
+                <em>{{$homepage['sidenav_wts_subtitle']['value']}}</em>
+            </li>
+        </ul>
+        @endif
+
+        @if($constval['show_side_banner']=='Y')
+        <!--BAnner Ads-->
+        <h5 class="title-bg">{{$constval['side_banner_title']}}</h5> 
+        <address>
+            <img src="images/banner/payment.jpg"/>
+        </address>
+        @endif
+
+    </div><!-- End sidebar column -->
+
 </div>
-<!-- END PRIMARY -->
+
+<div class="row"><!-- Begin Bottom Section -->
+
+    <!-- Blog Preview
+    ================================================== -->
+    <div class="span6">
+
+        @if($homepage['show_blog_slider']['value']=='Y')
+        <h5 class="title-bg">From the Blog 
+            <small>All the latest news</small>
+            <button id="btn-blog-next" class="btn btn-inverse btn-mini" type="button">&raquo;</button>
+            <button id="btn-blog-prev" class="btn btn-inverse btn-mini" type="button">&laquo;</button>
+        </h5>
+
+        <div id="blogCarousel" class="carousel slide ">
+
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+
+                @foreach($blogs as $blg)
+                <!-- Blog Item 1 -->
+                <div class="active item">
+                    <a href="blog-single.htm"><img src="{{$constval['img_blog_path'].$blg->img_cover}}" alt="" class="align-left blog-thumb-preview" /></a>
+                    <div class="post-info clearfix">
+                        <h4><a href="blog-single.htm">{{$blg->title}}</a></h4>
+                        <ul class="blog-details-preview">
+                            <li><i class="icon-calendar"></i><strong>Posted on:</strong> <?php echo date('M d, Y', strtotime($blg->created_at)); ?> <li>
+                            <li><i class="icon-user"></i><strong>Posted by:</strong> <a href="#" title="Link">{{$blg->username}}</a><li>
+                            <li><i class="icon-comment"></i><strong>Comments:</strong> <a href="#" title="Link">12</a><li>
+                            <li><i class="icon-tags"></i> <a href="#">photoshop</a>, <a href="#">tutorials</a>, <a href="#">illustration</a>
+                        </ul>
+                    </div>
+                    <p class="blog-summary"><?php echo substr($blg->content, 0, 196); ?>. <a href="#">Read more</a><p>
+                </div>
+                @endforeach
+
+                <!-- Blog Item 3 -->
+                <div class="item">
+                    <a href="blog-single.htm"><img src="frontend/img/gallery/blog-med-img-1.jpg" alt="" class="align-left blog-thumb-preview" /></a>
+                    <div class="post-info clearfix">
+                        <h4><a href="blog-single.htm">Is art everything to anybody?</a></h4>
+                        <ul class="blog-details-preview">
+                            <li><i class="icon-calendar"></i><strong>Posted on:</strong> Sept 4, 2015<li>
+                            <li><i class="icon-user"></i><strong>Posted by:</strong> <a href="#" title="Link">Admin</a><li>
+                            <li><i class="icon-comment"></i><strong>Comments:</strong> <a href="#" title="Link">12</a><li>
+                            <li><i class="icon-tags"></i> <a href="#">photoshop</a>, <a href="#">tutorials</a>, <a href="#">illustration</a>
+                        </ul>
+                    </div>
+                    <p class="blog-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In interdum felis fermentum ipsum molestie sed porttitor ligula rutrum. Vestibulum lectus tellus, aliquet et iaculis sed, volutpat vel erat. <a href="#">Read more</a><p>
+                </div>
+
+            </div>
+        </div> 
+        @endif
+    </div>
+
+    <!-- Client Area
+    ================================================== -->
+    <div class="span6">
+
+        @if($homepage['show_testimony']['value']=='Y')
+        <h5 class="title-bg">Recent Clients
+            <small>That love us</small>
+            <button id="btn-client-next" class="btn btn-inverse btn-mini" type="button">&raquo;</button>
+            <button id="btn-client-prev" class="btn btn-inverse btn-mini" type="button">&laquo;</button>
+        </h5>
+
+        <!-- Client Testimonial Slider-->
+        <div id="clientCarousel" class="carousel slide no-margin">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <?php $tstidx = 0; ?>
+                @foreach($testimoni as $tst)
+                <div class="item {{$tstidx==0?'active':''}}">
+                    <p class="quote-text">"{{$tst->content}}."<cite>- {{$tst->nama}}, {{$tst->company}}</cite></p>
+                </div>
+                <?php $tstidx++; ?>
+                @endforeach
+
+
+            </div>
+        </div>
+        @endif
+
+    </div>
+
+</div><!-- End Bottom Section -->
+@stop
+
+@section('scripts')
 @stop

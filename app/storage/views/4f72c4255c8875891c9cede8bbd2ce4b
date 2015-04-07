@@ -57,9 +57,16 @@
                 <h2>Favourite Destination</h2>
                 <?php foreach($favdests as $fd): ?>
                 <div class="one-fourth ">
-                    <p><a   href="images/paket/<?php echo $fd->travpack->img_1; ?>"><img style="width: 186px; height: 123px;" src="images/paket/<?php echo $fd->travpack->img_1; ?>" alt="" /></a></p>
-                    <h3><?php echo $fd->travpack->nama; ?></h3>
-                    <!--<p><?php echo substr($fd->travpack->desc, 0, 100); ?></p>-->
+                    <p><a   href="images/paket/<?php echo $fd->img_1; ?>"><img style="width: 186px; height: 123px;" src="images/paket/<?php echo $fd->img_1; ?>" alt="" /></a></p>
+                    <h5><?php echo $fd->nama; ?></h5>
+                    <!--<p><?php echo substr($fd->desc, 0, 100); ?></p>-->
+                    <?php if(Session::get('defcurrency')['kode'] == $fd->kode_currency): ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo number_format($fd->price,0,',','.'); ?></p>
+                    <?php else: ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo round($fd->price / Helpers::currencyTo(Session::get('defcurrency')['kode'],$fd->kode_currency),2); ?></p>
+                    <?php endif; ?>
+                    
+                    <p style="float: left;"><a class="btn btn-mini btn-blue">order now</a></p>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -71,9 +78,16 @@
                 <h2>Best Deal Hotels</h2>
                 <?php foreach($hotels as $row): ?>
                 <div class="one-fourth ">
-                    <p><a href="images/hotel/<?php echo $row->hotel->foto_1; ?>"><img style="width: 186px; height: 123px;" src="images/hotel/<?php echo $row->hotel->foto_1; ?>" alt="" /></a></p>
-                    <h3><?php echo $row->hotel->nama; ?></h3>
-                    <!--<p><?php echo substr($row->hotel->desc, 0, 100); ?></p>-->
+                    <p><a href="images/hotel/<?php echo $row->foto_1; ?>"><img style="width: 186px; height: 123px;" src="images/hotel/<?php echo $row->foto_1; ?>" alt="" /></a></p>
+                    <h5><?php echo $row->nama; ?></h5>
+                    <!--<p><?php echo substr($row->desc, 0, 100); ?></p>-->
+                    
+                    <?php if(Session::get('defcurrency')['kode'] == $fd->kode_currency): ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo number_format($row->price,0,',','.'); ?></p>
+                    <?php else: ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo round($row->price / Helpers::currencyTo(Session::get('defcurrency')['kode'],$row->kode_currency),2); ?></p>
+                    <?php endif; ?>
+                    <p style="float: left;"><a class="btn btn-mini btn-blue">order now</a></p>
                 </div>
                 <?php endforeach; ?>
             </div>            
@@ -85,9 +99,15 @@
                 <h2>Rent Car</h2>
                 <?php foreach($rentals as $row): ?>
                 <div class="one-fourth ">
-                    <p><a href="images/car/<?php echo $row->car->foto_1; ?>"><img style="width: 186px; height: 123px;" src="images/car/<?php echo $row->car->foto_1; ?>" alt="" /></a></p>
-                    <h3><?php echo $row->car->nama; ?></h3>
-                    <!--<p><?php echo substr($row->car->desc, 0, 100); ?></p>-->
+                    <p><a href="images/car/<?php echo $row->foto_1; ?>"><img style="width: 186px; height: 123px;" src="images/car/<?php echo $row->foto_1; ?>" alt="" /></a></p>
+                    <h5><?php echo $row->nama; ?></h5>
+                    <!--<p><?php echo substr($row->desc, 0, 100); ?></p>-->
+                    <?php if(Session::get('defcurrency')['kode'] == $fd->kode_currency): ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo number_format($row->price,0,',','.'); ?></p>
+                    <?php else: ?>
+                    <p style="float: right;"><?php echo Session::get('defcurrency')['symbol']; ?> <?php echo round($row->price / Helpers::currencyTo(Session::get('defcurrency')['kode'],$row->kode_currency),2); ?></p>
+                    <?php endif; ?>
+                    <p style="float: left;"><a class="btn btn-mini btn-blue">order now</a></p>
                 </div>
                 <?php endforeach; ?>
             </div>            

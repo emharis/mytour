@@ -12,6 +12,18 @@
 <!-- END PAGE META -->
 <?php endif; ?>
 <?php endif; ?>
+<?php if(isset($byauthor)): ?>
+<?php if($byauthor): ?>
+<!--tampikan daftar blog by author-->
+<!-- START PAGE META -->
+<div id="page-meta">
+    <div class="inner group">
+        <h3>Blogs by <?php echo strtoupper($author->username); ?></h3>
+    </div>
+</div>
+<!-- END PAGE META -->
+<?php endif; ?>
+<?php endif; ?>
 
 <div id="primary" class="sidebar-right">
     <div class="inner group">
@@ -35,9 +47,9 @@
                 </div>
                 <!-- post meta -->
                 <div class="meta group">
-                    <p class="author"><span>by <a href="#" title="Posts by Nicola Mustone" rel="author">Nicola Mustone</a></span></p>
-                    <p class="categories"><span>In: <a href="front/blog/bykategori/<?php echo $art->kategori->id; ?>" title="View all posts in Happyness" rel="category tag"><?php echo $art->kategori->nama; ?></a></span></p>
-                    <p class="comments"><span><a href="front/blog/show/<?php echo $art->id; ?>#comments" title="Comment on Section shortcodes &amp; sticky posts!"><?php echo (count($art->comments()->where('confirmed','Y')->get() )>0?count($art->comments) . ' comments':'No comments'); ?></a></span></p>
+                    <p class="author"><span>by <a  href="front/blog/byauthor/<?php echo $art->user_id; ?>" rel="author"><?php echo ucwords($art->username); ?></a></span></p>
+                    <p class="categories"><span>In: <a href="front/blog/bykategori/<?php echo $art->kategori_id; ?>" title="View all posts in Happyness" rel="category tag"><?php echo $art->kategori; ?></a></span></p>
+                    <p class="comments"><span><a href="front/blog/show/<?php echo $art->id; ?>#comments" title="Comment on Section shortcodes &amp; sticky posts!"><?php echo ($art->comment>0?$art->comment . ' comments':'No comments'); ?></a></span></p>
                 </div>
                 <!-- post content -->
                 <div class="the-content group">
@@ -49,7 +61,14 @@
             <?php endforeach; ?>
 
             <br/>
+            <?php if(isset($bykategori)): ?>
+            <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/kategoripager/' . $kategori->id . '?page=2'); ?>" >Next</a>
+            <?php elseif(isset($byauthor)): ?>
+            <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/authorpager/' . $author->id . '?page=2'); ?>" >Next</a>
+            <?php else: ?>
             <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/pager?page=2'); ?>" >Next</a>
+            <?php endif; ?>
+            
 
         </div>
         <!-- END CONTENT -->

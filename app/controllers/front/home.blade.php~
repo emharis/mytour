@@ -1,0 +1,11 @@
+<?php
+
+namespace App\ Controllers\ Front;
+
+class HomeController extends\ BaseController {
+	
+	function getIndex() {
+		echo 'selamat datang';	
+	}
+	
+}

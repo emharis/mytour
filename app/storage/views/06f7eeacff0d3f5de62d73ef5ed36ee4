@@ -1,0 +1,45 @@
+<?php foreach($artikels as $art): ?>
+<div class="sticky hentry hentry-post blog-big group ">
+    <!-- post featured & title -->
+    <div class="thumbnail">
+        <!-- post title -->
+        <h2 class="post-title"><a href="front/blog/show/<?php echo $art->id; ?>"><?php echo $art->judul; ?></a></h2>
+        <!-- post featured -->
+        <div class="image-wrap">
+            <img src="<?php echo $art->imageurl; ?>" width="816px" height="282px" />        
+        </div>
+        <p class="date">
+            <span class="month"><?php echo date('M',strtotime($art->created_at)); ?></span>
+            <span class="day"><?php echo date('d',strtotime($art->created_at)); ?></span>
+        </p>
+    </div>
+    <!-- post meta -->
+    <div class="meta group">
+        <p class="author"><span>by <a  href="front/blog/byauthor/<?php echo $art->user_id; ?>" rel="author"><?php echo ucwords($art->username); ?></a></span></p>
+                    <p class="categories"><span>In: <a href="front/blog/bykategori/<?php echo $art->kategori_id; ?>" title="View all posts in Happyness" rel="category tag"><?php echo $art->kategori; ?></a></span></p>
+                    <p class="comments"><span><a href="front/blog/show/<?php echo $art->id; ?>#comments" title="Comment on Section shortcodes &amp; sticky posts!"><?php echo ($art->comment>0?$art->comment . ' comments':'No comments'); ?></a></span></p>
+    </div>
+    <!-- post content -->
+    <div class="the-content group">
+        <?php echo $art->sub_konten; ?>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<?php endforeach; ?>
+
+<br/>
+<?php if($artikels->getCurrentPage() < $artikels->getLastPage()): ?>
+            <!--<a class="jscroll-next"   href="<?php echo URL::to('front/blog/pager'); ?>?page=<?php echo $artikels->getCurrentPage()+1; ?>" >Next</a>-->
+            <?php if(isset($bykategori)): ?>
+            <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/kategoripager/' . $kategori->id); ?>?page=<?php echo $artikels->getCurrentPage()+1; ?>" >Next</a>
+            <?php elseif(isset($byauthor)): ?>
+            <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/authorpager/' . $author->id); ?>?page=<?php echo $artikels->getCurrentPage()+1; ?>" >Next</a>
+            <?php else: ?>
+            <a id="jsnext" class="jscroll-next" href="<?php echo URL::to('front/blog/pager'); ?>?page=<?php echo $artikels->getCurrentPage()+1; ?>" >Next</a>
+            
+            <?php endif; ?>
+<?php else: ?>
+<a class="jscroll-next"   ></a>
+<?php endif; ?>
+

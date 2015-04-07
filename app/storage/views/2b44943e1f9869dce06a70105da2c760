@@ -1,0 +1,73 @@
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row"><!--Container row-->
+
+    <!-- Title Header -->
+    <div class="span8">
+
+        <h2>About us</h2>
+        <?php echo $about['content']['big_value']; ?>
+
+        
+        <?php if($constval['show_main_banner']=='Y'): ?>
+        <div class="row clearfix ">
+            <div class="span12 ">
+                <img src="images/banner/hosting.gif"/>
+            </div>
+        </div>
+        <?php endif; ?>
+        
+    </div> <!--End page content column-->
+
+    <!-- Blog Sidebar
+    ================================================== --> 
+    <div class="span4 sidebar page-sidebar"><!-- Begin sidebar column -->
+        
+        <?php if($constval['show_search_input']=='Y'): ?>
+        <h5 class="title-bg">Search</h5>        
+        <section>
+            <div class="input-append">
+                <form action="#">
+                    <input size="16" type="text" placeholder="Search"><button class="btn" type="button"><i class="icon-search"></i></button>
+                </form>
+            </div>
+        </section>
+        <?php endif; ?>
+        
+        <?php if($constval['show_customer_support']=='Y'): ?>
+        <!--        CUSTOMER SERVICE -->
+        <h5 class="title-bg">Customer Support</h5>        
+        <address style="position: relative;">
+            <img   src="frontend/img/ctcus.png" />
+            <h2 style="position: absolute;left:10px;top:50%;"><?php echo $constval['phone']; ?></h2>
+        </address>    
+        <br/>
+        <?php if($constval['ym_show']=='Y'): ?>
+        <address style="text-align: center;">
+            <a href="ymsgr:SendIM?yahuuy">
+                <img border="0" src="http://opi.yahoo.com/online?u=<?php echo $constval['ym']; ?>&amp;m=g&amp;t=14" />
+            </a>
+<!--            <strong>Jimmy Doe</strong><br>
+        <a href="mailto:#">first.last@gmail.com</a>-->
+        </address>
+        <?php endif; ?>
+        <?php endif; ?>
+        
+        <?php if($constval['show_side_banner']=='Y'): ?>
+        <!--BAnner Ads-->
+        <h5 class="title-bg"><?php echo $constval['side_banner_title']; ?></h5> 
+        <address>
+            <img src="images/banner/payment.jpg"/>
+        </address>
+        <?php endif; ?>
+
+    </div><!-- End sidebar column -->
+
+</div><!-- End container row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.nothome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

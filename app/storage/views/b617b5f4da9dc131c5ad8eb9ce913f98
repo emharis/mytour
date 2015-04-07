@@ -1,0 +1,26 @@
+<?php $idx = 1; ?>
+<?php foreach($videos as $pht): ?>
+<li class="<?php echo ($idx==1?'first':''); ?> <?php echo ($idx==3?'last group':''); ?> one-third">
+    <div class="overlay_a">
+        <div class="overlay_wrapper">
+            <img  alt="0082" title="0082"  src="http://img.youtube.com/vi/<?php echo $pht->img_path; ?>/0.jpg">
+            <div class="overlay">
+                <a class="overlay_video example6" href="http://www.youtube.com/embed/<?php echo $pht->img_path; ?>" rel="lightbox" title="" style="width: 100%;background-position-x: center;"></a>
+                <span class="overlay_title"><?php echo $pht->desc; ?> </span>
+            </div>
+        </div>
+    </div>
+    <h4><a ><?php echo $pht->desc; ?> </a></h4>
+</li>
+<?php $idx++; ?>
+<?php if($idx>3): ?>
+<?php $idx = 1; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+
+<br/>
+<?php if($videos->getCurrentPage() < $videos->getLastPage()): ?>
+<a class="jscroll-next"   href="<?php echo URL::to('front/gallery/video/pager'); ?>?page=<?php echo $videos->getCurrentPage()+1; ?>" >Next</a>
+<?php else: ?>
+<a class="jscroll-next"   ></a>
+<?php endif; ?>

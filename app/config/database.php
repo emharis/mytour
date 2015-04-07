@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'web_tour',
+			'database'  => 'web_mytour',
 			'username'  => 'root',
 			'password'  => 'root',
 			'charset'   => 'utf8',
