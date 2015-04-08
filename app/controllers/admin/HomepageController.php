@@ -11,8 +11,11 @@ class HomepageController extends \BaseController {
             $hmpage[$hmp->name] = json_decode(json_encode($hmp),true);
         }
         
+        $sliders = \DB::table('homepage_slider')->get();
+        
         return \View::make('back.page.homepage',array(
-            'homepage'=>$hmpage
+            'homepage'=>$hmpage,
+            'sliders'=>$sliders
         ));
     }
 

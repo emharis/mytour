@@ -40,8 +40,8 @@
     <!-- Headline Text
     ================================================== -->
     <div class="span4">
-        {{$homepage['welcome_title']['big_value']}}
-        {{$homepage['welcome_subtitle']['big_value']}}
+        <h3>{{$homepage['welcome_title']['big_value']}}</h3>
+        <p class="lead">{{$homepage['welcome_subtitle']['big_value']}}</p>
     </div>
 </div><!-- End Headline -->
 

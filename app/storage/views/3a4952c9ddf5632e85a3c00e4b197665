@@ -38,10 +38,8 @@
     <!-- Headline Text
     ================================================== -->
     <div class="span4">
-        <?php echo $homepage['welcome_title']['big_value']; ?>
-
-        <?php echo $homepage['welcome_subtitle']['big_value']; ?>
-
+        <h3><?php echo $homepage['welcome_title']['big_value']; ?></h3>
+        <p class="lead"><?php echo $homepage['welcome_subtitle']['big_value']; ?></p>
     </div>
 </div><!-- End Headline -->
 

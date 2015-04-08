@@ -12,7 +12,7 @@ class HomeController extends\ BaseController {
             $hmpage[$hmp->name] = json_decode(json_encode($hmp),true);
         }
         //imagesg slider
-        $sliders = \DB::table('imageslider')->get();
+        $sliders = \DB::table('homepage_slider')->get();
         //favorit travel pack
         $favtrav = \DB::table('homepage_travelpack')
                     ->select('travelpack.id','travelpack.judul','travelpack.harga','travelpack.currency','travelpack.desc','travelpack_image.filename')
