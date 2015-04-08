@@ -228,45 +228,71 @@
                                     <tr class="tr-setting-image">
                                         <td><label>Setting Image</label></td>
                                         <td>
-                                            <a class="btn btn-primary">Tambah Image</a>
+                                            <a class="btn btn-primary" id="btn-tambah-slider">Tambah Image</a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             
+                            <div class="tr-upload-image " style="background-color: whitesmoke;">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td><label>Upload Image</label></td>
+                                            <td>
+                                                <input type="file" name="upl-slider"/>
+                                            </td>
+                                            <td rowspan="2" class="col-md-2">
+                                                <img id="img-preview" class="col-md-12" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm">Save</a>  
+                                                <a class="btn btn-warning btn-sm btn-cancel-upload">Cancel</a>                                              
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div class=" tr-setting-image">
+                                <h4>Data Image Slider</h4>
                                 <table class="table table-bordered datatable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Preview</th>
-                                        <th>Nama File</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($sliders as $dt)
-                                    <tr>
-                                        <td class="text-right col-sm-1"></td>
-                                        <td class="col-sm-2">
-                                            <img class="col-sm-12" src="{{$constval['img_slider_path'].$dt->filename}}" />
-                                        </td>
-                                        <td>{{$dt->filename}}</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>                            
-                        </div><!-- /.tab-pane -->
-                    </div><!-- /.tab-content -->
-                </div><!-- nav-tabs-custom -->
-            </div><!-- /.col -->
-        </div> <!-- /.row -->
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Preview</th>
+                                            <th>Nama File</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($sliders as $dt)
+                                        <tr>
+                                            <td class="text-right col-sm-1"></td>
+                                            <td class="col-sm-2">
+                                                <img class="col-sm-12" src="{{$constval['img_slider_path'].$dt->filename}}" />
+                                            </td>
+                                            <td>{{$dt->filename}}</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>                            
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                    </div><!-- nav-tabs-custom -->
+                </div><!-- /.col -->
+            </div> <!-- /.row -->
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+
 @stop
 
 @section('scripts')
@@ -284,7 +310,7 @@
                 $('.tr-sidenav-setting').fadeOut(250);
             }
         });
-        
+
         /**
          * TAB 1
          */
@@ -314,20 +340,45 @@
         });
         //END TAB 1
         //--------------------------------------------------------
-        
+
         /**
          * TAB 2
          * -----------------------------------------------------
          */
         //END TAB 2
         //------------------------------------------------------
-        
+
         /**
          * TAB 3
          * -----------------------------------------------------
          */
+        //sembunyikan file upload
+        $('.tr-upload-image').hide();
+        //tampilkan file upload
+        $('#btn-tambah-slider,.btn-cancel-upload').click(function () {
+            //clear img
+            $('#img-preview').removeAttr('src');
+            //toggle
+            $('.tr-upload-image').fadeToggle(500);            
+        });
+        //upload slider
+        ////tampilkan image yang d upload
+        $('input[name=upl-slider]').on('change', function (ev) {
+            var f = ev.target.files[0];
+            var fr = new FileReader();
+
+            fr.onload = function (ev2) {
+                console.dir(ev2);
+                $('#img-preview').attr('src', ev2.target.result);
+            };
+
+            fr.readAsDataURL(f);
+        });
+
+        //END TAB 3
+
         //tampilkan dan sembunyikan setting image slider
-        $('select[name=cb-image-slider]').change(function(){
+        $('select[name=cb-image-slider]').change(function () {
             var val = $(this).val();
             if (val == 'Y') {
                 //tampilkan input jumlah testi
@@ -338,7 +389,7 @@
         });
         //END TAB 3
         //------------------------------------------------------
-        
+
 
         /**
          * Datatable init
