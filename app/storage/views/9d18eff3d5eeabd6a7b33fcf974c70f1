@@ -1,9 +1,9 @@
-@extends('back.partials.master')
 
-@section('styles')
-@stop
 
-@section('content')
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -34,13 +34,13 @@
                                     <tr>
                                         <td>Welcome Title</td>
                                         <td>
-                                            <textarea>{{$homepage['welcome_title']['big_value']}}</textarea>
+                                            <textarea><?php echo $homepage['welcome_title']['big_value']; ?></textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Welcome Subtitle</td>
                                         <td>
-                                            <textarea>{{$homepage['welcome_subtitle']['big_value']}}</textarea>
+                                            <textarea><?php echo $homepage['welcome_subtitle']['big_value']; ?></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -53,8 +53,8 @@
                                         <td>Tampilkan Side Navigkation</td>
                                         <td>
                                             <select name="slc_sidenav" class="form-control">
-                                                <option value="Y" {{($homepage['show_sidenav']['value']=='Y'?'selected':'')}}>Tampilkan</option>
-                                                <option value="N" {{($homepage['show_sidenav']['value']=='N'?'selected':'')}}>Sembunyikan</option>
+                                                <option value="Y" <?php echo ($homepage['show_sidenav']['value']=='Y'?'selected':''); ?>>Tampilkan</option>
+                                                <option value="N" <?php echo ($homepage['show_sidenav']['value']=='N'?'selected':''); ?>>Sembunyikan</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -71,7 +71,8 @@
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-@stop
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
