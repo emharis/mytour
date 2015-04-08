@@ -258,9 +258,7 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                            </table>
-                            </div>
-                            
+                            </table>                            
                         </div><!-- /.tab-pane -->
                     </div><!-- /.tab-content -->
                 </div><!-- nav-tabs-custom -->
