@@ -42,9 +42,13 @@
                                             <tr>
                                                 <td>Welcome Title</td>
                                                 <td>
-                                                    <textarea>
-                                                        {{}}
-                                                    </textarea>
+                                                    <textarea><?php echo $homepage['welcome_title']; ?></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Welcome Subtitle</td>
+                                                <td>
+                                                    <textarea><?php echo $homepage['welcome_subtitle']; ?></textarea>
                                                 </td>
                                             </tr>
                                         </tbody>
