@@ -6,7 +6,7 @@ class AboutController extends\ BaseController {
 
     function getIndex() {
         //about value
-        $about = \DB::table('page_about')->get();
+        $about = \DB::table('aboutpage')->get();
         $aboutarr=array();
         foreach($about as $hmp){
             $aboutarr[$hmp->name] = json_decode(json_encode($hmp),true);

@@ -18,13 +18,23 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::any('/', function() {
         return \Redirect::to('admin/login');
     });
-    Route::get('logout',function(){
-       return \Redirect::to('admin/login/logout');
+    Route::get('logout', function() {
+        return \Redirect::to('admin/login/logout');
     });
     Route::controller('login', 'App\Controllers\Admin\LoginController');
     Route::controller('home', 'App\Controllers\Admin\HomeController');
     Route::group(array('prefix' => 'page'), function() {
         Route::controller('homepage', 'App\Controllers\Admin\HomepageController');
+        Route::controller('about', 'App\Controllers\Admin\AboutpageController');
+        Route::controller('blog', 'App\Controllers\Admin\BlogController');
+        Route::controller('foto', 'App\Controllers\Admin\FotoController');
+        Route::controller('video', 'App\Controllers\Admin\VideoController');
+        Route::controller('contact', 'App\Controllers\Admin\ContactController');
+    });
+    Route::group(array('prefix' => 'paket'), function() {
+        Route::controller('hotel', 'App\Controllers\Admin\HotelController');
+        Route::controller('travel', 'App\Controllers\Admin\TravelController');
+        Route::controller('rental', 'App\Controllers\Admin\RentalController');
     });
 });
 

@@ -6,9 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Controllers\\Admin\\AboutpageController' => $baseDir . '/app/controllers/Admin/AboutpageController.php',
+    'App\\Controllers\\Admin\\BlogController' => $baseDir . '/app/controllers/Admin/BlogController.php',
+    'App\\Controllers\\Admin\\ContactController' => $baseDir . '/app/controllers/Admin/ContactController.php',
+    'App\\Controllers\\Admin\\FotoController' => $baseDir . '/app/controllers/Admin/FotoController.php',
     'App\\Controllers\\Admin\\HomeController' => $baseDir . '/app/controllers/Admin/HomeController.php',
     'App\\Controllers\\Admin\\HomepageController' => $baseDir . '/app/controllers/Admin/HomepageController.php',
+    'App\\Controllers\\Admin\\HotelController' => $baseDir . '/app/controllers/Admin/HotelController.php',
     'App\\Controllers\\Admin\\LoginController' => $baseDir . '/app/controllers/Admin/LoginController.php',
+    'App\\Controllers\\Admin\\RentalController' => $baseDir . '/app/controllers/Admin/RentalController.php',
+    'App\\Controllers\\Admin\\TravelController' => $baseDir . '/app/controllers/Admin/TravelController.php',
+    'App\\Controllers\\Admin\\VideoController' => $baseDir . '/app/controllers/Admin/VideoController.php',
     'App\\Controllers\\Front\\AboutController' => $baseDir . '/app/controllers/Front/AboutController.php',
     'App\\Controllers\\Front\\BookController' => $baseDir . '/app/controllers/Front/BookController.php',
     'App\\Controllers\\Front\\ContactController' => $baseDir . '/app/controllers/Front/ContactController.php',

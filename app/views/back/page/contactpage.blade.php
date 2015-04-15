@@ -1,0 +1,86 @@
+@extends('back.partials.master')
+
+@section('styles')
+@stop
+
+@section('content')
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>Contact Page</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="box">
+            <!--            <div class="box-header with-border">
+                            <h3 class="box-title">Title</h3>
+                                            <div class="box-tools pull-right">
+                                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                                            </div>
+                        </div>-->
+            <div class="box-body">
+                <form action="admin/page/contact/update" method="POST">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Contact text</td>
+                                <td>
+                                    <textarea name="contact_text" class="tinymce-mini">{{$contactpage['contact_text']['big_value']}}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pesan Sukses</td>
+                                <td>
+                                    <input type="text" name="success_message" class="form-control" value="{{$contactpage['success_message']['value']}}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pesan Gagal</td>
+                                <td>
+                                    <input type="text" name="error_message" class="form-control" value="{{$contactpage['error_message']['value']}}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Info Lokasi</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{Form::select('show_location',array('Y'=>'Tampilkan','N'=>'Sembunyikan'),$contactpage['show_location']['value'],array('class'=>'form-control'))}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Map</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{Form::select('show_map',array('Y'=>'Tampilkan','N'=>'Sembunyikan'),$contactpage['show_map']['value'],array('class'=>'form-control'))}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-primary" type="submit" id="btn-save">Save</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+
+            </div><!-- /.box-footer-->
+        </div><!-- /.box -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+@stop
+
+@section('scripts')
+@include('back.partials.editorscript')
+@stop

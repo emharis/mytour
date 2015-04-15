@@ -171,43 +171,38 @@
             <aside class="main-sidebar">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
-                    <!-- Sidebar user panel -->
-<!--                    <div class="user-panel">
-                        <div class="pull-left image">
-                            <img src="backend/dist/img/user2-160x160.jpg" class="backend/img-circle" alt="User Image" />
-                        </div>
-                        <div class="pull-left info">
-                            <p>Alexander Pierce</p>
-
-                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                        </div>
-                    </div>
-                     search form 
-                    <form action="#" method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                            <span class="input-group-btn">
-                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>-->
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
-                        <li class="treeview">
+                        <li class="treeview {{(Request::is('admin/home')?'active':'')}}" >
                             <a href="admin/home">
                                 <i class="fa fa-home"></i> <span>Home</span>
                             </a>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview {{(Request::is('admin/page*')?'active':'')}}" >
                             <a href="#">
                                 <i class="fa fa-th-large"></i>
                                 <span>Pages</span><i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="admin/page/homepage"><i class="fa fa-circle-o"></i> Homepage</a></li>
-                                <li><a href="admin/page/about"><i class="fa fa-circle-o"></i> About Page</a></li>
+                                <li class="{{(Request::is('admin/page/homepage')?'active':'')}}"><a href="admin/page/homepage"><i class="fa fa-circle-o"></i> Homepage</a></li>
+                                <li class="{{(Request::is('admin/page/about')?'active':'')}}"><a href="admin/page/about"><i class="fa fa-circle-o"></i> About Page</a></li>
+                                <li class="{{(Request::is('admin/page/blog')?'active':'')}}"><a href="admin/page/blog"><i class="fa fa-circle-o"></i> Blog Page</a></li>
+                                <li class="{{(Request::is('admin/page/foto')?'active':'')}}"><a href="admin/page/foto"><i class="fa fa-circle-o"></i> Galeri Foto</a></li>
+                                <li class="{{(Request::is('admin/page/video')?'active':'')}}"><a href="admin/page/video"><i class="fa fa-circle-o"></i> Galeri Video</a></li>
+                                <li class="{{(Request::is('admin/page/contact')?'active':'')}}"><a href="admin/page/contact"><i class="fa fa-circle-o"></i> Contact Page</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview {{(Request::is('admin/paket*')?'active':'')}}" >
+                            <a href="#">
+                                <i class="fa fa-briefcase"></i>
+                                <span>Paket</span><i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{(Request::is('admin/paket/hotel')?'active':'')}}"><a href="admin/paket/hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
+                                <li class="{{(Request::is('admin/paket/travel')?'active':'')}}"><a href="admin/paket/travel"><i class="fa fa-circle-o"></i> Travel</a></li>
+                                <li class="{{(Request::is('admin/paket/rental')?'active':'')}}"><a href="admin/paket/rental"><i class="fa fa-circle-o"></i> Rental</a></li>
                             </ul>
                         </li>
                     </ul>

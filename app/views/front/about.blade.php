@@ -10,7 +10,7 @@
     <div class="span8">
 
         <h2>About us</h2>
-        {{$about['content']['big_value']}}
+        <?php echo str_replace('src="../../', 'src="', $about['content']['big_value']); ?>
         
         @if($constval['show_main_banner']=='Y')
         <div class="row clearfix ">

@@ -1,0 +1,525 @@
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>Blog</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="nav-tabs-custom" id="form-tab">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_1" data-toggle="tab">Blog</a></li>
+                <li><a href="#tab_2" data-toggle="tab">Kategori</a></li>
+                <!--                <li><a href="#tab_3" data-toggle="tab">New Blog</a></li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    <a class="btn btn-primary" id="btn-tambah-blog">Tambah</a>
+
+                    <div class="clearfix"></div>
+                    <br/>
+                    <table class="table table-bordered datatable" id="table-blog">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Publish</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($blogs as $dt): ?>
+                            <tr>
+                                <td></td>
+                                <td><?php echo $dt->title; ?></td>
+                                <td><?php echo $dt->kategori; ?></td>
+                                <td class="text-center">
+                                    <?php if($dt->publish == 'Y'): ?>
+                                    <label class="label label-success">Publish</label>
+                                    <?php else: ?>
+                                    <label class="label label-waring" >Draft</label>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="text-center">
+                                    <a class="btn btn-xs btn-primary btn-edit-blog" data-id="<?php echo $dt->id; ?>" ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-xs btn-danger btn-del-blog" data-id="<?php echo $dt->id; ?>" ><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
+                </div><!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                    <div class='box-header with-border'>
+                        <!--<h3 class='box-title'><i class="fa fa-tag"></i> Color Palette</h3>-->
+                        <a class="btn btn-primary btn-tambah-kategori pull-right">Tambah</a>
+                    </div>
+
+
+                    <table class="table table-bordered datatable " id="table-kategori" >
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th class="col-md-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($kategoris as $kat): ?>
+                            <tr>
+                                <td class="col-md-1"></td>
+                                <td class="td-nama" data-id="<?php echo $kat->id; ?>"><?php echo $kat->name; ?></td>
+                                <td class="text-center">
+                                    <a class="btn btn-danger btn-xs btn-delete-kategori" data-id="<?php echo $kat->id; ?>"  ><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                    <info>* Klik nama kategori untuk edit</info>
+                </div>
+                <div class="tab-pane" id="tab_3">
+
+                </div><!-- /.tab-pane -->
+            </div><!-- nav-tabs-custom -->
+        </div><!-- /.col -->
+
+        <div class="row" id="tab-new-blog">
+            <div class="col-md-12" id="box-upload">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Tambah Blog Baru</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <form id="form-new-blog" action="admin/page/blog/newblog" method="POST" enctype="multipart/form-data">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Kategori</td>
+                                        <td colspan="2">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?php echo Form::select('kategori',$selectKategori,null,array('class'=>'form-control','required')); ?>
+
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a class="btn btn-primary btn-tambah-kategori"  title="Tambah kategori blog baru"><i class="fa fa-plus"></i></a>
+                                                </div>
+                                            </div>                                        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Judul</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" name="title" required/>
+                                        </td>
+                                    </tr>                                
+                                    <tr>
+                                        <td>Image Cover <b>570x222px</b></td>
+                                        <td>
+                                            <input type="file" name="img-upload" id="image-file-upload" class="input-file-img" data-prev="img-prev-new" />
+                                        </td>
+                                        <td rowspan="2" class="col-md-4">
+                                            <img id="img-prev-new" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publish</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="form-control" name="publish">
+                                                        <option value="Y">Publish</option>
+                                                        <option value="N">Draft</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tags</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" name="tags"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <button type="submit" class="btn btn-primary" id="btn-save-blog" >Save</button>
+                                            <a class="btn btn-danger" id="btn-cancel-blog">Cancel</a>
+                                        </td>
+                                    </tr>                                                                
+                                    <tr>
+                                        <td>Content</td>
+                                        <td colspan="2">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" >
+                                            <textarea id="textarea-new" class="tinymce-full" name="content" ></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="tab-edit-blog">
+            <div class="col-md-12" id="box-upload">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Edit Blog</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <form id="form-edit-blog" action="admin/page/blog/updateblog" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="blogId"/>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Kategori</td>
+                                        <td colspan="2">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?php echo Form::select('kategori',$selectKategori,null,array('class'=>'form-control','required')); ?>
+
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a class="btn btn-primary btn-tambah-kategori"  title="Tambah kategori blog baru"><i class="fa fa-plus"></i></a>
+                                                </div>
+                                            </div>                                        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Judul</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" name="title" required/>
+                                        </td>
+                                    </tr>                                
+                                    <tr>
+                                        <td>Image Cover <b>570x222px</b></td>
+                                        <td>
+                                            <input type="file" name="img-upload" class="input-file-img" data-prev="img-prev-edit" />
+                                        </td>
+                                        <td rowspan="2" class="col-md-4">
+                                            <img id="img-prev-edit" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publish</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="form-control" name="publish">
+                                                        <option value="Y">Publish</option>
+                                                        <option value="N">Draft</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tags</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" name="tags"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <button type="submit" class="btn btn-primary" id="btn-save-edit"  >Save</button>
+                                            <a class="btn btn-danger" id="btn-cancel-edit-blog">Cancel</a>
+                                        </td>
+                                    </tr>                                                                
+                                    <tr>
+                                        <td>Content</td>
+                                        <td colspan="2">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" >
+                                            <textarea id="txarea-edit" class="tinymce-full" name="content" ></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+
+
+<div class="modal" id="modal-tambah-kategori">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-tambah-kategori-blog" action="admin/page/blog/newkategori" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tambah Kategori Blog</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Nama</td>
+                                <td>
+                                    <input type="text" name="nama_kategori" class="form-control" required/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"  >Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('back.partials.tablescript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<script>
+    $(document).ready(function () {
+        //============TAB 1================
+
+        //=========END TAB 1===============
+        //
+        //============TAB 2================
+        $('#table-kategori').on('click', 'tbody tr td.td-nama', function (e) {
+            //with button
+            //$(this).replaceWith('<td><input type="text" class="form-control tx-inline-editor" name="nama_kategori" value="' + $(this).text() + '" /> <a class="btn btn-sm btn-primary"><i class="fa fa-save"></i></a></td>');
+            //without button
+            $(this).replaceWith('<td>' + '<form id="form-inline-editor" action="admin/page/blog/updatekategori" method="POST" >' +
+                    '<input type="hidden" name="kategori_id" value="' + $(this).data('id') + '" />' +
+                    '<input placeholder="' + $(this).text() + '" type="text" class="form-control tx-inline-editor" name="name" value="' +
+                    $(this).text() + '" />' +
+                    '</form>' +
+                    '</td>');
+            $('.tx-inline-editor').focus();
+        });
+        //kembalikan ke bentuk tabel normal
+        $(document).on('blur', '.tx-inline-editor', function () {
+            $(this).parent('form').parent('td').replaceWith('<td class="td-nama">' + $(this).attr('placeholder') + '</td>');
+        });
+        //simpan editing inline
+        $(document).on('submit', '#form-inline-editor', function (e) {
+            //manual posting
+            var postUrl = "<?php echo URL::to('admin/page/blog/updatekategori'); ?>";
+            var dataform = $("#form-inline-editor").serialize();
+            $.post(postUrl, dataform, function () {
+                //change placeholder
+                $('.tx-inline-editor').attr('placeholder', $('.tx-inline-editor').val());
+                //blur
+                $('.tx-inline-editor').blur();
+            });
+            e.preventDefault();
+        });
+        //Delete kategori
+        $(document).on('click', '.btn-delete-kategori', function (e) {
+            if (confirm('Hapus data kategori ini?')) {
+                var id = $(this).data('id');
+                var getUrl = "<?php echo URL::to('admin/page/blog/delkategori'); ?>" + "/" + id;
+                var btn = $(this);
+                $.get(getUrl, null, function (x) {
+                    //location.reload();
+                    //remove from table
+                    btn.parent('td').parent('tr').hide(100);
+                    //remove from select kategori
+                    $("select[name=kategori] option[value='" + id + "']").remove();
+                }).fail(function (x) {
+                    alert('Gagal hapus data kategori');
+                });
+            }
+        });
+        //=========END TAB 2===============
+        //
+        //============TAB 3================
+        //tambah kategori blog
+        $('.btn-tambah-kategori').click(function (e) {
+            $('#modal-tambah-kategori').modal();
+        });
+        //submit form tambah kategori
+        $('#form-tambah-kategori-blog').ajaxForm(function (e) {
+            //clear input
+            $('input[name=nama_kategori]').val('');
+            //dismiss modal
+            $('button[data-dismiss=modal]').click();
+            //update select kategori 
+            var newoption = JSON.parse(e);
+            $('select[name=kategori]').append($('<option>', {
+                value: newoption.id,
+                text: newoption.name
+            }));
+            //update table kategori
+            $('#table-kategori').dataTable().fnAddData([
+                null,
+                newoption.name,
+                '<a class="btn btn-danger btn-xs" data-id="' + newoption.id + '"><i class="fa fa-trash-o"></i></a>'
+            ]);
+        });
+        //submit form new blog
+        $('#btn-save-blog').click(function (e) {
+            tinyMCE.triggerSave();
+        });
+        $('#form-new-blog').ajaxForm(function (e) {
+            //add new row to table blog
+            alert('Blog baru telah disimpan');
+//            alert(e);
+            var blogObj = JSON.parse(e);
+            //set label
+            var label = "";
+            if (blogObj.publish == 'Y') {
+                label = '<label class="label label-success">Publish</label>';
+            } else {
+                label = '<label class="label label-warning">Draft</label>';
+            }
+
+            $('#table-blog').dataTable().fnAddData([
+                null,
+                blogObj.title,
+                blogObj.kategori,
+                label,
+                '<a class="btn btn-xs btn-primary btn-edit-blog" data-id="' + blogObj.id + '" >' +
+                        '<i class="fa fa-edit"></i></a><a class="btn btn-xs btn-danger btn-del-blog" data-id="' + blogObj.id + '" ><i class="fa fa-trash-o"></i></a>'
+            ]);
+            //clear input
+            clearinput();
+            //hide new form
+            $('#tab-new-blog').hide();
+            $('#form-tab').fadeIn(150);
+        });
+        //=========END TAB 3===============
+        //
+        //==========NEW BLOG=============
+        //sembunyikan new blog form
+        $('#tab-new-blog').hide();
+        $('#tab-edit-blog').hide();
+        //tambah blog baru
+        $('#btn-tambah-blog').click(function () {
+            $('#form-tab').hide();
+            $('#tab-new-blog').fadeIn(150);
+        });
+        //cancel blog
+        $('#btn-cancel-blog').click(function () {
+            $('#tab-new-blog').hide();
+            $('#form-tab').fadeIn(150);
+            clearinput();
+        });
+        //EDIT BLOG
+        //edit blog tampilkan ke view page
+        $(document).on('click', '.btn-edit-blog', function () {
+//            alert('edit blog');
+            var blogId = $(this).data('id');
+            var getUrl = "<?php echo URL::to('admin/page/blog/viewblog'); ?>" + "/" + blogId;
+            $.get(getUrl, null, function (e) {
+                //tampilkan ke view
+                var blogObj = JSON.parse(e);
+//                set data ke element
+                $('#form-edit-blog input[name=title]').val(blogObj.title);
+                $('#form-edit-blog select[name=kategori]').val(blogObj.category_id);
+                $('#form-edit-blog select[name=publish]').val(blogObj.publish);
+                $('#form-edit-blog input[name=tags]').val(blogObj.tags);
+                $('#form-edit-blog input[name=blogId]').val(blogObj.id);
+                $('#img-prev-edit').attr('src', blogObj.img);
+                $('#form-edit-blog textarea[name=content]').val(blogObj.content);
+                tinyMCE.get('txarea-edit').setContent(blogObj.content);
+                //tampilkan ke view
+                $('#form-tab').hide();
+                $('#tab-edit-blog').fadeIn(150);
+            });
+        });
+
+        //CANCEL EDIT
+        $('#btn-cancel-edit-blog').click(function () {
+            $('#tab-edit-blog').hide();
+            $('#form-tab').fadeIn(150);
+            clearinput();
+        });
+        //simpan edit blog
+        $('#btn-save-edit').click(function (e) {
+            tinyMCE.triggerSave();
+        });
+        $('#form-edit-blog').ajaxForm(function (e) {
+            alert('Perubahan blog telah disimpan.');
+        });
+        //
+        //Image upload preview
+        var _URL = window.URL && window.webkitURL;
+        $('.input-file-img').change(function (ev) {
+            var image, file;
+            var f = ev.target.files[0];
+            var fr = new FileReader();
+            var imgprev = $(this).data('prev');
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function () {
+//                    alert("The image width is " + this.width + " and image height is " + this.height);                    
+                    //cek dimension jika tidak sesuai sembunyikan tombol submit
+                    if (this.width < 570 && this.height < 222) {
+                        alert('Dimensi image tidak sesuai.');
+                        //set null image upload
+                        $('input[name=img-upload]').val(null);
+                    } else {
+                        //tampilkan preview image
+                        fr.onload = function (ev2) {
+                            console.dir(ev2);
+                            $('#' + imgprev).attr('src', ev2.target.result);
+                        };
+                        fr.readAsDataURL(f);
+                    }
+                };
+                image.src = _URL.createObjectURL(file);
+            }
+        });
+        //DELETE BLOG
+        $(document).on('click', '.btn-del-blog', function () {
+            var blogId = $(this).data('id');
+            var getUrl = "<?php echo URL::to('admin/page/blog/delblog'); ?>" + "/" + blogId;
+            var btn = $(this);
+            if (confirm('Hapus blog ini?')) {
+                $.get(getUrl, null, function (e) {
+                    alert('Blog telah dihapus.');
+                    //remove from table
+                    btn.parent('td').parent('tr').hide();
+                }).fail(function (e) {
+                    alert('Gagal hapus blog.')
+                });
+            }
+        });
+        //function clear input
+        function clearinput() {
+            $('select[name=publish], select[name=kategori]').val([]);
+            $('input[type=file], input[name=title]').val(null);
+            tinyMCE.get('txarea-edit').setContent('');
+            tinyMCE.get('textarea-new').setContent('');
+            $('#img-prev-new,#img-prev-new').removeAttr('src');
+        }
+        //+=================END SCRIPT==================
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
