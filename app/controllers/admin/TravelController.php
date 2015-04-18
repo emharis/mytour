@@ -4,164 +4,98 @@ namespace App\Controllers\Admin;
 
 class TravelController extends \BaseController {
 
+    private $travel_img_path;
+
+    function __construct() {
+        $aPath = \DB::table('constval')->where('name', '=', 'travelpack_img_path')->first();
+        $this->travel_img_path = $aPath->value;
+    }
+
     function getIndex() {
-        $kategoris = \DB::table('travel_category')->get();
-        $selectKategory = array();
-        foreach ($kategoris as $kat) {
-            $selectKategory[$kat->id] = $kat->name;
-        }
-
-        $travels = \DB::table('view_travels')->get();
-        $kategoris = \DB::table('travel_category')->get();
-
-        return \View::make('back.page.travel.travel', array(
-                    'travels' => $travels,
-                    'selectKategori' => $selectKategory,
-                    'kategoris' => $kategoris
+        $travels = \DB::table('travelpack')->get();
+        return \View::make('back.paket.travel.travel', array(
+                    'travels' => $travels
         ));
     }
 
     /**
-     * Tambah travel baru
+     * New paket wisata
      */
-    function postNewtravel() {
-        \DB::transaction(function() {
-            //upload image
-            $savePath = \DB::table('constval')->where('name', '=', 'img_travel_path')->first();
-            $path = $savePath->value;
-            //upload image
-            $image = \Input::file('img-upload');
-            $name = 'img_travel_' . $image->getClientOriginalName();
-            $name = str_replace(' ', '_', $name);
-//            echo $name;
-            $image->move($path, $name);
-            //resize image            
-            \ImagineResizer::crop($path . $name, $path . $name, new \Imagine\Image\Box(570, 222));
-
-            //insert to database
-            $id = \DB::table('travel')->insertGetId(array(
-                'created_at' => date('Y-m-d H:i:s'),
-                'title' => \Input::get('title'),
-                'content' => \Input::get('content'),
-                'tags' => \Input::get('tags'),
-                'publish' => \Input::get('publish'),
-                'author_id' => \Input::get('author_id'),
-                'img_cover' => $name,
-                'category_id' => \Input::get('kategori')
-            ));
-            
-            echo json_encode(\DB::table('view_travels')->find($id));
-        });
+    function getNew() {
+        return \View::make('back.paket.travel.new');
     }
 
-    /**
-     * Get travel by ID
-     * @param integer $id
-     * @return JSON 
+    /*     * *
+     * Simpan new paket wisata
      */
-    function getViewtravel($id) {
-        $travel = \DB::table('view_travels')->find($id);
-        //add column filepath
-        $savePath = \DB::table('constval')->where('name', '=', 'img_travel_path')->first();
-        $path = $savePath->value;
-        $travel->img = $path . $travel->img_cover;
-        return json_encode($travel);
+
+    function postNew() {
+        \DB::transaction(function() {
+            //upload image
+            if (\Input::hasFile('input-img-new-travel')) {
+                //upload image
+                $image = \Input::file('input-img-new-travel');
+                $imgname = 'img_travelpack_' . $image->getClientOriginalName();
+                $imgname = str_replace(' ', '_', $imgname);
+                $image->move($this->travel_img_path, $imgname);
+                //resize image            
+                \ImagineResizer::crop($this->travel_img_path . $imgname, $this->travel_img_path . $imgname, new \Imagine\Image\Box(170, 139));
+
+                //save ke database
+                $id = \DB::table('travelpack')->insertGetId(array(
+                    'nama' => \Input::get('nama'),
+                    'harga' => str_replace(',', '', \Input::get('harga')),
+                    'currency' => \Input::get('currency'),
+                    'desc' => \Input::get('desc')
+                ));
+
+                //save image ke database
+                \DB::table('travelpack_image')->insert(array(
+                    'travelpack_id' => $id,
+                    'filename' => $imgname,
+                    'main_img' => 'Y'
+                ));
+            }
+        });
+
+        return \Redirect::to('admin/paket/travel');
     }
 
     /**
      * Edit travel
-     */
-    function postUpdatetravel() {
-        \DB::transaction(function() {
-            //upload image
-            $savePath = \DB::table('constval')->where('name', '=', 'img_travel_path')->first();
-            $path = $savePath->value;
-//            //upload image
-            if (\Input::hasFile('img-upload')) {
-                //hapus file sebelumnya
-                //delete image
-                $travel = \DB::table('travel')->find(\Input::get('travelId'));
-                $dest = $path . $travel->img_cover;
-                $pathToDel = str_replace(\URL::to('/'), '', $dest);
-//                echo $pathToDel . '<br/>';
-//                echo public_path() . '/' . $pathToDel . ' <br/>';
-//                echo 'deleting....';
-                \File::delete(public_path() . '/' . $pathToDel);
-
-                //upload file baru
-                $image = \Input::file('img-upload');
-                $name = 'img_travel_' . $image->getClientOriginalName();
-                $name = str_replace(' ', '_', $name);
-                $image->move($path, $name);
-                //resize image            
-                \ImagineResizer::crop($path . $name, $path . $name, new \Imagine\Image\Box(570, 222));
-
-                //update image ke database
-                \DB::table('travel')->where('id', '=', \Input::get('travelId'))->update(array(
-                    'img_cover' => $name
-                ));
-            }
-
-            //update ke database
-            \DB::table('travel')->where('id', '=', \Input::get('travelId'))->update(array(
-                'created_at' => date('Y-m-d H:i:s'),
-                'title' => \Input::get('title'),
-                'content' => \Input::get('content'),
-                'tags' => \Input::get('tags'),
-                'publish' => \Input::get('publish'),
-//                'author_id' => \Input::get('author_id'),
-                'category_id' => \Input::get('kategori')
-            ));
-        });
-    }
-
-    /**
-     * Tambah kategori travel baru
-     */
-    function postNewkategori() {
-        return json_encode(array(
-            'id' => \DB::table('travel_category')->insertGetId(array(
-                'name' => \Input::get('nama_kategori')
-            )),
-            'name' => \Input::get('nama_kategori')
-        ));
-    }
-
-    /**
-     * Delete Travel
-     * @param int $id
-     */
-    function getDeltravel($id) {
-        $savePath = \DB::table('constval')->where('name', '=', 'img_travel_path')->first();
-        $path = $savePath->value;
-        //delete image file
-        $travel = \DB::table('travel')->find($id);
-        $dest = $path . $travel->img_cover;
-        $pathToDel = str_replace(\URL::to('/'), '', $dest);
-        echo $pathToDel . '<br/>';
-        echo public_path() . '/' . $pathToDel . ' <br/>';
-        echo 'deleting....';
-        \File::delete(public_path() . '/' . $pathToDel);
-        //delete from database
-        \DB::table('travel')->where('id','=',$id)->delete();
-    }
-
-    /**
-     * Update kategori
-     */
-    function postUpdatekategori() {
-        return \DB::table('travel_category')->where('id', '=', \Input::get('kategori_id'))->update(array(
-                    'name' => \Input::get('name')
-        ));
-    }
-
-    /**
-     * Delete Kategori
      * @param type $id
-     * @return int
+     * @return type
      */
-    function getDelkategori($id) {
-        return \DB::table('travel_category')->delete($id);
+    function getEdit($id) {
+        $travel = \DB::table('view_travel')->find($id);
+        $travel->imgpath = $this->travel_img_path;
+        return \View::make('back.paket.travel.edit', array(
+                    'travel' => $travel
+        ));
+    }
+
+    function postEdit() {
+        $travel = \DB::table('travelpack')->find(\Input::get('travelId'));
+        \DB::table('travelpack')->where('id','=',$travel->id)->update(array(
+            'nama' => \Input::get('nama'),
+            'harga' => str_replace(',', '', \Input::get('harga')),
+            'currency' => \Input::get('currency'),
+            'desc' => \Input::get('desc'),
+            'include' => \Input::get('include'),
+            'exclude' => \Input::get('exclude'),
+            'itinerary' => \Input::get('itinerary')
+        ));
+        
+        return \Redirect::back();
+    }
+    
+    /**
+     * Hapus travel
+     * @param type $id
+     */
+    function getDelete($id){
+        \DB::travel('travelpack')->where('id','=',$id)->delete();
+        return \Redirect::back();
     }
 
 }

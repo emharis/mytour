@@ -6,7 +6,7 @@
         <title>Web Manager</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- Bootstrap 3.3.2 -->
-        <link href="backend/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="backend/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
@@ -200,9 +200,9 @@
                                 <span>Paket</span><i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="<?php echo (Request::is('admin/paket/hotel')?'active':''); ?>"><a href="admin/paket/hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
-                                <li class="<?php echo (Request::is('admin/paket/travel')?'active':''); ?>"><a href="admin/paket/travel"><i class="fa fa-circle-o"></i> Travel</a></li>
-                                <li class="<?php echo (Request::is('admin/paket/rental')?'active':''); ?>"><a href="admin/paket/rental"><i class="fa fa-circle-o"></i> Rental</a></li>
+                                <li class="<?php echo (Request::is('admin/paket/hotel*')?'active':''); ?>"><a href="admin/paket/hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
+                                <li class="<?php echo (Request::is('admin/paket/travel*')?'active':''); ?>"><a href="admin/paket/travel"><i class="fa fa-circle-o"></i> Travel</a></li>
+                                <li class="<?php echo (Request::is('admin/paket/rental*')?'active':''); ?>"><a href="admin/paket/rental"><i class="fa fa-circle-o"></i> Rental</a></li>
                             </ul>
                         </li>
                     </ul>

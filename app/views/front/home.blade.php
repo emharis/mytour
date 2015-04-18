@@ -63,14 +63,14 @@
                 <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
                     <span class="gallery-hover-6col hidden-phone hidden-tablet">
                         <span class="gallery-icons">
-                            <a href="{{$constval['travelpack_img_path'].$ft->filename}}" class="item-zoom-link lightbox" title="{{$ft->judul}}" data-rel="prettyPhoto"></a>
+                            <a href="{{$constval['travelpack_img_path'].$ft->filename}}" class="item-zoom-link lightbox" title="{{$ft->nama}}" data-rel="prettyPhoto"></a>
                             <a href="gallery-single.htm" class="item-details-link"></a>
                         </span>
                     </span>
                     <a href="gallery-single.htm" >
                         <img src="{{$constval['travelpack_img_path'].$ft->filename}}" alt="Gallery">
                     </a>
-                    <span class="project-details"><a href="gallery-single.htm">{{$ft->judul}}</a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$ft->nama}}</a>
                         @if($ft->currency == $constval['default_currency'])
                         {{$ft->currency}}  {{$ft->harga}}
                         @else

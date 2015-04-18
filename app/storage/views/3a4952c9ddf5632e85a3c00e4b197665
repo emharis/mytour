@@ -61,14 +61,14 @@
                 <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
                     <span class="gallery-hover-6col hidden-phone hidden-tablet">
                         <span class="gallery-icons">
-                            <a href="<?php echo $constval['travelpack_img_path'].$ft->filename; ?>" class="item-zoom-link lightbox" title="<?php echo $ft->judul; ?>" data-rel="prettyPhoto"></a>
+                            <a href="<?php echo $constval['travelpack_img_path'].$ft->filename; ?>" class="item-zoom-link lightbox" title="<?php echo $ft->nama; ?>" data-rel="prettyPhoto"></a>
                             <a href="gallery-single.htm" class="item-details-link"></a>
                         </span>
                     </span>
                     <a href="gallery-single.htm" >
                         <img src="<?php echo $constval['travelpack_img_path'].$ft->filename; ?>" alt="Gallery">
                     </a>
-                    <span class="project-details"><a href="gallery-single.htm"><?php echo $ft->judul; ?></a>
+                    <span class="project-details"><a href="gallery-single.htm"><?php echo $ft->nama; ?></a>
                         <?php if($ft->currency == $constval['default_currency']): ?>
                         <?php echo $ft->currency; ?>  <?php echo $ft->harga; ?>
 

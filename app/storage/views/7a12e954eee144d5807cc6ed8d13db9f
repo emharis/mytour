@@ -59,8 +59,7 @@
 // Plugins
         plugins: "table link image code hr charmap autolink lists importcss",
         // Toolbar
-        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist",
-        toolbar2: "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
         removed_menuitems: "newdocument",
         image_advtab: true,
         autosave_ask_before_unload: false,
@@ -87,8 +86,7 @@
 // Plugins
         plugins: "table link image code hr charmap autolink lists importcss",
         // Toolbar
-        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist",
-        toolbar2: "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
         removed_menuitems: "newdocument",
         image_advtab: true,
         autosave_ask_before_unload: false,
@@ -134,6 +132,24 @@
         mode:'textareas',
         selector: "textarea.tinymce-mini",
         toolbar: "undo redo | bold italic",
+        menubar: false,
+        statusbar: false,
+        autosave_ask_before_unload: false,
+        max_height: 100,
+        min_height: 80,
+        height: 90,
+        autoresize_max_height: 800,
+    });
+    tinymce.init({
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern autoresize"
+        ],
+        mode:'textareas',
+        selector: "textarea.tinymce-list-only",
+        toolbar: "undo redo | bold italic | bullist numlist",
         menubar: false,
         statusbar: false,
         autosave_ask_before_unload: false,

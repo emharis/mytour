@@ -15,7 +15,7 @@ class HomeController extends\ BaseController {
         $sliders = \DB::table('homepage_slider')->get();
         //favorit travel pack
         $favtrav = \DB::table('homepage_travelpack')
-                    ->select('travelpack.id','travelpack.judul','travelpack.harga','travelpack.currency','travelpack.desc','travelpack_image.filename')
+                    ->select('travelpack.id','travelpack.nama','travelpack.harga','travelpack.currency','travelpack.desc','travelpack_image.filename')
                     ->join('travelpack', 'homepage_travelpack.travelpack_id', '=', 'travelpack.id')
                     ->join('travelpack_image','travelpack.id','=','travelpack_image.travelpack_id')
                     ->where('travelpack_image.main_img','=','Y')
