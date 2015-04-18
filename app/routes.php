@@ -7,11 +7,11 @@ Route::get('/', function() {
 Route::group(array('prefix' => 'front'), function() {
     Route::controller('home', 'App\Controllers\Front\HomeController');
     Route::controller('about', 'App\Controllers\Front\AboutController');
-    Route::controller('travinfo', 'App\Controllers\Front\TravinfoController');
-    Route::controller('foto', 'App\Controllers\Front\FotoController');
-    Route::controller('video', 'App\Controllers\Front\VideoController');
-    Route::controller('contact', 'App\Controllers\Front\ContactController');
-    Route::controller('book', 'App\Controllers\Front\BookController');
+    //Route::controller('travinfo', 'App\Controllers\Front\TravinfoController');
+    //Route::controller('foto', 'App\Controllers\Front\FotoController');
+    //Route::controller('video', 'App\Controllers\Front\VideoController');
+    //Route::controller('contact', 'App\Controllers\Front\ContactController');
+    //Route::controller('book', 'App\Controllers\Front\BookController');
 });
 
 Route::group(array('prefix' => 'admin'), function() {
@@ -21,8 +21,8 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::get('logout', function() {
         return \Redirect::to('admin/login/logout');
     });
-    Route::controller('login', 'App\Controllers\Admin\LoginController');
-    Route::controller('home', 'App\Controllers\Admin\HomeController');
+    //Route::controller('login', 'App\Controllers\Admin\LoginController');
+    //Route::controller('home', 'App\Controllers\Admin\HomeController');
     Route::group(array('prefix' => 'page'), function() {
         Route::controller('homepage', 'App\Controllers\Admin\HomepageController');
         Route::controller('about', 'App\Controllers\Admin\AboutpageController');

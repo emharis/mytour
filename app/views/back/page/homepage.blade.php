@@ -27,14 +27,21 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
+<<<<<<< HEAD
                                         <td class="col-md-4">Welcome Title</td>
                                         <td>
                                             <textarea name="tx_welcome" class="form-control">{{$homepage['welcome_title']['big_value']}}</textarea>
+=======
+                                        <td>Welcome Title</td>
+                                        <td>
+                                            <textarea>{{$homepage['welcome_title']['big_value']}}</textarea>
+>>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Welcome Subtitle</td>
                                         <td>
+<<<<<<< HEAD
                                             <textarea name="tx_welcome_sub" class="form-control">{{$homepage['welcome_subtitle']['big_value']}}</textarea>
                                         </td>
                                     </tr>
@@ -74,12 +81,16 @@
                                         <td></td>
                                         <td class="text-right">
                                             <a id="btn-save-1" class="btn btn-primary">Save</a>
+=======
+                                            <textarea>{{$homepage['welcome_subtitle']['big_value']}}</textarea>
+>>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div><!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_2">
+<<<<<<< HEAD
                             <form action="admin/homepage/sidenav" method="POST">
                                 <table class="table table-bordered">
                                     <tbody>
@@ -213,10 +224,22 @@
                                         <td><label>Setting Image</label></td>
                                         <td>
                                             <a class="btn btn-success" id="btn-tambah-slider">Tambah Image</a>
+=======
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Tampilkan Side Navigkation</td>
+                                        <td>
+                                            <select name="slc_sidenav" class="form-control">
+                                                <option value="Y" {{($homepage['show_sidenav']['value']=='Y'?'selected':'')}}>Tampilkan</option>
+                                                <option value="N" {{($homepage['show_sidenav']['value']=='N'?'selected':'')}}>Sembunyikan</option>
+                                            </select>
+>>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+<<<<<<< HEAD
 
                             <div class="tr-upload-image tr-setting-image" style="background-color: whitesmoke;">
                                 <form id="slider-form" action="admin/page/homepage/addslider" method="POST" enctype="multipart/form-data">
@@ -272,6 +295,16 @@
                     </div><!-- nav-tabs-custom -->
                 </div><!-- /.col -->
             </div> <!-- /.row -->
+=======
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane" id="tab_3">
+                            
+                        </div><!-- /.tab-pane -->
+                    </div><!-- /.tab-content -->
+                </div><!-- nav-tabs-custom -->
+            </div><!-- /.col -->
+        </div> <!-- /.row -->
+>>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
