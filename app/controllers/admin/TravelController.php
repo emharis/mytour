@@ -69,8 +69,11 @@ class TravelController extends \BaseController {
     function getEdit($id) {
         $travel = \DB::table('view_travel')->find($id);
         $travel->imgpath = $this->travel_img_path;
+        $hotels = \DB::table('view_travelpack_hotel')->where('travelpack_id','=',$id)->get();
+                
         return \View::make('back.paket.travel.edit', array(
-                    'travel' => $travel
+                    'travel' => $travel,
+                    'hotels' => $hotels
         ));
     }
 
@@ -94,8 +97,51 @@ class TravelController extends \BaseController {
      * @param type $id
      */
     function getDelete($id){
-        \DB::travel('travelpack')->where('id','=',$id)->delete();
+    	$travelpack = \DB::table('travelpack')->find($id);
+    	//hapus hotel dulu
+    	\DB::table('travelpack_hotel')->where('travelpack_id','=',$id)->delete();
+    	
+    	//hapus travelpack images
+    	//hapus file
+    	$images = \DB::table('travelpack_image')->where('travelpack_id','=',$id)->get();
+    	foreach($images as $img){
+			$dest = $this->travel_img_path . $img->filename;
+        	$pathToDel = str_replace(\URL::to('/'), '', $dest);
+        	\File::delete(public_path() . '/' . $pathToDel);	
+		}    	
+		
+		//hapus databbase image
+		\DB::table('travelpack_image')->where('travelpack_id','=',$id)->delete();
+		    	
+    	//hapus travel
+        \DB::table('travelpack')->where('id','=',$id)->delete();
         return \Redirect::back();
     }
+    
+    /**
+    * Get data hotels		* 
+	* @return
+	*/
+    function getHotels($travelpackId){
+		$hotels = \DB::table('view_hotel')->where('jumlah_room','>',0)->whereRaw('id not in (select hotel_id from travelpack_hotel where travelpack_id = ' . $travelpackId . ')')->get();
+		return json_encode($hotels);
+	}
+	
+	/**
+	* Tambah data hotel
+	* 
+	* @return
+	*/
+	function postAddHotel(){
+		$id = \DB::table('travelpack_hotel')->insertGetId(array(
+			'travelpack_id' => \Input::get('travelpackId'),
+			'hotel_id' => \Input::get('hotelId')
+		));
+		
+		return json_encode(\DB::table('travelpack_hotel')->find($id));
+	}
+	function getDelHotel($travelid,$hotelid){
+		\DB::table('travelpack_hotel')->where('travelpack_id','=',$travelid)->where('hotel_id','=',$hotelid)->delete();
+	}
 
 }

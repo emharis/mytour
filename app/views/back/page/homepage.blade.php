@@ -27,22 +27,14 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-<<<<<<< HEAD
                                         <td class="col-md-4">Welcome Title</td>
                                         <td>
-                                            <textarea name="tx_welcome" class="form-control">{{$homepage['welcome_title']['big_value']}}</textarea>
-=======
-                                        <td>Welcome Title</td>
-                                        <td>
-                                            <textarea>{{$homepage['welcome_title']['big_value']}}</textarea>
->>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
-                                        </td>
+                                            <textarea name="tx_welcome" class="tinymce-mini">{{$homepage['welcome_title']['big_value']}}</textarea>
                                     </tr>
                                     <tr>
                                         <td>Welcome Subtitle</td>
                                         <td>
-<<<<<<< HEAD
-                                            <textarea name="tx_welcome_sub" class="form-control">{{$homepage['welcome_subtitle']['big_value']}}</textarea>
+                                            <textarea name="tx_welcome_sub" class="tinymce-mini">{{$homepage['welcome_subtitle']['big_value']}}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -81,16 +73,12 @@
                                         <td></td>
                                         <td class="text-right">
                                             <a id="btn-save-1" class="btn btn-primary">Save</a>
-=======
-                                            <textarea>{{$homepage['welcome_subtitle']['big_value']}}</textarea>
->>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div><!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_2">
-<<<<<<< HEAD
                             <form action="admin/homepage/sidenav" method="POST">
                                 <table class="table table-bordered">
                                     <tbody>
@@ -220,26 +208,27 @@
                         <div class="tab-pane" id="tab_3">
                             <table class="table table-bordered">
                                 <tbody>
+                                    <tr>
+                                        <td class="col-md-4" >Tampilkan Side Navigkation</td>
+                                        <td>
+                                            <div class="row" >
+                                                <div class="col-md-4">
+                                                    <select name="slc_sidenav" class="form-control">
+                                                        <option value="Y" {{($homepage['show_sidenav']['value']=='Y'?'selected':'')}}>Tampilkan</option>
+                                                        <option value="N" {{($homepage['show_sidenav']['value']=='N'?'selected':'')}}>Sembunyikan</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr class="tr-setting-image">
                                         <td><label>Setting Image</label></td>
                                         <td>
                                             <a class="btn btn-success" id="btn-tambah-slider">Tambah Image</a>
-=======
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td>Tampilkan Side Navigkation</td>
-                                        <td>
-                                            <select name="slc_sidenav" class="form-control">
-                                                <option value="Y" {{($homepage['show_sidenav']['value']=='Y'?'selected':'')}}>Tampilkan</option>
-                                                <option value="N" {{($homepage['show_sidenav']['value']=='N'?'selected':'')}}>Sembunyikan</option>
-                                            </select>
->>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-<<<<<<< HEAD
 
                             <div class="tr-upload-image tr-setting-image" style="background-color: whitesmoke;">
                                 <form id="slider-form" action="admin/page/homepage/addslider" method="POST" enctype="multipart/form-data">
@@ -295,30 +284,31 @@
                     </div><!-- nav-tabs-custom -->
                 </div><!-- /.col -->
             </div> <!-- /.row -->
-=======
-                        </div><!-- /.tab-pane -->
-                        <div class="tab-pane" id="tab_3">
-                            
-                        </div><!-- /.tab-pane -->
-                    </div><!-- /.tab-content -->
-                </div><!-- nav-tabs-custom -->
-            </div><!-- /.col -->
-        </div> <!-- /.row -->
->>>>>>> 9be25742d1cce10a5d53bc67406e058a1aa94a7e
 
-    </section><!-- /.content -->
+        </div><!-- /.tab-pane -->
+        <div class="tab-pane" id="tab_3">
+
+        </div><!-- /.tab-pane -->
+</div><!-- /.tab-content -->
+</div><!-- nav-tabs-custom -->
+</div><!-- /.col -->
+</div> <!-- /.row -->
+
+
+</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
 
 @stop
 
 @section('scripts')
+@include('back.partials.editorscript')
 <script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         //sembunyikan/tampilkan input setting side navigation
-        if($('select[name=slc_sidenav]').val()=='N'){
+        if ($('select[name=slc_sidenav]').val() == 'N') {
             $('.tr-sidenav-setting').hide();
         }
         $('select[name=slc_sidenav]').change(function () {
@@ -335,7 +325,7 @@
          */
         //Save tab 1
         $('#btn-save-1').click(function () {
-//            alert('Simpan');
+            //            alert('Simpan');
             var postUrl = "{{URL::to('admin/page/homepage/upsetting')}}";
             $.post(postUrl, {
                 'welcome_title': $('textarea[name=tx_welcome]').val(),
@@ -346,14 +336,14 @@
                 'testimony_count': $('input[name=tx-jml-testi]').val()
             }, function (e) {
                 alert('Data telah disimpan');
-//                alert(e);
+                //                alert(e);
             }).fail(function (e) {
                 alert('Data gagal disimpan');
             });
         });
 
         //tampilkan atau sembunyikan input jumlah blog dan testimoni
-        if($('select[name=cb-blog-slider]').val()=='N'){
+        if ($('select[name=cb-blog-slider]').val() == 'N') {
             $('input[name=tx-jml-blog]').hide();
         }
         $('select[name=cb-blog-slider]').change(function () {
@@ -365,7 +355,7 @@
                 $('input[name=tx-jml-blog]').fadeOut(500);
             }
         });
-        if($('select[name=cb-testi-slider]').val()=='N'){
+        if ($('select[name=cb-testi-slider]').val() == 'N') {
             $('input[name=tx-jml-testi]').hide();
         }
         $('select[name=cb-testi-slider]').change(function () {
@@ -399,7 +389,7 @@
                 'sidenav_wts_subtitle': $('input[name=tx_wts_sbt]').val()
             }, function (e) {
                 alert('Data telah disimpan');
-//                alert(e);
+                //                alert(e);
             }).fail(function (e) {
                 alert('Data gagal disimpan');
             });
@@ -441,14 +431,14 @@
             if ((file = this.files[0])) {
                 image = new Image();
                 image.onload = function () {
-//                    alert("The image width is " + this.width + " and image height is " + this.height);                    
+                    //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 770 || this.height < 354) {
                         alert('Dimensi image tidak sesuai.');
                         $('#file').val(null);
                         //clear image preview
                         $('#img-preview').removeAttr('src');
-//                        $('.btn-cancel-upload').click();
+                        //                        $('.btn-cancel-upload').click();
                         $('#btn-save-image').hide();
                     } else {
                         $('#btn-save-image').show();
@@ -481,13 +471,13 @@
                 var id = $(this).data('id');
                 var postUrl = "{{URL::to('admin/page/homepage/deleteslider')}}";
                 $btn = $(this);
-                $.post(postUrl,{
-                    'id':id
-                },function(e){
-//                   alert('Image slider telah dihapus'); 
-                   //delete from table                   
-                   $btn.parent('td').parent('tr').hide(500);
-                }).fail(function(e){
+                $.post(postUrl, {
+                    'id': id
+                }, function (e) {
+                    //                   alert('Image slider telah dihapus'); 
+                    //delete from table                   
+                    $btn.parent('td').parent('tr').hide(500);
+                }).fail(function (e) {
                     alert('Image slider gagal dihapus');
                 });
             }

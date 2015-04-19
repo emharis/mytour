@@ -21,8 +21,8 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::get('logout', function() {
         return \Redirect::to('admin/login/logout');
     });
-    //Route::controller('login', 'App\Controllers\Admin\LoginController');
-    //Route::controller('home', 'App\Controllers\Admin\HomeController');
+    Route::controller('login', 'App\Controllers\Admin\LoginController');
+    Route::controller('home', 'App\Controllers\Admin\HomeController');
     Route::group(array('prefix' => 'page'), function() {
         Route::controller('homepage', 'App\Controllers\Admin\HomepageController');
         Route::controller('about', 'App\Controllers\Admin\AboutpageController');

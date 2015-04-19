@@ -80,7 +80,16 @@
         //delete data travel
         $('.btn-del-travel').click(function(e){
            if(confirm('Hapus data paket travel ini?')){
-               
+           		e.preventDefault();
+           		var btn = $(this);
+           		var paketId = $(this).data('id');
+               	var getUrl = "{{URL::to('admin/paket/travel/delete')}}" +"/"+ paketId;
+               	$.get(getUrl,null,function(e){
+               		//delete darti tabel
+               		var row = btn.closest('tr');
+                    var nRow = row[0];
+                    $('#table-travel"').dataTable().fnDeleteRow(nRow);	
+               	});
            }else{
                e.preventDefault();
            }

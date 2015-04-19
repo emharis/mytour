@@ -114,7 +114,7 @@
                 image.onload = function () {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
-                    if (this.width < 270 && this.height < 220) {
+                    if (this.width < 270 || this.height < 220) {
                         alert('Dimensi image tidak sesuai.');
                         //set null image upload
                         $('input[name=img-uploader]').val(null);
@@ -147,7 +147,7 @@
 //                alert(tmpImg.width );
                 orgWidth = tmpImg.width;
                 orgHeight = tmpImg.height;
-                if (orgWidth < 270 && orgHeight < 220) {
+                if (orgWidth < 270 || orgHeight < 220) {
                     alert('Dimensi image tidak sesuai.');
                     //set null
                     $('input[name=img-link]').val('');

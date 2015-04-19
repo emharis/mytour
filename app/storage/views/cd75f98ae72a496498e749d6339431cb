@@ -479,7 +479,7 @@
                 image.onload = function () {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
-                    if (this.width < 570 && this.height < 222) {
+                    if (this.width < 570 || this.height < 222) {
                         alert('Dimensi image tidak sesuai.');
                         //set null image upload
                         $('input[name=img-upload]').val(null);
