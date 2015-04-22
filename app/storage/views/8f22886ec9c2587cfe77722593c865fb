@@ -1,10 +1,8 @@
-@extends('back.partials.master')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <link href="backend/plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css"/>
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -22,20 +20,20 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{$rental->nama}}</h3>
+                        <h3 class="box-title"><?php echo $rental->nama; ?></h3>
                         <a class="btn btn-danger pull-right" href="admin/paket/rental" ><i class="fa fa-angle-double-left"></i> Back</a>
                     </div><!-- /.box-header -->
                     <form id="form-edit-rental" action="admin/paket/rental/edit" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="rentalId" value="{{$rental->id}}" />
+                        <input type="hidden" name="rentalId" value="<?php echo $rental->id; ?>" />
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
                                     <td>Nama</td>
                                     <td>
-                                        <input value="{{$rental->nama}}" autocomplete="off" type="text" class="form-control" name="nama" required/>
+                                        <input value="<?php echo $rental->nama; ?>" autocomplete="off" type="text" class="form-control" name="nama" required/>
                                     </td>
                                     <td class="col-md-4" rowspan="3">
-                                        <img style="width: 100%" id="img-edit-rental-prev" src="{{$img_path.$rental->filename}}"  />
+                                        <img style="width: 100%" id="img-edit-rental-prev" src="<?php echo $img_path.$rental->filename; ?>"  />
                                     </td>
                                 </tr>
                                 <tr>
@@ -43,10 +41,11 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <input  autocomplete="off" type="text" class="form-control currency text-right" name="harga" value="{{$rental->harga}}" />
+                                                <input  autocomplete="off" type="text" class="form-control currency text-right" name="harga" value="<?php echo $rental->harga; ?>" />
                                             </div>
                                             <div class="col-md-4">
-                                                {{Form::select('currency',array('IDR'=>'IDR','USD'=>'USD'),$rental->currency,array('class'=>'form-control'))}}
+                                                <?php echo Form::select('currency',array('IDR'=>'IDR','USD'=>'USD'),$rental->currency,array('class'=>'form-control')); ?>
+
                                             </div>
                                         </div>                                        
                                     </td>
@@ -65,7 +64,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        <textarea name="desc" id="textarea-edit-desc-rental" class="tinymce-mid">{{$rental->desc}}</textarea>
+                                        <textarea name="desc" id="textarea-edit-desc-rental" class="tinymce-mid"><?php echo $rental->desc; ?></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -81,12 +80,12 @@
                 <div class="tab-pane" id="tab_2">
                     <!--data image rental-->
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{$rental->nama}}</h3>
+                        <h3 class="box-title"><?php echo $rental->nama; ?></h3>
                         <a class="btn btn-danger pull-right" href="admin/paket/rental" ><i class="fa fa-angle-double-left"></i> Back</a>
                     </div><!-- /.box-header -->
                     <div class="clearfix"></div><br/>
                     <form id="form-upload-image" action="admin/paket/rental/upload" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="rentalId" value="{{$rental->id}}"/>
+                        <input type="hidden" name="rentalId" value="<?php echo $rental->id; ?>"/>
                         <table class="table table-bordered" style="background-color: whitesmoke;">
                             <tbody>
                                 <tr>
@@ -124,26 +123,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($images as $img)
+                            <?php foreach($images as $img): ?>
                             <tr>
                                 <td></td>
-                                <td>{{$img->filename}}</td>
+                                <td><?php echo $img->filename; ?></td>
                                 <td>
-                                    @if($img->main_img == 'Y')
+                                    <?php if($img->main_img == 'Y'): ?>
                                     <label class="label label-success">IMAGE COVER</label>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
                                 <td >
-                                    <img src="{{$img_path . $img->filename}}" style="width:100%;" />
+                                    <img src="<?php echo $img_path . $img->filename; ?>" style="width:100%;" />
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger btn-xs btn-del-image" data-id="{{$img->id}}" ><i class="fa fa-trash-o"></i></a>
-                                    @if($img->main_img =='N')
-                                    <a class="btn btn-success btn-xs btn-set-cover" data-id="{{$img->id}}" >Set Image Cover</a>
-                                    @endif
+                                    <a class="btn btn-danger btn-xs btn-del-image" data-id="<?php echo $img->id; ?>" ><i class="fa fa-trash-o"></i></a>
+                                    <?php if($img->main_img =='N'): ?>
+                                    <a class="btn btn-success btn-xs btn-set-cover" data-id="<?php echo $img->id; ?>" >Set Image Cover</a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
-                            @endforeach
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div><!-- /.tab-pane -->
@@ -153,15 +152,15 @@
         </div><!-- /.col -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 <script src="backend/plugins/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
 <script src="js/jquery.formatCurrency-1.4.0.min.js" type="text/javascript"></script>
 <script src="js/jquery.formatCurrency.all.js" type="text/javascript"></script>
-@include('back.partials.tablescript')
-@include('back.partials.editorscript')
+<?php echo $__env->make('back.partials.tablescript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script>
 $(document).ready(function() {
     //tampilkan image upload
@@ -205,7 +204,7 @@ $(document).ready(function() {
             null,
             newrental.filename,
             null,
-            '<img src="{{$img_path}}' + newrental.filename + '" style="width=100%;" >',
+            '<img src="<?php echo $img_path; ?>' + newrental.filename + '" style="width=100%;" >',
             '<a class="btn btn-danger btn-xs btn-del-image" data-id="' + newrental.id + '" ><i class="fa fa-trash-o"></i></a>' +
                     '<a class="btn btn-success btn-xs btn-set-cover" data-id="' + newrental.id + '" >Set Image Cover</a>'
         ]);
@@ -218,7 +217,7 @@ $(document).ready(function() {
     $(document).on('click', '.btn-del-image', function() {
         if (confirm('Hapus image ini?')) {
             var imageId = $(this).data('id');
-            var delUrl = "{{URL::to('admin/paket/rental/del-image')}}" + "/" + imageId;
+            var delUrl = "<?php echo URL::to('admin/paket/rental/del-image'); ?>" + "/" + imageId;
             var btn = $(this);
             $.get(delUrl, null, function(e) {
                 //delete row
@@ -233,7 +232,7 @@ $(document).ready(function() {
     //set image cover
     $(document).on('click', '.btn-set-cover', function() {
         var imageId = $(this).data('id');
-        var getUrl = "{{URL::to('admin/paket/rental/set-image-cover')}}" + "/" + imageId;
+        var getUrl = "<?php echo URL::to('admin/paket/rental/set-image-cover'); ?>" + "/" + imageId;
         $.get(getUrl,null,function(e){
            alert('ok') ;
         });
@@ -242,4 +241,5 @@ $(document).ready(function() {
 });
 </script>
 
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
