@@ -4,164 +4,84 @@ namespace App\Controllers\Admin;
 
 class RentalController extends \BaseController {
 
+    private $rental_img_path;
+
+    function __construct() {
+        $aPath = \DB::table('constval')->where('name', '=', 'rental_img_path')->first();
+        $this->rental_img_path = $aPath->value;
+    }
+
     function getIndex() {
-        $kategoris = \DB::table('rental_category')->get();
-        $selectKategory = array();
-        foreach ($kategoris as $kat) {
-            $selectKategory[$kat->id] = $kat->name;
-        }
-
-        $rentals = \DB::table('view_rentals')->get();
-        $kategoris = \DB::table('rental_category')->get();
-
-        return \View::make('back.page.rental.rental', array(
-                    'rentals' => $rentals,
-                    'selectKategori' => $selectKategory,
-                    'kategoris' => $kategoris
+        return \View::make('back.paket.rental.rental', array(
+                    'rentals' => \DB::table('rental')->get()
         ));
     }
 
     /**
-     * Tambah rental baru
+     * edit data rental
      */
-    function postNewrental() {
-        \DB::transaction(function() {
-            //upload image
-            $savePath = \DB::table('constval')->where('name', '=', 'img_rental_path')->first();
-            $path = $savePath->value;
+    function getEdit($id) {
+        $rental = \DB::table('view_rental')->find($id);
+        $images = \DB::table('rental_image')->where('rental_id', $id)->get();
+
+        return \View::make('back.paket.rental.edit', array(
+                    'rental' => $rental,
+                    'images' => $images,
+                    'img_path' => $this->rental_img_path
+        ));
+    }
+
+    /**
+     * Upload new image rental
+     */
+    function postUpload() {
+        $path = $this->rental_img_path;
+        $imgname = "";
+        $id=0;
+
+        if (\Input::hasFile('img-upload')) {
             //upload image
             $image = \Input::file('img-upload');
-            $name = 'img_rental_' . $image->getClientOriginalName();
-            $name = str_replace(' ', '_', $name);
-//            echo $name;
-            $image->move($path, $name);
-            //resize image            
-            \ImagineResizer::crop($path . $name, $path . $name, new \Imagine\Image\Box(570, 222));
-
-            //insert to database
-            $id = \DB::table('rental')->insertGetId(array(
-                'created_at' => date('Y-m-d H:i:s'),
-                'title' => \Input::get('title'),
-                'content' => \Input::get('content'),
-                'tags' => \Input::get('tags'),
-                'publish' => \Input::get('publish'),
-                'author_id' => \Input::get('author_id'),
-                'img_cover' => $name,
-                'category_id' => \Input::get('kategori')
-            ));
+            $imgname = 'img_rental_' . $image->getClientOriginalName();
+            $imgname = str_replace(' ', '_', $imgname);
+////            echo $imgname;
             
-            echo json_encode(\DB::table('view_rentals')->find($id));
-        });
-    }
-
-    /**
-     * Get rental by ID
-     * @param integer $id
-     * @return JSON 
-     */
-    function getViewrental($id) {
-        $rental = \DB::table('view_rentals')->find($id);
-        //add column filepath
-        $savePath = \DB::table('constval')->where('name', '=', 'img_rental_path')->first();
-        $path = $savePath->value;
-        $rental->img = $path . $rental->img_cover;
-        return json_encode($rental);
-    }
-
-    /**
-     * Edit rental
-     */
-    function postUpdaterental() {
-        \DB::transaction(function() {
-            //upload image
-            $savePath = \DB::table('constval')->where('name', '=', 'img_rental_path')->first();
-            $path = $savePath->value;
-//            //upload image
-            if (\Input::hasFile('img-upload')) {
-                //hapus file sebelumnya
-                //delete image
-                $rental = \DB::table('rental')->find(\Input::get('rentalId'));
-                $dest = $path . $rental->img_cover;
-                $pathToDel = str_replace(\URL::to('/'), '', $dest);
-//                echo $pathToDel . '<br/>';
-//                echo public_path() . '/' . $pathToDel . ' <br/>';
-//                echo 'deleting....';
-                \File::delete(public_path() . '/' . $pathToDel);
-
-                //upload file baru
-                $image = \Input::file('img-upload');
-                $name = 'img_rental_' . $image->getClientOriginalName();
-                $name = str_replace(' ', '_', $name);
-                $image->move($path, $name);
-                //resize image            
-                \ImagineResizer::crop($path . $name, $path . $name, new \Imagine\Image\Box(570, 222));
-
-                //update image ke database
-                \DB::table('rental')->where('id', '=', \Input::get('rentalId'))->update(array(
-                    'img_cover' => $name
-                ));
-            }
-
-            //update ke database
-            \DB::table('rental')->where('id', '=', \Input::get('rentalId'))->update(array(
-                'created_at' => date('Y-m-d H:i:s'),
-                'title' => \Input::get('title'),
-                'content' => \Input::get('content'),
-                'tags' => \Input::get('tags'),
-                'publish' => \Input::get('publish'),
-//                'author_id' => \Input::get('author_id'),
-                'category_id' => \Input::get('kategori')
+            $image->move($path, $imgname);
+            //resize image            
+            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(170, 139));
+            //simpan ke database
+            $id = \DB::table('rental_image')->insertGetId(array(
+                'filename' => $imgname,
+                'main_img' => 'N',
+                'rental_id'=>\Input::get('rentalId')
             ));
-        });
+        }
+        
+        $rntl = \DB::table('rental_image')->where('id','=',$id)->first();
+        
+        echo json_encode($rntl);
     }
-
+    
     /**
-     * Tambah kategori rental baru
+     * Hapus image rental
+     * @param type $imageid
+     * @return type
      */
-    function postNewkategori() {
-        return json_encode(array(
-            'id' => \DB::table('rental_category')->insertGetId(array(
-                'name' => \Input::get('nama_kategori')
-            )),
-            'name' => \Input::get('nama_kategori')
-        ));
+    function getDelImage($imageid){
+        return \DB::table('rental_image')->where('id','=',$imageid)->delete();
     }
-
-    /**
-     * Delete Rental
-     * @param int $id
-     */
-    function getDelrental($id) {
-        $savePath = \DB::table('constval')->where('name', '=', 'img_rental_path')->first();
-        $path = $savePath->value;
-        //delete image file
-        $rental = \DB::table('rental')->find($id);
-        $dest = $path . $rental->img_cover;
-        $pathToDel = str_replace(\URL::to('/'), '', $dest);
-        echo $pathToDel . '<br/>';
-        echo public_path() . '/' . $pathToDel . ' <br/>';
-        echo 'deleting....';
-        \File::delete(public_path() . '/' . $pathToDel);
-        //delete from database
-        \DB::table('rental')->where('id','=',$id)->delete();
-    }
-
-    /**
-     * Update kategori
-     */
-    function postUpdatekategori() {
-        return \DB::table('rental_category')->where('id', '=', \Input::get('kategori_id'))->update(array(
-                    'name' => \Input::get('name')
-        ));
-    }
-
-    /**
-     * Delete Kategori
-     * @param type $id
-     * @return int
-     */
-    function getDelkategori($id) {
-        return \DB::table('rental_category')->delete($id);
+    
+    function getSetImageCover($imageid){
+//        //get image
+//        $img = \db::table('rental_image')->where('id','=',$imageid)->first();
+//        //set no image cover 
+//        \db::table('rental_image')->where('rental_id','=',$img->rental_id)->update(array(
+//            'main_img' => 'N'
+//        ));
+//        //set main image cover
+//        \db::table('rental_image')->where('id','=',$imageid)->update(array(
+//            'main_img' => 'Y'
+//        ));
     }
 
 }

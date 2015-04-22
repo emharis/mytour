@@ -21,6 +21,9 @@
                         <li class="active"><a href="#tab_1" data-toggle="tab">Content Setting</a></li>
                         <li><a href="#tab_2" data-toggle="tab">Side Navigation</a></li>
                         <li><a href="#tab_3" data-toggle="tab">Image Slider</a></li>                  
+                        <li><a href="#tab_4" data-toggle="tab">Travel Favorit</a></li>                  
+                        <li><a href="#tab_5" data-toggle="tab">Hotel Favorit</a></li>                  
+                        <li><a href="#tab_6" data-toggle="tab">Rental Favorit</a></li>                  
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
@@ -240,7 +243,7 @@
                                                     <input type="file" id="file" name="upl-slider"/>
                                                 </td>
                                                 <td rowspan="2" class="col-md-2">
-                                                    <img id="img-preview" class="col-md-12" />
+                                                    <img id="img-preview" style="width:100%;" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -269,7 +272,7 @@
                                         @foreach($sliders as $dt)
                                         <tr>
                                             <td class="col-sm-2">
-                                                <img class="col-sm-12" src="{{$constval['img_slider_path'].$dt->filename}}" />
+                                                <img style="width:100%;" src="{{$constval['img_slider_path'].$dt->filename}}" />
                                             </td>
                                             <td>{{$dt->filename}}</td>
                                             <td class="text-center">
@@ -281,6 +284,19 @@
                                 </table>                            
                             </div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
+
+                        <div class="tab-pane" id="tab_4">
+                        	<h4>Travel Favorit</h4>
+                        </div><!-- /.tab-content -->
+                        
+                        <div class="tab-pane" id="tab_5">
+                        	<h4>Hotel Favorit</h4>
+                        </div><!-- /.tab-content -->
+                        
+                        <div class="tab-pane" id="tab_6">
+                        	<h4>Rental Favorit</h4>
+                        </div><!-- /.tab-content -->
+                        
                     </div><!-- nav-tabs-custom -->
                 </div><!-- /.col -->
             </div> <!-- /.row -->

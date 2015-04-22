@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('styles'); ?>
 <?php $__env->stopSection(); ?>
 

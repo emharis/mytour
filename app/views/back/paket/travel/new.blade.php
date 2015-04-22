@@ -30,7 +30,7 @@
                                         <td>
                                             <input autocomplete="off" type="text" class="form-control" name="nama" required/>
                                         </td>
-                                        <td class="col-md-4" rowspan="4">
+                                        <td class="col-md-4" rowspan="6">
                                             <img style="width: 100%" id="img-new-travel-prev"/>
                                         </td>
                                     </tr>
@@ -47,6 +47,12 @@
                                                 <option value="IDR">IDR</option>
                                                 <option value="USD">USD</option>
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lama Menginap</td>
+                                        <td>
+                                            <input autocomplete="off" type="text" class="form-control text-right" name="lama_inap" />
                                         </td>
                                     </tr>
                                     <tr>
