@@ -72,16 +72,16 @@ class RentalController extends \BaseController {
     }
     
     function getSetImageCover($imageid){
-//        //get image
-//        $img = \db::table('rental_image')->where('id','=',$imageid)->first();
-//        //set no image cover 
-//        \db::table('rental_image')->where('rental_id','=',$img->rental_id)->update(array(
-//            'main_img' => 'N'
-//        ));
-//        //set main image cover
-//        \db::table('rental_image')->where('id','=',$imageid)->update(array(
-//            'main_img' => 'Y'
-//        ));
+        //get image
+        $img = \db::table('rental_image')->where('id','=',$imageid)->first();
+        //set no image cover 
+        \db::table('rental_image')->where('rental_id','=',$img->rental_id)->update(array(
+            'main_img' => 'N'
+        ));
+        //set main image cover
+        \db::table('rental_image')->where('id','=',$imageid)->update(array(
+            'main_img' => 'Y'
+        ));
     }
 
 }

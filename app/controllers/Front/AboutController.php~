@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers\Front;
+namespace App\ Controllers\ Front;
 
-class AboutController extends \BaseController {
+class AboutController extends\ BaseController {
 
     function getIndex() {
         //about value

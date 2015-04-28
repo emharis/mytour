@@ -192,6 +192,7 @@
                                 <li class="{{(Request::is('admin/page/foto')?'active':'')}}"><a href="admin/page/foto"><i class="fa fa-circle-o"></i> Galeri Foto</a></li>
                                 <li class="{{(Request::is('admin/page/video')?'active':'')}}"><a href="admin/page/video"><i class="fa fa-circle-o"></i> Galeri Video</a></li>
                                 <li class="{{(Request::is('admin/page/contact')?'active':'')}}"><a href="admin/page/contact"><i class="fa fa-circle-o"></i> Contact Page</a></li>
+                                <li class="{{(Request::is('admin/page/destinasi')?'active':'')}}"><a href="admin/page/destinasi"><i class="fa fa-circle-o"></i> Destinasi</a></li>
                             </ul>
                         </li>
                         <li class="treeview {{(Request::is('admin/paket*')?'active':'')}}" >
@@ -226,6 +227,8 @@
         <script src='backend/plugins/fastclick/fastclick.min.js'></script>
         <!-- AdminLTE App -->
         <script src="backend/dist/js/app.min.js" type="text/javascript"></script>
+        <!--Jquery Loader-->
+        <script src="backend/plugins/jqloader/jquery.loading-overlay.min.js" type="text/javascript"></script>
         
         @yield('scripts')
     </body>

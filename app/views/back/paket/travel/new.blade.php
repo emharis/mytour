@@ -50,9 +50,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Lama Menginap</td>
+                                        <td>Day/Night</td>
                                         <td>
-                                            <input autocomplete="off" type="text" class="form-control text-right" name="lama_inap" />
+                                            <div class="row">
+                                                <div class="col-md-2"><input autocomplete="off" type="text" class="form-control text-right" name="day" /></div>
+                                                <div class="col-md-2"><input autocomplete="off" type="text" class="form-control text-right" name="night" /></div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>

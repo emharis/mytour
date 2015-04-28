@@ -130,7 +130,7 @@
                                 <td>{{$img->filename}}</td>
                                 <td>
                                     @if($img->main_img == 'Y')
-                                    <label class="label label-success">IMAGE COVER</label>
+                                    <label class="label label-success label-image-cover">IMAGE COVER</label>
                                     @endif
                                 </td>
                                 <td >
@@ -163,83 +163,95 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script>
-$(document).ready(function() {
-    //tampilkan image upload
-    var _URL = window.URL && window.webkitURL;
-    $('input[name=img-upload]').change(function(ev) {
-        //cek dimensii image
-        var image, file;
-        var imgPrev = $('#img-prev');
-        if ((file = this.files[0])) {
-            image = new Image();
-            image.onload = function() {
-                //cek dimension jika tidak sesuai sembunyikan tombol submit
-                if (this.width < 170 || this.height < 139) {
-                    alert('Dimensi image tidak sesuai.');
-                    //set null image upload
-                    $('input[name=img-upload]').val(null);
-                    imgPrev.removeAttr('src');
-                } else {
-                    var f = ev.target.files[0];
-                    var fr = new FileReader();
-                    fr.onload = function(ev2) {
-                        console.dir(ev2);
-                        imgPrev.attr('src', ev2.target.result);
-                    };
-                    fr.readAsDataURL(f);
-                }
-            };
-            image.src = _URL.createObjectURL(file);
-        }
-    });
-    //Reset Upload
-    $('#btn-reset-upload').click(function(e) {
-        $('input[name=img-upload]').val(null);
-        $('#img-prev').removeAttr('src');
-    });
-    //submit form upload image
-    $('#form-upload-image').ajaxForm(function(e) {
-        //add new row
-        var newrental = JSON.parse(e);
-        $('#table-daftar-image').dataTable().fnAddData([
-            null,
-            newrental.filename,
-            null,
-            '<img src="{{$img_path}}' + newrental.filename + '" style="width=100%;" >',
-            '<a class="btn btn-danger btn-xs btn-del-image" data-id="' + newrental.id + '" ><i class="fa fa-trash-o"></i></a>' +
-                    '<a class="btn btn-success btn-xs btn-set-cover" data-id="' + newrental.id + '" >Set Image Cover</a>'
-        ]);
-        //clear input
-        $('input[name=img-upload]').val(null);
-        $('#img-prev').removeAttr('src');
-
-    });
-    //delete image rental
-    $(document).on('click', '.btn-del-image', function() {
-        if (confirm('Hapus image ini?')) {
-            var imageId = $(this).data('id');
-            var delUrl = "{{URL::to('admin/paket/rental/del-image')}}" + "/" + imageId;
-            var btn = $(this);
-            $.get(delUrl, null, function(e) {
-                //delete row
-                var row = btn.closest('tr');
-                var nRow = row[0];
-                $('#table-daftar-image').dataTable().fnDeleteRow(nRow);
-            }).fail(function(e) {
-                alert('Delete image gagal');
-            });
-        }
-    });
-    //set image cover
-    $(document).on('click', '.btn-set-cover', function() {
-        var imageId = $(this).data('id');
-        var getUrl = "{{URL::to('admin/paket/rental/set-image-cover')}}" + "/" + imageId;
-        $.get(getUrl,null,function(e){
-           alert('ok') ;
+    $(document).ready(function () {
+        //tampilkan image upload
+        var _URL = window.URL && window.webkitURL;
+        $('input[name=img-upload]').change(function (ev) {
+            //cek dimensii image
+            var image, file;
+            var imgPrev = $('#img-prev');
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function () {
+                    //cek dimension jika tidak sesuai sembunyikan tombol submit
+                    if (this.width < 170 || this.height < 139) {
+                        alert('Dimensi image tidak sesuai.');
+                        //set null image upload
+                        $('input[name=img-upload]').val(null);
+                        imgPrev.removeAttr('src');
+                    } else {
+                        var f = ev.target.files[0];
+                        var fr = new FileReader();
+                        fr.onload = function (ev2) {
+                            console.dir(ev2);
+                            imgPrev.attr('src', ev2.target.result);
+                        };
+                        fr.readAsDataURL(f);
+                    }
+                };
+                image.src = _URL.createObjectURL(file);
+            }
         });
-    });
+        //Reset Upload
+        $('#btn-reset-upload').click(function (e) {
+            $('input[name=img-upload]').val(null);
+            $('#img-prev').removeAttr('src');
+        });
+        //submit form upload image
+        $('#form-upload-image').ajaxForm(function (e) {
+            //add new row
+            var newrental = JSON.parse(e);
+            $('#table-daftar-image').dataTable().fnAddData([
+                null,
+                newrental.filename,
+                null,
+                '<img src="{{$img_path}}' + newrental.filename + '" class="col-md-12" >',
+                '<a class="btn btn-danger btn-xs btn-del-image" data-id="' + newrental.id + '" ><i class="fa fa-trash-o"></i></a>' +
+                        '<a class="btn btn-success btn-xs btn-set-cover" data-id="' + newrental.id + '" >Set Image Cover</a>'
+            ]);
+            //sett class image
+//            var btnNewRow = $('a[data-id= ' + newrental.id + ']');
+//            var row = btnNewRow.closest('tr');
+//            var nRow = row[0];
+//            nRow.cells[3].setAttribute('class','col-md-3');
+            //clear input
+            $('input[name=img-upload]').val(null);
+            $('#img-prev').removeAttr('src');
 
-});
+        });
+        //delete image rental
+        $(document).on('click', '.btn-del-image', function () {
+            if (confirm('Hapus image ini?')) {
+                var imageId = $(this).data('id');
+                var delUrl = "{{URL::to('admin/paket/rental/del-image')}}" + "/" + imageId;
+                var btn = $(this);
+                $.get(delUrl, null, function (e) {
+                    //delete row
+                    var row = btn.closest('tr');
+                    var nRow = row[0];
+                    $('#table-daftar-image').dataTable().fnDeleteRow(nRow);
+                }).fail(function (e) {
+                    alert('Delete image gagal');
+                });
+            }
+        });
+        //set image cover
+        $(document).on('click', '.btn-set-cover', function () {
+            if (confirm('Jadikan image ini sebagai Image Cover?')) {
+
+                var imageId = $(this).data('id');
+                var getUrl = "{{URL::to('admin/paket/rental/set-image-cover')}}" + "/" + imageId;
+                var btn = $(this);
+                $.get(getUrl, null, function (e) {
+                    //remove image cover label 
+                    $('.label-image-cover').remove();
+                    //set the new image cover label
+                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover" >IMAGE COVER</label>');
+                });
+            }
+        });
+
+    });
 </script>
 
 @stop

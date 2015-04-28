@@ -25,7 +25,7 @@ class HotelController extends \BaseController {
      * new hotel
      */
     function getNew() {
-        return \View::make('back.paket.hotel.hotelnew');
+        return \View::make('back.paket.hotel.new');
     }
 
     /**
@@ -56,6 +56,13 @@ class HotelController extends \BaseController {
                 'desc' => \Input::get('desc'),
                 'img_cover' => $imgname
             ));
+
+            //insert to hotel_image
+            \DB::table('hotel_image')->insert(array(
+                'hotel_id' => $id,
+                'filename' => $imgname,
+                'main_img' => 'Y'
+            ));
 //      
 //            echo json_encode(\DB::table('hotel')->find($id));
         });
@@ -70,10 +77,13 @@ class HotelController extends \BaseController {
     function getEdit($hotelid) {
         $hotel = \DB::table('view_hotel')->find($hotelid);
         $rooms = \DB::table('hotel_room')->where('hotel_id', '=', $hotelid)->get();
+        $images = \DB::table('hotel_image')->where('hotel_id', '=', $hotelid)->get();
 
-        return \View::make('back.paket.hotel.hoteledit', array(
+        return \View::make('back.paket.hotel.edit', array(
                     'hotel' => $hotel,
                     'rooms' => $rooms,
+                    'img_path' => $this->hotel_img_path,
+                    'images' => $images
         ));
     }
 
@@ -267,6 +277,55 @@ class HotelController extends \BaseController {
         \File::delete(public_path() . '/' . $pathToDel);
         //delete dari database
         \DB::table('hotel_room')->where('id', '=', $id)->delete();
+    }
+
+    /**
+     * Tambha image hotel
+     */
+    function postAddImage() {
+        $hotelId = \Input::get('hotelId');
+        $filename="";
+
+        if (\Input::hasFile('input-file-tambah-image')) {
+            //upload image
+            $path = $this->hotel_img_path;
+            $image = \Input::file('input-file-tambah-image');
+            $imgname = 'img_hotel_' . $image->getClientOriginalName();
+            $imgname = str_replace(' ', '_', $imgname);
+            $filename = $imgname;
+            $image->move($path, $imgname);
+            
+            //resize image            
+            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(170, 139));
+        }
+
+        //input ke database
+        $id = \DB::table('hotel_image')->insertGetId(array(
+            'hotel_id' => $hotelId,
+            'filename' => $filename
+        ));
+        
+        $res = \DB::table('hotel_image')->find($id);
+        $res->img_path = $this->hotel_img_path;
+        return json_encode($res);
+    }
+    
+    function getDelImage($imageid){
+        return \DB::table('hotel_image')->where('id','=',$imageid)->delete();
+    }
+    
+    function getSetImageCover($imageid){
+        $image = \DB::table('hotel_image')->find($imageid);
+        $hotel = \DB::table('hotel')->find($image->hotel_id);
+        //set image cover
+        ///clear image cover
+        \DB::table('hotel_image')->where('hotel_id','=',$image->hotel_id)->update(array(
+            'main_img' => 'N'
+        ));
+        //set image cover
+        \DB::table('hotel_image')->where('id','=',$imageid)->update(array(
+           'main_img'  =>'Y'
+        ));
     }
 
 }

@@ -64,7 +64,6 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@include('back.paket.hotel.new')
 @stop
 
 @section('scripts')
@@ -90,128 +89,6 @@
                 });
             }
         });
-
-
-//        //============================================================================================
-//        //==========================SCRIPT FOR NEW HOTEL==============================================
-//        //============================================================================================        
-//        var btnSaveNewHotel = $('#btn-save-new-hotel');
-//        var frmNewHotel = $('#form-new-hotel');
-//        var inpFileNewHotel = $('input[name=img-cover-new-hotel]');
-//        /**
-//         * Tambah Data Hotel
-//         * @returns {undefined}
-//         */
-//        function newHotel() {
-//            $('#modal-new-hotel').modal('show');
-//        }
-//        /**
-//         * Simpan data hotel baru
-//         * @returns {undefined}
-//         */
-//        function saveNewHotel(newhotel) {
-//            //after saving new hotel tampilkan data baru ke table
-//            $('#table-hotel').dataTable().fnAddData([
-//                null,
-//                newhotel.nama,
-//                newhotel.alamat,
-//                'tidak ada room',
-//                '<a class="btn btn-primary btn-xs btn-edit-hotel" data-id="' + newhotel.id + '" ><i class="fa fa-edit"></i></a>' +
-//                        '<a class="btn btn-danger btn-xs btn-del-hotel" data-id="' + newhotel.id + '" ><i class="fa fa-trash-o"></i></a>'
-//            ]);
-//            //clear input
-//            $('input[type=text]').val(null);
-//            $('input[type=file]').val(null);
-//            $('#img-new-hotel-prev').removeAttr('src');
-//            tinyMCE.get('textarea-new-desc-hotel').setContent('');
-//            //close modal
-//            $('#modal-new-hotel').modal('hide');
-//
-//            //show message
-//            alert('Data hotel baru telah disimpan.');
-//        }
-//
-//        //===========EVENTS=================
-//
-//        //event click tambah hotel button
-//        $('#btn-tambah-hotel').click(function () {
-//            newHotel();
-//        });
-//        //event click btn save new hotel
-//        btnSaveNewHotel.click(function (e) {
-////            tinyMCE.get('textarea-new-desc-hotel').triggerSave();
-//            tinyMCE.triggerSave();
-//        });
-//        //event on submit form
-//        frmNewHotel.ajaxForm(function (e) {
-//            var newhotel = JSON.parse(e);
-//            saveNewHotel(newhotel);
-//        });
-//        //event upload imageon new hotel
-//        var _URL = window.URL && window.webkitURL;
-//        inpFileNewHotel.change(function (ev) {
-//            //cek dimensii image
-//            var image, file;
-//            var imgPrev = $('#img-new-hotel-prev');
-//            if ((file = this.files[0])) {
-//                image = new Image();
-//                image.onload = function () {
-////                    alert("The image width is " + this.width + " and image height is " + this.height);                    
-//                    //cek dimension jika tidak sesuai sembunyikan tombol submit
-//                    if (this.width < 170 || this.height < 139) {
-//                        alert('Dimensi image tidak sesuai.');
-//                        //set null image upload
-//                        inpFileNewHotel.val(null);
-//                        imgPrev.removeAttr('src');
-//                    } else {
-//                        var f = ev.target.files[0];
-//                        var fr = new FileReader();
-//                        fr.onload = function (ev2) {
-//                            console.dir(ev2);
-//                            imgPrev.attr('src', ev2.target.result);
-//                        };
-//                        fr.readAsDataURL(f);
-//                    }
-//                };
-//                image.src = _URL.createObjectURL(file);
-//            }
-//        });
-//        //==================================================================================================
-//        //================================END SCRIPT FOR NEW HOTEL==========================================
-//        //==================================================================================================
-//
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   SCRIPT FOR EDIT HOTEL   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        /**
-//         * Fungsi edit hotel
-//         * @param {type} hotelid
-//         * @returns {undefined}         */
-//        function editHotel(hotelid) {
-//            
-//            var getUrl = "{{URL::to('admin/paket/hotel/hotel-by-id')}}" + "/" + hotelid;
-//            $.get(getUrl, null,function (e) {
-//                var result = JSON.parse(e);
-//                //set data to view                
-//                $('#form-edit-hotel input[name=hotelId]').val(result.id);
-//                $('#form-edit-hotel input[name=nama]').val(result.nama);
-//                $('#form-edit-hotel input[name=alamat]').val(result.alamat);
-//                tinyMCE.get('textarea-edit-desc-hotel').setContent(result.desc);
-//                $('#img-edit-hotel-prev').attr('src',result.imgpath + result.img_cover);
-//                $('#modal-edit-hotel').modal('show');
-//            }).fail(function(e){
-//                alert('fail');
-//            });
-//        }
-//        //event btn edit hotel clicked
-//        $('.btn-edit-hotel').click(function (e) {
-////            alert('edit hotel...');
-////            alert($(this).data('id'));
-//            editHotel($(this).data('id'));
-//        });
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   END SCRIPT FOR EDIT HOTEL   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//        //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     });
 </script>
