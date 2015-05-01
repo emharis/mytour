@@ -1,0 +1,100 @@
+<div class="footer-container"><!-- Begin Footer -->
+    <div class="container">
+        <div class="row footer-row">
+            <div class="span3 footer-col">
+                <h5>About Us</h5>
+                <img src="frontend/img/<?php echo $constval['footer_logo']; ?>" alt="<?php echo $constval['web_title']; ?>" /><br /><br />
+                <address>
+                    <strong>Office</strong><br />
+                    <?php echo $constval['address']; ?><br />
+                    <?php echo $constval['phone']; ?><br />
+                    <?php echo $constval['email']; ?><br />
+                </address>
+                <ul class="social-icons">
+                    <?php if($constval['fb_show']=='Y'): ?>
+                    <li><a target="_blank" href="http://www.facebook.com/<?php echo $constval['fb']; ?>" class="social-icon facebook"></a></li>
+                    <?php endif; ?>
+                    <?php if($constval['twitter_show']=='Y'): ?>
+                    <li><a href="http://www.twitter.com/<?php echo $constval['twitter']; ?>" class="social-icon twitter"></a></li>
+                    <?php endif; ?>
+                    <!--                            <li><a href="#" class="social-icon dribble"></a></li>
+                                                <li><a href="#" class="social-icon rss"></a></li>
+                                                <li><a href="#" class="social-icon forrst"></a></li>-->
+                </ul>
+            </div>
+            <div class="span3 footer-col">
+                <h5>Latest Comments</h5>
+                <ul>
+                    <li><a href="#">@udin_sedunia</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                    <li><a href="#">@layla_majnun</a> In interdum felis fermentum ipsum molestie sed porttitor ligula rutrum. Morbi blandit ultricies ultrices.</li>
+                    <li><a href="#">@roket_rocketerz</a> Vivamus nec lectus sed orci molestie molestie. Etiam mattis neque eu orci rutrum aliquam.</li>
+                </ul>
+                <!--                        <h5>Latest Tweets</h5>
+                                        <ul>
+                                            <li><a href="#">@room122</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                                            <li><a href="#">@room122</a> In interdum felis fermentum ipsum molestie sed porttitor ligula rutrum. Morbi blandit ultricies ultrices.</li>
+                                            <li><a href="#">@room122</a> Vivamus nec lectus sed orci molestie molestie. Etiam mattis neque eu orci rutrum aliquam.</li>
+                                        </ul>-->
+            </div>
+            <div class="span3 footer-col">
+                <h5>Latest Posts</h5>
+                <ul class="post-list">
+                    <?php foreach($lastposts as $lp): ?>
+                    <li><a href="#"><?php echo $lp->title; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <style>
+                .with-bg-size
+                {
+                    background-image:url();
+                    width: 60px;
+                    height: 60px;
+                    background-position: center;
+                    background-size: cover;
+                }
+            </style>
+            <div class="span3 footer-col">
+                <h5>Gallery</h5>
+                <ul class="img-feed">
+                    <?php foreach($randgals as $gal): ?>
+                    <?php if($gal->isexternal == 'Y'): ?>
+                    <li><a href="<?php echo $gal->filename; ?>" data-rel="prettyPhoto" class="photozoom" title="<?php echo $gal->title; ?>">
+                            <div class="with-bg-size" rel="<?php echo $gal->filename; ?>"></div>
+                        </a></li>                            
+                    <?php else: ?>
+                    <?php if($gal->type =='I'): ?>
+                    <!--image item-->
+                    <li>
+                        <a href="<?php echo URL::to('/') . '/' . $constval['img_gallery_path'].$gal->filename; ?>" data-rel="prettyPhoto" class="photozoom" title="<?php echo $gal->title; ?>">
+                            <div class="with-bg-size" rel="<?php echo URL::to('/') . '/' . $constval['img_gallery_path'].$gal->filename; ?>"></div>
+                        </a>
+                    </li>                            
+                    <?php else: ?>
+                    <!--video item-->
+                    <!--<li><a href="#" class="lightbox" data-rel="prettyPhoto" ><img src="<?php echo $constval['video_gallery_path'].$gal->filename; ?>" alt="Image Feed"></a></li>-->                            
+                    <?php endif; ?>                            
+                    <?php endif; ?>                            
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row"><!-- Begin Sub Footer -->
+            <div class="span12 footer-col footer-sub">
+                <div class="row no-margin">
+                    <div class="span6"><span class="left">Copyright 2012 Piccolo Theme. All rights reserved.</span></div>
+                    <div class="span6">
+                        <span class="right">
+                            <?php for($i=0;$i<count($menus);$i++): ?>
+                                <?php if($menus[$i]['position']=='B' || $menus[$i]['position']=='A' ): ?>
+                                <a href="<?php echo $menus[$i]['link']; ?>"><?php echo $menus[$i]['nama']; ?></a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                                <?php endif; ?>
+                                <?php endfor; ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Sub Footer -->
+    </div>
+</div><!-- End Footer --> 

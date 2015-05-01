@@ -55,7 +55,7 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@include('back.paket.hotel.new')
+
 @stop
 
 @section('scripts')

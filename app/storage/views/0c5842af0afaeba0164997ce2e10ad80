@@ -7,7 +7,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Hotel</h1>
+        <h1>Rental</h1>
     </section>
 
     <!-- Main content -->
@@ -26,31 +26,22 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Alamat</th>
-                                    <th>Room</th>
+                                    <th>Harga</th>
+                                    <th>Currency</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($hotels as $ht): ?>
-                                <tr>
-                                    <td></td>
-                                    <td><?php echo $ht->nama; ?> </td>
-                                    <td><?php echo $ht->alamat; ?> </td>
-                                    <td class="text-center" >
-                                        <?php if($ht->jumlah_room > 0): ?>
-                                        <a class="label label-success"><?php echo $ht->jumlah_room; ?></a> 
-                                        <?php else: ?>
-                                        -
-                                        <?php endif; ?>
-
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary btn-xs btn-edit-hotel" href="admin/paket/hotel/edit/<?php echo $ht->id; ?>"  data-id="<?php echo $ht->id; ?>" ><i class="fa fa-edit"></i></a>
-                                        <a class="btn btn-danger btn-xs btn-del-hotel" data-id="<?php echo $ht->id; ?>" ><i class="fa fa-trash-o"></i></a>
-                                    </td>
-
-                                </tr>
+                                <?php foreach($rentals as $rt): ?>
+                                	<tr>
+                                		<td></td>
+                                		<td><?php echo $rt->nama; ?></td>
+                                		<td><?php echo $rt->harga; ?></td>
+                                		<td><?php echo $rt->currency; ?></td>
+                                		<td>
+                                			<a class="btn btn-primary btn-sm btn-edit-rental" data-id="<?php echo $rt->id; ?>" href="admin/paket/rental/edit/<?php echo $rt->id; ?>" ><i class="fa fa-edit"></i></a>
+                                		</td>
+                                	</tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -61,6 +52,7 @@
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
 
 <?php $__env->stopSection(); ?>
 
@@ -73,20 +65,6 @@
 <?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script>
     $(document).ready(function () {
-        //Delete Hotel
-        $(document).on('click', '.btn-del-hotel', function () {
-            var btn = $(this);
-            if (confirm('Hapus data hotel ini?')) {
-                var hotelid = $(this).data('id');
-                var delUrl = "<?php echo URL::to('admin/paket/hotel/del-hotel'); ?>" + "/" + hotelid;
-                $.get(delUrl, null, function () {
-                    //delete row from table
-                    var row = btn.closest('tr');
-                    var nRow = row[0];
-                    $('#table-hotel').dataTable().fnDeleteRow(nRow);
-                });
-            }
-        });
 
     });
 </script>

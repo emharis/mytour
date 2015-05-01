@@ -39,11 +39,11 @@
                                     <td></td>
                                     <td>{{$ht->nama}} </td>
                                     <td>{{$ht->alamat}} </td>
-                                    <td>
+                                    <td class="text-center" >
                                         @if($ht->jumlah_room > 0)
                                         <a class="label label-success">{{$ht->jumlah_room}}</a> 
                                         @else
-                                        Tidak ada room
+                                        -
                                         @endif
 
                                     </td>

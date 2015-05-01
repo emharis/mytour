@@ -39,9 +39,19 @@
                             @foreach($destinasi as $dest)
                             <tr>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$dest->nama}}</td>
+                                <td>{{$dest->kategori}}</td>
+                                <td>
+                                    @if($dest->publish == 'Y')
+                                    <label class="label label-success">PUBLISH</label>
+                                    @else
+                                    <label class="label label-danger">DRAFT</label>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-edit-destinasi btn-sm" data-id="{{$dest->id}}" ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-delete-destinasi btn-sm" data-id="{{$dest->id}}"><i class="fa fa-trash-o"></i></a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -51,7 +61,7 @@
                 <div class="tab-pane" id="tab_2">
                     <div class='box-header with-border'>
                         <!--<h3 class='box-title'><i class="fa fa-tag"></i> Color Palette</h3>-->
-                        <a class="btn btn-primary btn-tambah-kategori pull-right" href="admin/page/destinasi/new" >Tambah</a>
+                        <a class="btn btn-primary btn-tambah-kategori pull-right"  >Tambah Kategori</a>
                     </div>
 
 
@@ -94,7 +104,7 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <!--<h3 class="box-title">Upload Foto</h3>-->
-                        <a class="btn btn-danger pull-right" id="btn-cancel-edit-destinasi" ><i class="fa fa-angle-double-left"></i> Cancel</a>
+                        <a class="btn btn-danger pull-right btn-cancel-edit-destinasi" id="btn-cancel-edit-destinasi" ><i class="fa fa-angle-double-left"></i> Cancel</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <form id="form-new-destinasi" action="admin/page/destinasi/new" method="POST" enctype="multipart/form-data">
@@ -108,7 +118,7 @@
                                                     {{Form::select('kategori',$selectKategori,null,array('class'=>'form-control','required'))}}
                                                 </div>
                                                 <div class="col-md-2" >
-                                                    <a class="btn btn-primary" id="btn-tambah-kategori"><i class="fa fa-plus"></i></a>
+                                                    <a class="btn btn-primary btn-tambah-kategori"><i class="fa fa-plus"></i></a>
                                                 </div>
                                             </div>
                                         </td>
@@ -142,7 +152,7 @@
                                     <tr>
                                         <td colspan="3">
                                             <button type="submit" class="btn btn-primary " id="btn-save-new-destinasi" >Save</button>
-                                            <a  href="admin/paket/destinasi"  class="btn btn-danger btn-cancel-new-destinasi" data-dismiss="modal" >Cancel</a>
+                                            <a  class="btn btn-danger btn-cancel-edit-destinasi" data-dismiss="modal" >Cancel</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -221,12 +231,17 @@
 
         });
         //cancel tambah / edit
-        $('#btn-cancel-tambah-destinasi,#btn-cancel-edit-destinasi').click(function (e) {
+        $('#btn-cancel-tambah-destinasi,.btn-cancel-edit-destinasi').click(function (e) {
             //sembunyikan form index
             $('#page-tambah').hide();
             $('#page-edit').hide();
             //tampilkan form tambah
             $('#page-index').fadeIn(500);
+            //clear input
+            $('#form-new-destinasi input').val(null);
+            $('#form-new-destinasi select').val([]);
+            $('#form-new-destinasi img').removeAttr('src');
+            tinyMCE.get('textarea-new-desc-destinasi').setContent('');
         });
         //tambah destinasi image upload
         $('#form-new-destinasi input[type=file]').change(function (ev) {
@@ -257,8 +272,25 @@
                 image.src = _URL.createObjectURL(file);
             }
         });
+        //simpan destinasi baru
+        $('#form-new-destinasi').submit(function (e) {
+            tinyMCE.triggerSave();
+            $('#form-new-destinasi').ajaxSubmit({
+                beforeSubmit: function (bs) {
+                    $('#form-new-destinasi').loader('show');
+                }, success: function (sc) {
+                    $('#form-new-destinasi').loader('hide');
+                    //clear input
+                    $('#form-new-destinasi input').val(null);
+                    $('#form-new-destinasi select').val([]);
+                    $('#form-new-destinasi img').removeAttr('src');
+                    tinyMCE.get('textarea-new-desc-destinasi').setContent('');
+                }
+            });
+            return false;
+        });
         //new kategori
-        $('#btn-tambah-kategori').click(function (e) {
+        $('.btn-tambah-kategori').click(function (e) {
             $('.modal-dialog').css('width', '50%');
             $('#modal-tambah-kategori').modal('show');
         });
