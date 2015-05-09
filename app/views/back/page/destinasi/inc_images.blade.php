@@ -1,0 +1,84 @@
+<div class='box-header with-border'>
+    <h4 class='box-title'>{{$destinasi->nama}}</h4>
+    <div class="pull-right">
+        <a class="btn btn-primary" id="btn-tambah-image" > Tambah Image</a>
+        <a class="btn btn-danger" href="admin/page/destinasi"  ><i class="fa fa-angle-double-left"></i> Back</a>
+    </div>
+</div>
+
+<form id="form-tambah-image" style="background: whitesmoke;" action="admin/page/destinasi/add-image" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="destinasiId" value="{{$destinasi->id}}" required />
+    <table class="table table-bordered" >
+        <tbody>
+            <tr>
+                <td>Type</td>
+                <td>
+                    <div class="row" >
+                        <div class="col-md-4" >
+                            <select name="islocal" class="form-control" >
+                                <option value="Y" >LOKAL</option>
+                                <option value="N" >URL</option>
+                            </select>  
+                        </div>
+                    </div>
+                </td>
+                <td class="col-md-4" rowspan="3">
+                    <img id="img-tambah-image" style="width:100%;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td>
+                    <input type="file" name="input-tambah-image" />
+                    <input type="text" name="filename" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button class="btn btn-primary" id="btn-save-tambah-image" >Save</button> 
+                    <a class="btn btn-danger" id="btn-cancel-tambah-image" >Cancel</a> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<table id="table-daftar-image" class="table table-bordered datatable" >
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Filename</th>
+            <th class="col-md-1">Image Cover</th>
+            <th class="col-md-2">Image</th>
+            <th class="col-md-2" ></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($images as $img)
+        <tr>
+            <td></td>
+            <td>{{$img->filename}}</td>
+            <td>
+                @if($img->main_img=='Y')
+                <label class="label label-success label-image-cover" ><i class="fa fa-check"></i></label>
+                @endif
+            </td>
+            <td>
+                @if($img->islocal =='Y')
+                <img src="{{$img_path . $img->filename}}" style="width: 100%;" />
+                @else
+
+                <img src="{{$img->filename}}" style="width: 100%;" />
+
+                @endif
+
+            </td>
+            <td>
+                <a class="btn btn-danger btn-del-image btn-xs" data-id="{{$img->id}}" ><i class="fa fa-trash-o"></i></a>
+                <a class="btn btn-primary btn-set-cover btn-xs" data-id="{{$img->id}}" >Set Image Cover</a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>

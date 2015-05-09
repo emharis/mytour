@@ -22,10 +22,9 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
-                    <a class="btn btn-primary" id="btn-tambah-blog">Tambah</a>
-
-                    <div class="clearfix"></div>
-                    <br/>
+                    <div class='box-header with-border'>
+                        <a class="btn btn-primary pull-right" id="btn-tambah-blog">Tambah</a>
+                    </div>
                     <table class="table table-bordered datatable" id="table-blog">
                         <thead>
                             <tr>
@@ -80,6 +79,7 @@
                                 <td class="col-md-1"></td>
                                 <td class="td-nama" data-id="{{$kat->id}}">{{$kat->name}}</td>
                                 <td class="text-center">
+                                    <a class="btn btn-primary btn-xs btn-edit-kategori" data-id="{{$kat->id}}"  ><i class="fa fa-edit"></i></a>
                                     <a class="btn btn-danger btn-xs btn-delete-kategori" data-id="{{$kat->id}}"  ><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
@@ -87,7 +87,7 @@
                         </tbody>
                     </table>
 
-                    <info>* Klik nama kategori untuk edit</info>
+                    <info>* Double klik nama kategori untuk edit</info>
                 </div>
                 <div class="tab-pane" id="tab_3">
 
@@ -296,6 +296,36 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal" id="modal-edit-kategori">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-edit-kategori-blog" action="admin/page/blog/updatekategori" method="POST">
+                <input type="hidden" name="kategori_id"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Kategori Blog</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>Nama</td>
+                                <td>
+                                    <input type="text" name="name" class="form-control" required/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"  >Save</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @stop
 
 @section('scripts')
@@ -303,13 +333,13 @@
 @include('back.partials.editorscript')
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         //============TAB 1================
 
         //=========END TAB 1===============
         //
         //============TAB 2================
-        $('#table-kategori').on('click', 'tbody tr td.td-nama', function (e) {
+        $('#table-kategori').on('dblclick', 'tbody tr td.td-nama', function(e) {
             //with button
             //$(this).replaceWith('<td><input type="text" class="form-control tx-inline-editor" name="nama_kategori" value="' + $(this).text() + '" /> <a class="btn btn-sm btn-primary"><i class="fa fa-save"></i></a></td>');
             //without button
@@ -322,15 +352,15 @@
             $('.tx-inline-editor').focus();
         });
         //kembalikan ke bentuk tabel normal
-        $(document).on('blur', '.tx-inline-editor', function () {
+        $(document).on('blur', '.tx-inline-editor', function() {
             $(this).parent('form').parent('td').replaceWith('<td class="td-nama">' + $(this).attr('placeholder') + '</td>');
         });
         //simpan editing inline
-        $(document).on('submit', '#form-inline-editor', function (e) {
+        $(document).on('submit', '#form-inline-editor', function(e) {
             //manual posting
             var postUrl = "{{URL::to('admin/page/blog/updatekategori')}}";
             var dataform = $("#form-inline-editor").serialize();
-            $.post(postUrl, dataform, function () {
+            $.post(postUrl, dataform, function() {
                 //change placeholder
                 $('.tx-inline-editor').attr('placeholder', $('.tx-inline-editor').val());
                 //blur
@@ -339,18 +369,18 @@
             e.preventDefault();
         });
         //Delete kategori
-        $(document).on('click', '.btn-delete-kategori', function (e) {
+        $(document).on('click', '.btn-delete-kategori', function(e) {
             if (confirm('Hapus data kategori ini?')) {
                 var id = $(this).data('id');
                 var getUrl = "{{URL::to('admin/page/blog/delkategori')}}" + "/" + id;
                 var btn = $(this);
-                $.get(getUrl, null, function (x) {
+                $.get(getUrl, null, function(x) {
                     //location.reload();
                     //remove from table
                     btn.parent('td').parent('tr').hide(100);
                     //remove from select kategori
                     $("select[name=kategori] option[value='" + id + "']").remove();
-                }).fail(function (x) {
+                }).fail(function(x) {
                     alert('Gagal hapus data kategori');
                 });
             }
@@ -359,11 +389,12 @@
         //
         //============TAB 3================
         //tambah kategori blog
-        $('.btn-tambah-kategori').click(function (e) {
+        $('.btn-tambah-kategori').click(function(e) {
+            $('#modal-tambah-kategori .modal-dialog').css('width', '400px');
             $('#modal-tambah-kategori').modal();
         });
         //submit form tambah kategori
-        $('#form-tambah-kategori-blog').ajaxForm(function (e) {
+        $('#form-tambah-kategori-blog').ajaxForm(function(e) {
             //clear input
             $('input[name=nama_kategori]').val('');
             //dismiss modal
@@ -382,10 +413,10 @@
             ]);
         });
         //submit form new blog
-        $('#btn-save-blog').click(function (e) {
+        $('#btn-save-blog').click(function(e) {
             tinyMCE.triggerSave();
         });
-        $('#form-new-blog').ajaxForm(function (e) {
+        $('#form-new-blog').ajaxForm(function(e) {
             //add new row to table blog
             alert('Blog baru telah disimpan');
 //            alert(e);
@@ -419,23 +450,23 @@
         $('#tab-new-blog').hide();
         $('#tab-edit-blog').hide();
         //tambah blog baru
-        $('#btn-tambah-blog').click(function () {
+        $('#btn-tambah-blog').click(function() {
             $('#form-tab').hide();
             $('#tab-new-blog').fadeIn(150);
         });
         //cancel blog
-        $('#btn-cancel-blog').click(function () {
+        $('#btn-cancel-blog').click(function() {
             $('#tab-new-blog').hide();
             $('#form-tab').fadeIn(150);
             clearinput();
         });
         //EDIT BLOG
         //edit blog tampilkan ke view page
-        $(document).on('click', '.btn-edit-blog', function () {
+        $(document).on('click', '.btn-edit-blog', function() {
 //            alert('edit blog');
             var blogId = $(this).data('id');
             var getUrl = "{{URL::to('admin/page/blog/viewblog')}}" + "/" + blogId;
-            $.get(getUrl, null, function (e) {
+            $.get(getUrl, null, function(e) {
                 //tampilkan ke view
                 var blogObj = JSON.parse(e);
 //                set data ke element
@@ -454,29 +485,29 @@
         });
 
         //CANCEL EDIT
-        $('#btn-cancel-edit-blog').click(function () {
+        $('#btn-cancel-edit-blog').click(function() {
             $('#tab-edit-blog').hide();
             $('#form-tab').fadeIn(150);
             clearinput();
         });
         //simpan edit blog
-        $('#btn-save-edit').click(function (e) {
+        $('#btn-save-edit').click(function(e) {
             tinyMCE.triggerSave();
         });
-        $('#form-edit-blog').ajaxForm(function (e) {
+        $('#form-edit-blog').ajaxForm(function(e) {
             alert('Perubahan blog telah disimpan.');
         });
         //
         //Image upload preview
         var _URL = window.URL && window.webkitURL;
-        $('.input-file-img').change(function (ev) {
+        $('.input-file-img').change(function(ev) {
             var image, file;
             var f = ev.target.files[0];
             var fr = new FileReader();
             var imgprev = $(this).data('prev');
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function () {
+                image.onload = function() {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 570 || this.height < 222) {
@@ -485,7 +516,7 @@
                         $('input[name=img-upload]').val(null);
                     } else {
                         //tampilkan preview image
-                        fr.onload = function (ev2) {
+                        fr.onload = function(ev2) {
                             console.dir(ev2);
                             $('#' + imgprev).attr('src', ev2.target.result);
                         };
@@ -496,16 +527,16 @@
             }
         });
         //DELETE BLOG
-        $(document).on('click', '.btn-del-blog', function () {
+        $(document).on('click', '.btn-del-blog', function() {
             var blogId = $(this).data('id');
             var getUrl = "{{URL::to('admin/page/blog/delblog')}}" + "/" + blogId;
             var btn = $(this);
             if (confirm('Hapus blog ini?')) {
-                $.get(getUrl, null, function (e) {
+                $.get(getUrl, null, function(e) {
                     alert('Blog telah dihapus.');
                     //remove from table
                     btn.parent('td').parent('tr').hide();
-                }).fail(function (e) {
+                }).fail(function(e) {
                     alert('Gagal hapus blog.')
                 });
             }
@@ -518,6 +549,36 @@
             tinyMCE.get('textarea-new').setContent('');
             $('#img-prev-new,#img-prev-new').removeAttr('src');
         }
+        //EDIT KATEGORI
+        var btnEditKategori;
+        $(document).on('click', '.btn-edit-kategori', function(e) {
+            btnEditKategori = $(this);
+            var kategoriid = $(this).data('id');
+            var getUrl = "{{URL::to('admin/page/blog/kategori')}}" + "/" + kategoriid;
+            $.get(getUrl, null, function(ge) {
+                var kategori = JSON.parse(ge);
+                //tampilkan ke form
+                $('#form-edit-kategori-blog input[name=name]').val(kategori.name);
+                $('#form-edit-kategori-blog input[name=kategori_id]').val(kategori.id);
+                $('#modal-edit-kategori .modal-dialog').css('width', '400px');
+                $('#modal-edit-kategori').modal('show');
+            });
+        });
+        //save kategori
+        $('#form-edit-kategori-blog').submit(function(e) {
+            $('#form-edit-kategori-blog').ajaxSubmit(function(se){
+                //close modal
+                $('#modal-edit-kategori').modal('hide');
+                //update tabel
+                //
+                var kategori = JSON.parse(se);
+                btnEditKategori.parent('td').prev().text(kategori.name);
+            });
+            return false;
+        });
+
+
+
         //+=================END SCRIPT==================
     });
 </script>

@@ -211,19 +211,6 @@
                         <div class="tab-pane" id="tab_3">
                             <table class="table table-bordered">
                                 <tbody>
-                                    <tr>
-                                        <td class="col-md-4" >Tampilkan Side Navigkation</td>
-                                        <td>
-                                            <div class="row" >
-                                                <div class="col-md-4">
-                                                    <select name="slc_sidenav" class="form-control">
-                                                        <option value="Y" {{($homepage['show_sidenav']['value']=='Y'?'selected':'')}}>Tampilkan</option>
-                                                        <option value="N" {{($homepage['show_sidenav']['value']=='N'?'selected':'')}}>Sembunyikan</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
                                     <tr class="tr-setting-image">
                                         <td><label>Setting Image</label></td>
                                         <td>
@@ -286,17 +273,44 @@
                         </div><!-- /.tab-content -->
 
                         <div class="tab-pane" id="tab_4">
-                        	<h4>Travel Favorit</h4>
+                            <div class="box-header with-border">
+                                <h4 class="box-title" >Travel Favorit</h4>
+                                @if(count($travpackfav)<4)
+                                <a class="btn btn-primary pull-right" id="btn-tambah-travel-favorit" >Tambah Travel Favorit</a>
+                                @endif
+                            </div><!-- /.box-header -->
+
+                            <table class="table table-bordered datatable" id="table-travel-favorit">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($travpackfav as $trf)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{$trf->nama}}</td>
+                                        <td>
+                                            <a class="btn btn-success btn-xs btn-view-travel" data-id="{{$trf->id}}" ><i class="fa fa-eye"></i></a>
+                                            <a class="btn btn-danger btn-xs btn-delete-travel" data-id="{{$trf->id}}" ><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div><!-- /.tab-content -->
-                        
+
                         <div class="tab-pane" id="tab_5">
-                        	<h4>Hotel Favorit</h4>
+                            <h4>Hotel Favorit</h4>
                         </div><!-- /.tab-content -->
-                        
+
                         <div class="tab-pane" id="tab_6">
-                        	<h4>Rental Favorit</h4>
+                            <h4>Rental Favorit</h4>
                         </div><!-- /.tab-content -->
-                        
+
                     </div><!-- nav-tabs-custom -->
                 </div><!-- /.col -->
             </div> <!-- /.row -->
@@ -314,10 +328,40 @@
 </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+<div class="modal" id="modal-tambah-travel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pilih Paket Travel</h4><i></i>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered datatable" id="table-pilih-travel">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" data-dismiss="modal" >Close</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 @stop
 
 @section('scripts')
+@include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 
@@ -499,10 +543,15 @@
             }
         });
 
-
-
         //END TAB 3
         //------------------------------------------------------
+        
+        //================TAB TRAVEL FAVORIT====================
+        $('#btn-tambah-travel-favorit').click(function(e){
+           //tampilkan form pilih travel favorit;
+           $('#modal-tambah-travel').modal('show');
+        });
+        //=================END TRAVEL FAVORIT===================
 
 
 

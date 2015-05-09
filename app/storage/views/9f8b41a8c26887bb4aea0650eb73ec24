@@ -1,9 +1,7 @@
-@extends('back.partials.master')
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
 
-@section('styles')
-@stop
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -36,14 +34,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($destinasi as $dest)
+                            <?php foreach($destinasi as $dest): ?>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                            @endforeach
+                            <?php endforeach; ?>
                         </tbody>
 
                     </table>
@@ -109,15 +107,16 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-@stop
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-@include('back.partials.tablescript')
-@include('back.partials.editorscript')
+<?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('back.partials.tablescript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <script>
     $(document).ready(function () {
         
     });
 </script>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

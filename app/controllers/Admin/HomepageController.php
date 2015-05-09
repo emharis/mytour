@@ -13,9 +13,13 @@ class HomepageController extends \BaseController {
 
         $sliders = \DB::table('homepage_slider')->get();
 
+        //travelpack favorit
+        $travpackfav = \DB::table('VIEW_HOMEPAGE_TRAVEL')->get();
+
         return \View::make('back.page.homepage', array(
                     'homepage' => $hmpage,
-                    'sliders' => $sliders
+                    'sliders' => $sliders,
+                    'travpackfav' => $travpackfav
         ));
     }
 
@@ -39,8 +43,8 @@ class HomepageController extends \BaseController {
         \DB::table('homepage')->where('name', '=', 'sidenav_wts')->update(array('value' => \Input::get('sidenav_wts')));
         \DB::table('homepage')->where('name', '=', 'sidenav_wts_subtitle')->update(array('value' => \Input::get('sidenav_wts_subtitle')));
     }
-    
-    function getResize(){
+
+    function getResize() {
         $img = new \Imagine\Gmagick\Imagine();
     }
 
@@ -58,54 +62,53 @@ class HomepageController extends \BaseController {
             \Input::file('upl-slider')->move($savePath->value, $name);
             //save image url to database
             $imgsliderId = \DB::table('homepage_slider')->insertGetId(array('filename' => $name));
-            
+
 //            //resize image
             $imgine = new \Imagine\Gd\Imagine();
             $box = new \Imagine\Image\Box(770, 354);
 //            $img->open($savePath->value . '/' . $name)->resize($box)->save($savePath->value . '/' . $name);
             $image = $imgine->open($savePath->value . $name);
-            
-            $wFactor = (int)($image->getSize()->getWidth() / $box->getWidth());
-            $hFactor = (int)($image->getSize()->getHeight() / $box->getHeight());
-            
-            if($wFactor > $hFactor){
-                $box = new \Imagine\Image\Box($box->getWidth()*$hFactor, $box->getHeight()*$hFactor);
-            }else{
-                $box = new \Imagine\Image\Box($box->getWidth()*$wFactor, $box->getHeight()*$wFactor);
+
+            $wFactor = (int) ($image->getSize()->getWidth() / $box->getWidth());
+            $hFactor = (int) ($image->getSize()->getHeight() / $box->getHeight());
+
+            if ($wFactor > $hFactor) {
+                $box = new \Imagine\Image\Box($box->getWidth() * $hFactor, $box->getHeight() * $hFactor);
+            } else {
+                $box = new \Imagine\Image\Box($box->getWidth() * $wFactor, $box->getHeight() * $wFactor);
             }
             //cropping with aspect ratio
-            $image->crop(new \Imagine\Image\Point(($image->getSize()->getWidth() - $box->getWidth())/2,($image->getSize()->getHeight() - $box->getHeight())/2), $box);
-            $image->save($savePath->value.$name);
-            
-            
+            $image->crop(new \Imagine\Image\Point(($image->getSize()->getWidth() - $box->getWidth()) / 2, ($image->getSize()->getHeight() - $box->getHeight()) / 2), $box);
+            $image->save($savePath->value . $name);
+
+
 //            return '{"path":"' . $savePath->value. '","filename":"' . $name . '"}';
-            return json_encode(array('path'=>$savePath->value,'filename'=>$name,'id'=>$imgsliderId));
+            return json_encode(array('path' => $savePath->value, 'filename' => $name, 'id' => $imgsliderId));
 //            return $savePath->value.$name;
         }
     }
-    
-    function getImagesliders(){
+
+    function getImagesliders() {
         $imgs = \DB::table('homepage_slider')->get();
-        
+
         return json_encode($imgs);
     }
-    
-    function postDeleteslider(){
+
+    function postDeleteslider() {
         $id = \Input::get('id');
         $slider = \DB::table('homepage_slider')->find($id);
         //hapus file
         $savePath = \DB::table('constval')->where('name', '=', 'img_slider_path')->first();
-        $dest = $savePath->value  . $slider->filename;
+        $dest = $savePath->value . $slider->filename;
         //delete image
         $pathToDel = str_replace(\URL::to('/'), '', $dest);
         echo $pathToDel . '<br/>';
-        echo public_path() .'/'. $pathToDel . ' <br/>';
+        echo public_path() . '/' . $pathToDel . ' <br/>';
         echo 'deleting....';
-        \File::delete(public_path() .'/' . $pathToDel);
+        \File::delete(public_path() . '/' . $pathToDel);
         echo '<br>';
         //hapus database
-        \DB::table('homepage_slider')->where('id','=',$id)->delete();
-        
+        \DB::table('homepage_slider')->where('id', '=', $id)->delete();
     }
 
 }

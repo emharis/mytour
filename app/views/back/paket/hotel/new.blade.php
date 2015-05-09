@@ -41,9 +41,18 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Image Cover <i>min. 170x139px</i></td>
+                                        <td rowspan="2" >Image Cover <i>min. 170x139px</i></td>
+                                        <td>
+                                            <select name="islocal" class="form-control">
+                                                <option value="Y" >Lokal</option>
+                                                <option value="N" >Url</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <input type="file" name="img-cover-new-hotel"/>
+                                            <input type="text" name="img-cover-url" class="form-control" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -84,24 +93,24 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         var btnSaveNewHotel = $('#btn-save-new-hotel');
         var frmNewHotel = $('#form-new-hotel');
         var inpFileNewHotel = $('input[name=img-cover-new-hotel]');
         //event click btn save new hotel
-        btnSaveNewHotel.click(function (e) {
+        btnSaveNewHotel.click(function(e) {
 //            tinyMCE.get('textarea-new-desc-hotel').triggerSave();
             tinyMCE.triggerSave();
         });
         //event upload imageon new hotel
         var _URL = window.URL && window.webkitURL;
-        inpFileNewHotel.change(function (ev) {
+        inpFileNewHotel.change(function(ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#img-new-hotel-prev');
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function () {
+                image.onload = function() {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 170 || this.height < 139) {
@@ -112,7 +121,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function (ev2) {
+                        fr.onload = function(ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -122,6 +131,29 @@
                 image.src = _URL.createObjectURL(file);
             }
         });
+
+        //IMAGE COVER UPLOAD=================
+        $('input[name=img-cover-url]').hide();
+        //image sumber change
+        $('select[name=islocal]').change(function(e) {
+            //clear input
+            $('#img-new-hotel-prev').removeAttr('src');
+            $('input[name=img-cover-url]').val(null);
+            $('input[name=img-cover-new-hotel]').val(null);
+            //tampilkan input image yang sesuai
+            if ($(this).val() == 'Y') {
+                $('input[name=img-cover-url]').hide();
+                $('input[name=img-cover-new-hotel]').show();
+            } else {
+                $('input[name=img-cover-new-hotel]').hide();
+                $('input[name=img-cover-url]').show();
+            }
+        });
+        //image cover url change
+        $('input[name=img-cover-url]').change(function() {
+            $('#img-new-hotel-prev').attr('src', $(this).val());
+        });
+        //END OF IMAGE COVER UPLOAD==========
     });
 </script>
 

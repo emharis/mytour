@@ -1,0 +1,194 @@
+//tambah destinasi image upload
+        $('#form-edit-destinasi input[type=file]').change(function(ev) {
+            //cek dimensii image
+            var image, file;
+            var imgPrev = $('#img-prev-image-destinasi');
+            var imgInput = $(this);
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function() {
+//                    alert("The image width is " + this.width + " and image height is " + this.height);                    
+                    //cek dimension jika tidak sesuai sembunyikan tombol submit
+                    if (this.width < 270 || this.height < 220) {
+                        alert('Dimensi image tidak sesuai.');
+                        //set null image upload
+                        imgInput.val(null);
+                        imgPrev.removeAttr('src');
+                    } else {
+                        var f = ev.target.files[0];
+                        var fr = new FileReader();
+                        fr.onload = function(ev2) {
+                            console.dir(ev2);
+                            imgPrev.attr('src', ev2.target.result);
+                        };
+                        fr.readAsDataURL(f);
+                    }
+                };
+                image.src = _URL.createObjectURL(file);
+            }
+        });
+        //tambah image
+        $('#form-tambah-image').hide();
+        $('#btn-tambah-image').click(function(e) {
+            $('#form-tambah-image').slideDown(250);
+        });
+        //cancel tambah image
+        $('#btn-cancel-tambah-image').click(function() {
+            //clear input 
+            $('#form-tambah-image select').val(null);
+            $('#form-tambah-image input[type=file]').val(null);
+            $('#form-tambah-image input[name=filename]').val(null);
+            $('#form-tambah-image img').removeAttr('src');
+            //hide form
+            $('#form-tambah-image').slideUp(250);
+        });
+        //change type image local atau url
+        ////sembunyikan dulu input url
+        $('#form-tambah-image input[name=filename]').hide();
+        $('select[name=islocal]').change(function(e) {
+            //clear input
+            $('#form-tambah-image input[type=file]').val(null);
+            $('#form-tambah-image input[name=filename]').val(null);
+            $('#form-tambah-image img').removeAttr('src');
+
+            if ($(this).val() == 'Y') {
+                $('#form-tambah-image input[name=filename]').parent('td').prev().text('Image');
+                $('#form-tambah-image input[name=filename]').hide();
+                $('#form-tambah-image input[type=file]').show();
+            } else {
+                $('#form-tambah-image input[name=filename]').parent('td').prev().text('URL');
+                $('#form-tambah-image input[type=file]').hide();
+                $('#form-tambah-image input[name=filename]').show();
+            }
+        });
+
+        //upload image
+        $('#form-tambah-image input[type=file]').change(function(ev) {
+            //cek dimensii image
+            var image, file;
+            var imgPrev = $('#form-tambah-image img');
+            var imgInput = $(this);
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function() {
+                    //cek dimension jika tidak sesuai sembunyikan tombol submit
+                    if (this.width < 270 || this.height < 220) {
+                        alert('Dimensi image tidak sesuai.');
+                        //set null image upload
+                        imgInput.val(null);
+                        imgPrev.removeAttr('src');
+                    } else {
+                        var f = ev.target.files[0];
+                        var fr = new FileReader();
+                        fr.onload = function(ev2) {
+                            console.dir(ev2);
+                            imgPrev.attr('src', ev2.target.result);
+                        };
+                        fr.readAsDataURL(f);
+                    }
+                };
+                image.src = _URL.createObjectURL(file);
+            }
+        });
+        //url input change
+        $('#form-tambah-image input[name=filename]').change(function(e) {
+            $('#form-tambah-image img').attr('src', $(this).val());
+        });
+        //submit tambah image
+        $('#form-tambah-image').submit(function(e) {
+            //cek apakah gambar sudah terisi atau belum
+            var srcImg = $('#form-tambah-image img').attr('src');
+            if (srcImg != '') {
+                $('#form-tambah-image').ajaxSubmit(function(res) {
+                    //clear input
+                    $('#form-tambah-image select').val(null);
+                    $('#form-tambah-image input[type=file]').val(null);
+                    $('#form-tambah-image input[name=filename]').val(null);
+                    $('#form-tambah-image img').removeAttr('src');
+                    //hide input form
+                    $('#btn-cancel-tambah-image').click();
+                    //tampilkan ke table
+                    var newimg = JSON.parse(res);
+
+                    var imgprev = '<img src="' + newimg.img_path + newimg.filename + '" />';
+                    if (newimg.islocal == 'N') {
+                        imgprev = '<img class="col-md-12" src="' + newimg.filename + '" />';
+//                        imgprev = '<img style="width:inherit;" src="' + newimg.filename + '" />';
+                    }
+
+                    $('#table-daftar-image').dataTable().fnAddData([
+                        null,
+                        newimg.filename,
+                        null,
+                        imgprev,
+                        '<a class="btn btn-danger btn-del-image btn-xs" data-id="' + newimg.id + '" ><i class="fa fa-trash-o"></i></a>' +
+                                '<a class="btn btn-primary btn-set-cover btn-xs" data-id="' + newimg.id + '" >Set Image Cover</a>'
+                    ]);
+                });
+            } else {
+                alert('Tidak ada gambar yang ditambahkan.');
+            }
+            return false;
+        });
+        //set image cover
+        $(document).on('click', '.btn-set-cover', function(e) {
+            if (confirm('Jadikan image ini sebagai image cover?')) {
+
+                var imgId = $(this).data('id');
+                var getUrl = "<?php echo URL::to('admin/page/destinasi/set-cover'); ?>" + "/" + imgId;
+                var btn = $(this);
+                $.get(getUrl, null, function(e) {
+                    var img = JSON.parse(e);
+                    //hilangkan label mainimage/cover
+                    $('.label-image-cover').remove();
+                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover" ><i class="fa fa-check"></i></label>');
+                    //change display image cover
+                    if (img.islocal == 'Y') {
+                        $('#img-prev-image-destinasi').attr('src', img.img_path + img.filename);
+                    } else {
+                        $('#img-prev-image-destinasi').attr('src', img.filename);
+                    }
+                });
+            }
+        });
+        //delete image
+        $(document).on('click', '.btn-del-image', function(e) {
+            var btnDel = $(this);
+            if (confirm('Hapus data image ini?')) {
+
+                var imgId = $(this).data('id');
+                var getUrl = "<?php echo URL::to('admin/page/destinasi/delete-image'); ?>" + "/" + imgId;
+                $.get(getUrl, null, function(de) {
+                    //get mainimage/first row image
+                    var mainimg = JSON.parse(de);
+                    //remove table                    
+                    btnDel.parent('td').parent('tr').hide(250, function() {
+                        var row = btnDel.closest('tr');
+                        var nRow = row[0];
+                        $('#table-daftar-image').dataTable().fnDeleteRow(nRow);
+
+                        if (mainimg.main_img == 'Y') {
+                            //jadikan main image row yang pertama
+                            $('#table-daftar-image').children('tbody').first().children('tr').first().children('td').first().next().next().html('<label class="label label-success label-image-cover" ><i class="fa fa-check"></i></label>');
+                            if (mainimg.islocal == 'Y') {
+                                $('#img-prev-image-destinasi').attr('src', mainimg.img_path + mainimg.filename);
+                            } else {
+                                $('#img-prev-image-destinasi').attr('src', mainimg.filename);
+                            }
+                        }
+
+                    });
+                    //aktifkan main image pengganti
+//                    var img = JSON.parse(de);
+//                    if (img.main_img == 'Y') {
+//                        $('#table-daftar-image').children('tbody').first().children('tr').first().hide(250);
+//                        //ganti destinasi imagecover
+//                        if (img.islocal == 'Y') {
+//                            $('#img-prev-image-destinasi').attr('src', img.img_path + img.filename);
+//                        } else {
+//                            $('#img-prev-image-destinasi').attr('src', img.filename);
+//                        }
+//                    }
+                });
+            }
+        });

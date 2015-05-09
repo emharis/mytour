@@ -18,16 +18,18 @@ class VideoController extends \BaseController {
             $savePath = \DB::table('constval')->where('name', '=', 'img_gallery_path')->first();
             $path = $savePath->value;
 
-            if (\Input::get('isexternal') == 'N') {
-                //upload image
-                $image = \Input::file('img-uploader');
-                $name = 'img_gallery_' . $image->getClientOriginalName();
-                $name = str_replace(' ', '_', $name);
-                //move image
-                $image->move($path, $name);
-            } else {
-                $name = \Input::get('img-link');
-            }
+//            if (\Input::get('isexternal') == 'N') {
+//                //upload image
+//                $image = \Input::file('img-uploader');
+//                $name = 'img_gallery_' . $image->getClientOriginalName();
+//                $name = str_replace(' ', '_', $name);
+//                //move image
+//                $image->move($path, $name);
+//            } else {
+//                $name = \Input::get('img-link');
+//            }
+            
+            $name = \Youtube::getYoutubeid(\Input::get('img-link'));
 
             //insert database
             $id = \DB::table('gallery')->insertGetId(array(

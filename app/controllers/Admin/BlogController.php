@@ -150,9 +150,11 @@ class BlogController extends \BaseController {
      * Update kategori
      */
     function postUpdatekategori() {
-        return \DB::table('blog_category')->where('id', '=', \Input::get('kategori_id'))->update(array(
+        \DB::table('blog_category')->where('id', '=', \Input::get('kategori_id'))->update(array(
                     'name' => \Input::get('name')
         ));
+        
+        return json_encode(\DB::table('blog_category')->find(\Input::get('kategori_id')));
     }
 
     /**
@@ -162,6 +164,14 @@ class BlogController extends \BaseController {
      */
     function getDelkategori($id) {
         return \DB::table('blog_category')->delete($id);
+    }
+    /**
+     * get kategori by id
+     * @param type $id
+     */
+    function getKategori($id){
+        $kategori = \DB::table('blog_category')->find($id);
+        return json_encode($kategori);
     }
 
 }

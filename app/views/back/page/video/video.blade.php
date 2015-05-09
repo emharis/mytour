@@ -29,7 +29,7 @@
                                     </tr>
                                     <tr >
                                         <td>
-                                            <label class="img-link-element">Youtube Video ID <i title="Youtube ID adalah sebuah kode yang dapat dilihat pada link URL video, terletak di bagian paing belakang ilnk video. Contoh link : https://www.youtube.com/watch?v=d6dW6TuQw-g , maka Youtube ID adalah d6dW6TuQw-g">?</i> </label>
+                                            <label class="img-link-element">Youtube Url <i title="Youtube ID adalah sebuah kode yang dapat dilihat pada link URL video, terletak di bagian paing belakang ilnk video. Contoh link : https://www.youtube.com/watch?v=d6dW6TuQw-g , maka Youtube ID adalah d6dW6TuQw-g">?</i> </label>
                                             <input type="text" id="img-link" name="img-link" class="form-control img-link-element" required/>
                                         </td>
                                         <td rowspan="2" class="col-md-6 text-center">
@@ -86,8 +86,8 @@
 <script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 <script src="backend/plugins/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
 <script>
-    $(document).ready(function () {
-        //preview image
+$(document).ready(function() {
+    //preview image
 //        var _URL = window.URL || window.webkitURL;
 //        $('#img-uploader').on('change', function (ev) {
 //            var image, file;
@@ -118,34 +118,55 @@
 //            }
 //        });
 //        //preview image from url
-        $('input[name=img-link]').change(function () {
-            var tmpImg = new Image();
-            var youtubeId = $(this).val();
+    $('input[name=img-link]').change(function() {
+        var tmpImg = new Image();
+        var postUrl = "{{URL::to('admin/page/destinasi/youtube-id')}}";
+        var youtubeurl = $(this).val();
+        $.post(postUrl, {
+            'url': youtubeurl
+        }, function(pe) {
+            var youtubeId = pe;
             tmpImg.src = 'http://img.youtube.com/vi/' + youtubeId; //or  document.images[i].src;
-            $(tmpImg).on('load', function () {
+            $(tmpImg).on('load', function() {
                 $('#img-preview').attr('src', 'http://img.youtube.com/vi/' + youtubeId + "/0.jpg");
             });
+        }).fail(function(xhr, status, error) {
+            alert('Get youtube id failed.');
+            alert(error);
         });
-        //submit upload video
-        $('#form-upload').ajaxForm(function (e) {
-            alert('Image uploaded');
-            //tampilkan ke list gambar
-            var objimg = JSON.parse(e);
+    });
+    //submit upload video
+    $('#form-upload').ajaxForm(function(e) {
+//        alert('Image uploaded');
+        //tampilkan ke list gambar
+        var objimg = JSON.parse(e);
 //            alert(objimg.filename);
-            var newbox = '<div class="col-md-3"><div class="box box-primary"><div class="box-header with-border"><span>' +
-                    objimg.title + '</span><div class="box-tools pull-right"><button class="btn btn-box-tool btn-del-image" data-id="' + objimg.id + '" ><i class="fa fa-times">' +
-                    '</i></button></div></div><div class="box-body">' +
-                    '<a class="colorbox" href="http://www.youtube.com/embed/' + objimg.filename + '" title="{{$vd->title}}">' +
-                    '<img width="200"  src="http://img.youtube.com/vi/' + objimg.filename + '/0.jpg"></a>'
-            '</div><div class="box-footer"></div></div></div>';
-            $('#box-upload').after(newbox);
-            //set null to input upload
-            $('input[name=img-link],input[name=img-uploader],input[name=keterangan]').val(null);
-            $('#img-preview').attr('src', 'backend/dist/img/element/youtube.png');
+        var newbox = '<div class="col-md-3"><div class="box box-primary"><div class="box-header with-border"><span>' +
+                objimg.title + '</span><div class="box-tools pull-right"><button class="btn btn-box-tool btn-del-image" data-id="' + objimg.id + '" ><i class="fa fa-times">' +
+                '</i></button></div></div><div class="box-body">' +
+                '<a class="colorbox" href="http://www.youtube.com/embed/' + objimg.filename + '" title="{{$vd->title}}">' +
+                '<img width="200"  src="http://img.youtube.com/vi/' + objimg.filename + '/0.jpg"></a>'
+        '</div><div class="box-footer"></div></div></div>';
+        $('#box-upload').after(newbox);
+        //set null to input upload
+        $('input[name=img-link],input[name=img-uploader],input[name=keterangan]').val(null);
+        $('#img-preview').attr('src', 'backend/dist/img/element/youtube.png');
+        setColorbox();
 //            alert(e);
-        });
-        //colorbox
-        $('.colorbox').colorbox({
+    });
+    //colorbox
+//    $('.colorbox').colorbox({
+//        iframe: true,
+//        reposition: true,
+//        scaleVideos: true,
+//        innerWidth: $(document).width() * 50 / 100,
+//        innerHeight: $(document).height() * 50 / 100,
+//        close: '&times;'
+//    });
+
+    function setColorbox() {
+        var cb = $('.colorbox');
+        cb.colorbox({
             iframe: true,
             reposition: true,
             scaleVideos: true,
@@ -153,10 +174,11 @@
             innerHeight: $(document).height() * 50 / 100,
             close: '&times;'
         });
-        
-        //sembunyikan image link input
+    }
+
+    //sembunyikan image link input
 //        $('.tr-img-link').hide();
-        //url or lokal
+    //url or lokal
 //        $('select[name=isexternal]').change(function () {
 //            //bersihkan preview dan input img
 //            $('input[name=img-link],input[name=img-uploader]').val(null);
@@ -171,20 +193,20 @@
 //                $('.tr-img-local').fadeIn(150);
 //            }
 //        });
-        //Delete image
-        $(document).on('click', '.btn-del-image', function () {
-            if (confirm('Hapus image ini?')) {
-                var imgId = $(this).data('id');
-                var obj = $(this);
-                //delete from database
-                var getUrl = "{{URL::to('admin/page/video/delimage')}}" + "/" + imgId;
-                $.get(getUrl, null, function (e) {
-                    //setelah di delete..hapus dari page
+    //Delete image
+    $(document).on('click', '.btn-del-image', function() {
+        if (confirm('Hapus image ini?')) {
+            var imgId = $(this).data('id');
+            var obj = $(this);
+            //delete from database
+            var getUrl = "{{URL::to('admin/page/video/delimage')}}" + "/" + imgId;
+            $.get(getUrl, null, function(e) {
+                //setelah di delete..hapus dari page
 //                    alert('Image deleted');
-                    obj.parent('div').parent('div').parent('div').parent('div').fadeOut(250);
-                });
-            }
-        });
+                obj.parent('div').parent('div').parent('div').parent('div').fadeOut(250);
+            });
+        }
     });
+});
 </script>
 @stop
