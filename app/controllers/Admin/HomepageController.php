@@ -16,7 +16,7 @@ class HomepageController extends \BaseController {
         //travelpack favorit
         $travpackfav = \DB::table('VIEW_HOMEPAGE_TRAVEL')->get();
 
-        return \View::make('back.page.homepage', array(
+        return \View::make('back.page.homepage.homepage', array(
                     'homepage' => $hmpage,
                     'sliders' => $sliders,
                     'travpackfav' => $travpackfav
