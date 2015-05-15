@@ -44,7 +44,8 @@ class TravelController extends \BaseController {
                 //save ke database
                 $id = \DB::table('travelpack')->insertGetId(array(
                     'nama' => \Input::get('nama'),
-                    'harga' => str_replace(',', '', \Input::get('harga')),
+                    'harga' => str_replace('.00','',str_replace(',', '', \Input::get('harga'))),                    
+//                    'harga' => str_replace(',', '', \Input::get('harga')),
                     'currency' => \Input::get('currency'),
                     'day' => \Input::get('day'),
                     'night' => \Input::get('night'),
@@ -86,7 +87,8 @@ class TravelController extends \BaseController {
         $travel = \DB::table('travelpack')->find(\Input::get('travelId'));
         \DB::table('travelpack')->where('id', '=', $travel->id)->update(array(
             'nama' => \Input::get('nama'),
-            'harga' => str_replace(',', '', \Input::get('harga')),
+//            'harga' => str_replace(',', '', \Input::get('harga')),
+            'harga' => str_replace('.00','',str_replace(',', '', \Input::get('harga'))),
             'currency' => \Input::get('currency'),
             'desc' => \Input::get('desc'),
             'include' => \Input::get('include'),

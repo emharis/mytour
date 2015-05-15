@@ -349,29 +349,19 @@
                 <h4 class="modal-title">Pilih Image Room</h4><i>{{$hotel->nama}}</i>
             </div>
             <div class="modal-body">
-<!--                <table id="table-pilih-image-room" class="table table-bordered datatable">
-                    <thead>
-                        <tr>
-                            <td class="col-md-1">No</td>
-                            <td class="col-md-4">Image</td>
-                            <td class="col-md-1">Pilih</td>
-                            <td class=""></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>-->
-                <div class="row">
-
-                </div>
+                <div class="row"></div>
+            </div>
+            <div class="modal-footer">
+                <i class="pull-left">Klik pada gambar untuk memilih</i>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div id="div-form-edit-hotel-room">
+<!--<div id="div-form-edit-hotel-room">-->
 @include('back.paket.hotel.inc_editroom')
-</div>
+<!--</div>-->
+<div id="form-temp"></div>
 
 @stop
 
@@ -388,7 +378,6 @@ $(document).ready(function() {
     var frmEditHotel = $('#form-edit-hotel');
     var inpFileEditHotel = $('input[name=img-cover-edit-hotel]');
     var _URL = window.URL && window.webkitURL;
-
     //event click btn save new hotel
     btnSaveEditHotel.click(function(e) {
 //            tinyMCE.get('textarea-edit-desc-hotel').triggerSave();
@@ -422,7 +411,6 @@ $(document).ready(function() {
             image.src = _URL.createObjectURL(file);
         }
     });
-
     //sembunyikan form input roomm
     $('#form-new-room').hide();
     //tambah room btn clicked
@@ -507,53 +495,8 @@ $(document).ready(function() {
         $('.currency').formatCurrency({symbol: ''});
     }
     toCurrency();
-    //edit room
-    var btnEdit;
-    //edit hotel room
-    $('#div-form-edit-hotel-room').hide();
-    $(document).on('click', '.btn-edit-room', function(e) {
-        var roomId = $(this).data('id');
-        var btn = $(this);
-        var getUrl = "{{URL::to('admin/paket/hotel/room-by-id')}}" + "/" + roomId;
-        $.get(getUrl, null, function(ge) {
-            var room = JSON.parse(ge);
-            alert(room.nama);
-            $('#form-edit-hotel-room input[name=nama]').val(room.nama);
-//            $('#form-edit-hotel-room input[name=harga]').val(room.harga);
-//            $('#form-edit-hotel-room select[name=currency]').val(room.currency);
-//            $('#form-edit-hotel-room select[name=publish]').val(room.publish);
-            btn.parent('td').parent('tr').after('<tr id="new-row-for-edit"><td colspan="6" >' + $('#div-form-edit-hotel-room').html() + '</td></tr>');
-            
-        });
-
-
-
-
-//        $('#new-row-for-edit ').html($('#form-edit-hotel-room'));
-
-//        var roomId = $(this).data('id');
-//        btnEdit = $(this);
-//        var getUrl = "{{URL::to('admin/paket/hotel/room-by-id')}}" + "/" + roomId;
-//        $.get(getUrl, null, function(e) {
-//            var room = JSON.parse(e);
-//            $('#form-edit-room input[name=roomId]').val(room.id);
-//            $('#form-edit-room input[name=nama]').val(room.nama);
-//            $('#form-edit-room input[name=harga]').val(room.harga);
-//            $('#form-edit-room select[name=currency]').val(room.currency);
-//            $('#form-edit-room select[name=publish]').val(room.publish);
-//            $('#form-edit-room input[name=imageid]').val(room.hotel_image_id);
-//            $('#form-edit-room input[name=harga]').blur();
-//            
-////            $('#form-edit-room img').attr('src', room.imgpath + room.img_cover);
-//            $('#form-edit-room img').attr('src', room.imagefull);
-//            tinyMCE.get('tinymce-edit-room').setContent(room.desc);
-//            $('#modal-edit-room').modal('show');
-//        });
-    });
     //save edit room
     $('#btn-save-edit-room').click(function(e) {
-//            tinyMCE.triggerSave();
-//            tinyMCE.get('tinymce-edit-room').triggerSave();
         tinyMCE.triggerSave();
     });
     $('#form-edit-room').ajaxForm(function(e) {
@@ -571,7 +514,7 @@ $(document).ready(function() {
         btnEdit.parent('td').prev().html(publish);
         toCurrency();
     });
-    //file image upload for edit room
+//file image upload for edit room
     $('#form-edit-room input[type=file]').change(function(ev) {
         //cek dimensii image
         var image, file;
@@ -579,7 +522,7 @@ $(document).ready(function() {
         if ((file = this.files[0])) {
             image = new Image();
             image.onload = function() {
-//                    alert("The image width is " + this.width + " and image height is " + this.height);                    
+                //alert("The image width is " + this.width + " and image height is " + this.height);                    
                 //cek dimension jika tidak sesuai sembunyikan tombol submit
                 if (this.width < 170 || this.height < 139) {
                     alert('Dimensi image tidak sesuai.');
@@ -599,7 +542,7 @@ $(document).ready(function() {
             image.src = _URL.createObjectURL(file);
         }
     });
-    //delete room
+//delete room
     $(document).on('click', '.btn-del-room', function(e) {
         var btn = $(this);
         if (confirm('Hapus data room ini?')) {
@@ -615,8 +558,7 @@ $(document).ready(function() {
             });
         }
     });
-
-    //tambah image hotel
+//tambah image hotel
     $('#form-tambah-image').hide();
     $('#btn-tambah-image').click(function() {
         //show form input image 
@@ -625,8 +567,7 @@ $(document).ready(function() {
     $('#btn-cancel-tambah-image').click(function(e) {
         $('#form-tambah-image').slideUp(250);
     });
-
-    //upload image
+//upload image
     $('#form-tambah-image').submit(function(e) {
         var form = $('#form-tambah-image');
         var src = $('#img-prev-tambah-image').attr('src');
@@ -666,7 +607,7 @@ $(document).ready(function() {
 
         return false;
     });
-    //delete image hotel
+//delete image hotel
     $(document).on('click', '.btn-del-image-hotel', function(e) {
         var btn = $(this);
         if (confirm('Delete data image ini?')) {
@@ -682,7 +623,7 @@ $(document).ready(function() {
             });
         }
     });
-    //set image cover
+//set image cover
     $(document).on('click', '.btn-set-image-cover', function(e) {
         if (confirm('Jadikan image ini sebagai image cover?')) {
             var dataId = $(this).data('id');
@@ -703,9 +644,8 @@ $(document).ready(function() {
             });
         }
     });
-
-    //IMAGE COVER UPLOAD=================
-    //open image
+//IMAGE COVER UPLOAD=================
+//open image
     $('#form-tambah-image input[type=file]').change(function(ev) {
         var image, file;
         var imgPrev = $('#img-prev-tambah-image');
@@ -734,7 +674,7 @@ $(document).ready(function() {
         }
     });
     $('input[name=img-cover-url]').hide();
-    //image sumber change
+//image sumber change
     $('select[name=islocal]').change(function(e) {
         //clear input
         $('#img-new-hotel-prev').removeAttr('src');
@@ -749,13 +689,13 @@ $(document).ready(function() {
             $('input[name=img-cover-url]').show();
         }
     });
-    //image cover url change
+//image cover url change
     $('input[name=img-cover-url]').change(function() {
         $('#img-prev-tambah-image').attr('src', $(this).val());
     });
-    //END OF IMAGE COVER UPLOAD==========
+//END OF IMAGE COVER UPLOAD==========
 
-    //PILIH IMAGE ROOOm====================
+//PILIH IMAGE ROOOm====================
     $('#btn-pilih-image-room').click(function(e) {
         var hotelid = $(this).data('id');
         var getImagesUrl = "{{URL::to('admin/paket/hotel/hotel-images')}}" + "/" + hotelid;
@@ -764,14 +704,12 @@ $(document).ready(function() {
             var imgpath = images[0].img_path;
             //clear image preview
             $('#modal-pilih-image-room .modal-body .row').empty();
-
             $.each(images, function(index, img) {
                 var imgurl = imgpath + img.filename;
                 var imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" src="' + imgpath + img.filename + '" />';
                 if (img.islocal == 'N') {
                     imgurl = img.filename;
                     imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" class="col-md-12" src="' + img.filename + '" />';
-
                 }
                 $('#modal-pilih-image-room .modal-body .row').append('<a href="#" class="hotel-image-item" data-url="' + imgurl + '" data-id="' + img.id + '" ><div style="margin-bottom:10px;" class="col-md-3">' + imgprev + '</div></a>');
             });
@@ -779,10 +717,9 @@ $(document).ready(function() {
         $('#modal-pilih-image-room .modal-dialog').css('max-width', '800px');
         $('#modal-pilih-image-room').modal('show');
     });
-    //pilih image
+//pilih image
     $(document).on('click', '.hotel-image-item', function(e) {
         e.preventDefault();
-
         var imageid = $(this).data('id');
         var imageurl = $(this).data('url');
         //tampilkan image ke form
@@ -793,36 +730,74 @@ $(document).ready(function() {
         $('input[name=imageid]').val(imageid);
         return false;
     });
-    //END PILIH IMAGE ROOOm====================
+//END PILIH IMAGE ROOOm====================
 
-    //EDIT ROOM================================
-    $('#form-edit-room .btn-pilih-image-room').click(function() {
-        var hotelid = $(this).data('id');
-        var getImagesUrl = "{{URL::to('admin/paket/hotel/hotel-images')}}" + "/" + hotelid;
-        $.get(getImagesUrl, null, function(ge) {
-            var images = JSON.parse(ge);
-            var imgpath = images[0].img_path;
-            //clear image preview
-            $('#modal-pilih-image-room .modal-body .row').empty();
+//EDIT ROOM================================
+    $('#form-edit-hotel-room').hide();
+    var btnEditRoom;
+    var trTemp;
+    $(document).on('click', '.btn-edit-room', function() {
+        var roomid = $(this).data('id');
+        var getRoomUrl = "{{URL::to('admin/paket/hotel/room-by-id')}}" + "/" + roomid;
 
-            $.each(images, function(index, img) {
-                var imgurl = imgpath + img.filename;
-                var imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" src="' + imgpath + img.filename + '" />';
-                if (img.islocal == 'N') {
-                    imgurl = img.filename;
-                    imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" class="col-md-12" src="' + img.filename + '" />';
+        if (btnEditRoom != null) {
+            ////jika sebelumnya ada inilne editing yang terbuka maka di tutup terlebih dulu
+            $('#form-edit-hotel-room #btn-cancel-room').click();
+            //jika ada yang di sembunyikan sebelumnya, ditampilkan dulu
+            btnEditRoom.show();
+//            tinymce.EditorManager.execCommand('mceRemoveControl',true, 'textarea-desc-edit-room');
+        }
+        //clear row lama
+        if (trTemp != null) {
+            trTemp.hide();
+        }
+        //reinit btnedit yang baru
+        btnEditRoom = $(this);
+        //get room by id
+        $.get(getRoomUrl, null, function(res) {
+            var room = JSON.parse(res);
+            //newrow
+            btnEditRoom.parent('td').parent('tr').after('<tr><td colspan="6" ></td></tr>')
+            $('#form-edit-hotel-room').appendTo(btnEditRoom.parent('td').parent('tr').next().children('td').first());
 
+            //set content
+            $('#form-edit-hotel-room input[name=roomid]').val(room.id);
+            $('#form-edit-hotel-room input[name=nama]').val(room.nama);
+            $('#form-edit-hotel-room input[name=harga]').val(room.harga);
+            $('#form-edit-hotel-room input[name=harga]').blur();
+            $('#form-edit-hotel-room input[name=imageid]').val(room.hotel_image_id);
+            $('#form-edit-hotel-room select[name=currency]').val(room.currency);
+            $('#form-edit-hotel-room select[name=publish]').val(room.publish);
+            $('#form-edit-hotel-room img').attr('src', room.imagefull);
+            $('#form-edit-hotel-room textarea').text(room.desc);
+            //show edit form
+            $('#form-edit-hotel-room').slideDown(function() {
+                if (tinyMCE.execCommand('mceRemoveEditor', false, 'textarea-desc-edit-room')) {
+                    tinymceSetup();
                 }
-                $('#modal-pilih-image-room .modal-body .row').append('<a href="#" class="hotel-image-item-edit-room" data-url="' + imgurl + '" data-id="' + img.id + '" ><div style="margin-bottom:10px;" class="col-md-3">' + imgprev + '</div></a>');
+                btnEditRoom.hide();
+                trTemp = $('#form-edit-hotel-room').parent('td').parent('tr');
             });
-
         });
-        $('#modal-pilih-image-room .modal-dialog').css('max-width', '800px');
-        $('#modal-pilih-image-room').modal('show');
+
     });
+    //cancel edit room
+    $(document).on('click', '#btn-cancel-room', function() {
+//        $('#form-edit-hotel-room').hide(function() {
+        //clear input
+//            $('#form-edit-hotel-room').parent('td').parent('tr').hide();
+        $('#form-edit-hotel-room input').val(null);
+        $('#form-edit-hotel-room img').removeAttr('src');
+        $('#form-edit-hotel-room select').val([]);
+        btnEditRoom.show();
+        $('#form-edit-hotel-room').hide();
+        $('#form-edit-hotel-room select').appendTo('form-temp');
+
+//        });
+    });
+
     $(document).on('click', '.hotel-image-item-edit-room', function(e) {
         e.preventDefault();
-
         var imageid = $(this).data('id');
         var imageurl = $(this).data('url');
         //tampilkan image ke form
@@ -833,12 +808,90 @@ $(document).ready(function() {
         $('input[name=imageid]').val(imageid);
         return false;
     });
+    $('#form-edit-room .btn-pilih-image-room').click(function() {
+        var hotelid = $(this).data('id');
+        var getImagesUrl = "{{URL::to('admin/paket/hotel/hotel-images')}}" + "/" + hotelid;
+        $.get(getImagesUrl, null, function(ge) {
+            var images = JSON.parse(ge);
+            var imgpath = images[0].img_path;
+            //clear image preview
+            $('#modal-pilih-image-room .modal-body .row').empty();
+            $.each(images, function(index, img) {
+                var imgurl = imgpath + img.filename;
+                var imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" src="' + imgpath + img.filename + '" />';
+                if (img.islocal == 'N') {
+                    imgurl = img.filename;
+                    imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" class="col-md-12" src="' + img.filename + '" />';
+                }
+                $('#modal-pilih-image-room .modal-body .row').append('<a href="#" class="hotel-image-item-edit-room" data-url="' + imgurl + '" data-id="' + img.id + '" ><div style="margin-bottom:10px;" class="col-md-3">' + imgprev + '</div></a>');
+            });
+        });
+        $('#modal-pilih-image-room .modal-dialog').css('max-width', '800px');
+        $('#modal-pilih-image-room').modal('show');
+    });
+//    //PILIH EDIT HOTEL ROOM IMAGE
+//    $(document).on('click', '#form-edit-hotel-room #btn-pilih-image-edit-room', function(e) {
+//        //tampilkan form pilih image
+//        var hotelid = $(this).data('id');
+//        var getImagesUrl = "{{URL::to('admin/paket/hotel/hotel-images')}}" + "/" + hotelid;
+//        $.get(getImagesUrl, null, function(ge) {
+//            var images = JSON.parse(ge);
+//            var imgpath = images[0].img_path;
+//            //clear image preview
+//            $('#modal-pilih-image-edit-room .modal-body .row').empty();
+//            $.each(images, function(index, img) {
+//                var imgurl = imgpath + img.filename;
+//                var imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" src="' + imgpath + img.filename + '" />';
+//                if (img.islocal == 'N') {
+//                    imgurl = img.filename;
+//                    imgprev = '<img data-url="' + imgurl + '" data-id="' + img.id + '" class="col-md-12" src="' + img.filename + '" />';
+//                }
+//                $('#modal-pilih-image-edit-room .modal-body .row').append('<a href="#" class="hotel-image-item" data-url="' + imgurl + '" data-id="' + img.id + '" ><div style="margin-bottom:10px;" class="col-md-3">' + imgprev + '</div></a>');
+//            });
+//        });
+//        $('#modal-pilih-image-edit-room .modal-dialog').css('max-width', '800px');
+//        $('#modal-pilih-image-edit-room').modal('show');
+//    });
+    var FormEditRoom_btnPilihImage;
+    $(document).on('click','#form-edit-room .btn-pilih-image',function(){
+        FormEditRoom_btnPilihImage = $(this);
+        alert('click');
+    });
+    
+    
+    //SUBMIT EDIT FORM
+    $('#form-edit-hotel-room').submit(function() {
+        tinyMce.triggerSave();
+        $('#form-edit-hotel-room').ajaxSubmit(function(se) {
+
+        });
+        return false;
+    })
     //END EDIT ROOM================================
 
-
-
-    //========================END SCRIPT=============================
+//========================END SCRIPT=============================
 });
+
+function tinymceSetup() {
+    tinyMCE.init({
+        selector: "textarea.textarea-edit-room",
+        mode: 'textareas',
+        schema: "html5",
+        plugins: "table link image code hr charmap autolink lists importcss",
+        // Toolbar
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
+        removed_menuitems: "newdocument",
+        image_advtab: true,
+        autosave_ask_before_unload: false,
+        resize: "both",
+        height: "200",
+        // URL
+        relative_urls: true,
+        remove_script_host: false,
+        document_base_url: "{{URL::to('/')}}/",
+        file_browser_callback: RoxyFileBrowser
+    });
+}
 </script>
 
 @stop

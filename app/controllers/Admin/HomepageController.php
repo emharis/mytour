@@ -110,5 +110,29 @@ class HomepageController extends \BaseController {
         //hapus database
         \DB::table('homepage_slider')->where('id', '=', $id)->delete();
     }
+    
+    //============= TRAVEL FAVORIT ==================================
+    //
+    function getTravel(){
+        $travelpacks = \DB::select('select * from travelpack as tp where tp.id not in (select ht.travelpack_id from homepage_travelpack as ht)');
+        return json_encode($travelpacks);
+    }
+    /**
+     * Tambahkan Travelpack
+     */
+    function postAddTravelpack(){
+        \DB::table('homepage_travelpack')->insert(array(
+            'travelpack_id' => \Input::get('travelpackid')
+        ));
+    }
+    /**
+     * Delete travelpack favorit
+     * @param type $id
+     */
+    function getDeleteTravelpack($id){
+        \DB::table('homepage_travelpack')->where('travelpack_id',$id)->delete();
+    }
+    //
+    //============= END OF TRAVEL FAVORIT ==================================
 
 }

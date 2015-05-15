@@ -19,10 +19,14 @@
                     </div>
                 </td>
                 <td class="col-md-4" rowspan="4">
-                    @if($cover->islocal == 'Y')
-                    <img id="img-prev-image-destinasi" src="{{$img_path.$cover->filename}}" style="width:100%;"/>
-                    @else
-                    <img id="img-prev-image-destinasi" src="{{$cover->filename}}" style="width:100%;"/>
+                    @if(isset($cover))
+                        @if($cover->islocal == 'Y')
+                        <img id="img-prev-image-destinasi" src="{{$img_path.$cover->filename}}" style="width:100%;"/>
+                        @else
+                        <img id="img-prev-image-destinasi" src="{{$cover->filename}}" style="width:100%;"/>
+                        @endif
+                        @else
+                        <img id="img-prev-image-destinasi"  style="width:100%;"/>
                     @endif
                 </td>
             </tr>

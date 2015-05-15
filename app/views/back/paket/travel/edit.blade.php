@@ -272,21 +272,24 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('.currency').formatCurrency({symbol: ''});
+        $(document).on('blur', '.currency', function() {
+            $('.currency').formatCurrency({symbol: ''});
+        });
         //tampilkan modal tambah hotel
-        $('#btn-tambah-hotel').click(function (e) {
+        $('#btn-tambah-hotel').click(function(e) {
             //load data table hotel dengan ajax dulu
             var travelpackId = $('input[name=travelId]').val();
             var getUrl = "{{URL::to('admin/paket/travel/hotels')}}" + "/" + travelpackId;
-            $.get(getUrl, null, function (e) {
+            $.get(getUrl, null, function(e) {
 //        		add row to table
                 var tableHotel = $('#table-pilih-hotel').dataTable();
                 var hotels = JSON.parse(e);
                 //clear table dulu
                 tableHotel.fnClearTable();
                 //build table
-                $.each(hotels, function (i, hotel) {
+                $.each(hotels, function(i, hotel) {
                     tableHotel.fnAddData([
                         null,
                         hotel.nama,
@@ -295,11 +298,12 @@
                     ]);
                 });
 //	            tampilkan modal
+                $('#modal-tambah-hotel .modal-dialog').css('width','800px');
                 $('#modal-tambah-hotel').modal('show');
             });
         });
         //pilih hotel
-        $(document).on('click', '.btn-pilih-hotel', function () {
+        $(document).on('click', '.btn-pilih-hotel', function() {
             var hotelid = $(this).data('id');
             var travelpackId = $('input[name=travelId]').val();
             var tdBtn = $(this).parent('td');
@@ -308,7 +312,7 @@
             $.post(postUrl, {
                 'travelpackId': travelpackId,
                 'hotelId': hotelid
-            }, function (e) {
+            }, function(e) {
                 //tampilkan ke dalam tabel
                 $('#table-daftar-hotel').dataTable().fnAddData([
                     null,
@@ -321,13 +325,13 @@
             $('#modal-tambah-hotel').modal('hide');
         });
         //delete hotel
-        $(document).on('click', '.btn-delete-hotel', function () {
+        $(document).on('click', '.btn-delete-hotel', function() {
             if (confirm('Hapus data hotel ini?')) {
                 var btn = $(this);
                 var hotelId = $(this).data('id');
                 var travelpackId = $('input[name=travelId]').val();
                 var getUrl = "{{URL::to('admin/paket/travel/del-hotel')}}" + "/" + travelpackId + "/" + hotelId;
-                $.get(getUrl, null, function () {
+                $.get(getUrl, null, function() {
                     //remove row
                     var row = btn.closest('tr');
                     var nRow = row[0];
@@ -339,23 +343,23 @@
         //hide form upload image on load
         $('#form-new-image-upload').hide();
         //Tambah Image Paket Travel
-        $('#btn-tambah-image').click(function (e) {
+        $('#btn-tambah-image').click(function(e) {
             $('#form-new-image-upload').slideDown(250);
         });
         //cancel tambah image
-        $('#btn-cancel-upload').click(function (e) {
+        $('#btn-cancel-upload').click(function(e) {
             $('#form-new-image-upload').slideUp(250);
         });
         //Tambah image upload
         var _URL = window.URL && window.webkitURL;
-        $('#form-new-image-upload input[type=file]').change(function (ev) {
+        $('#form-new-image-upload input[type=file]').change(function(ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#tamba-image-prev');
             var uploader = $(this);
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function () {
+                image.onload = function() {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 170 || this.height < 139) {
@@ -366,7 +370,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function (ev2) {
+                        fr.onload = function(ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -376,10 +380,10 @@
                 image.src = _URL.createObjectURL(file);
             }
         });
-        $('#form-new-image-upload').submit(function (x) {
+        $('#form-new-image-upload').submit(function(x) {
 //            $('#modal-loader').modal('show');
             $('#form-new-image-upload').loader('show');
-            $('#form-new-image-upload').ajaxSubmit(function (e) {
+            $('#form-new-image-upload').ajaxSubmit(function(e) {
 //                alert('submitted...');
                 //clear input
                 $('#form-new-image-upload input[type=text]').val(null);
@@ -408,28 +412,28 @@
             return false;
         });
         //delete image 
-        $(document).on('click', '.btn-del-image-travel', function () {
+        $(document).on('click', '.btn-del-image-travel', function() {
             var btn = $(this);
             if (confirm('Hapus data image ini?')) {
                 var dataId = $(this).data('id');
                 var getUrl = "{{URL::to('admin/paket/travel/del-travel-image')}}" + "/" + dataId;
-                $.get(getUrl, null, function () {
+                $.get(getUrl, null, function() {
                     //remove dari table
                     var row = btn.closest('tr');
                     var nRow = row[0];
-                    btn.parent('td').parent('tr').fadeOut(500, function (e) {
+                    btn.parent('td').parent('tr').fadeOut(500, function(e) {
                         $('#tabel-images-travel').dataTable().fnDeleteRow(nRow);
                     });
                 });
             }
         });
         //set image cover
-        $(document).on('click', '.btn-set-image-cover', function (e) {
+        $(document).on('click', '.btn-set-image-cover', function(e) {
             if (confirm('Jadikan image ini sebagai Image Cover? ')) {
                 var dataId = $(this).data('id');
                 var btn = $(this);
                 var getUrl = "{{URL::to('admin/paket/travel/set-image-cover')}}" + "/" + dataId;
-                $.get(getUrl, null, function () {
+                $.get(getUrl, null, function() {
                     //clear label-image-cover
                     $('.label-image-cover').hide();
                     //set current image cover

@@ -1,0 +1,15 @@
+<div>
+<div>
+    <?php foreach($images as $img): ?>
+    <?php if($img->islocal =='Y'): ?>
+    <a data-id="<?php echo $img->id; ?>" data-fullpath="<?php echo $img->img_path . $img->filename; ?>" href="#" class="col-md-4 imgItemPilih" style="margin: 2px;background-image: url('<?php echo $img->img_path . $img->filename; ?>');width: 200px;height: 100px;background-position: center;background-size: cover;" ></a>
+    <?php else: ?>
+    <a data-id="<?php echo $img->id; ?>" data-fullpath="<?php echo $img->filename; ?>" href="#" class="col-md-4 imgItemPilih" style="margin: 2px;background-image: url('<?php echo $img->filename; ?>');width: 200px;height: 100px;background-position: center;background-size: cover;" ></a>
+    <?php endif; ?>        
+    <?php endforeach; ?>
+
+</div>
+<div class="clearfix"></div>
+<a class="btn btn-danger btn-xs " id="btnCancelPilihImage">Cancel Pilih Image</a>
+</div>
+

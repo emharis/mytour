@@ -1,4 +1,7 @@
-<form id="form-edit-hotel-room" >
+<!--FORM EDIT-->
+<form id="form-edit-hotel-room" action="" method="POST">
+    <input type="hidden" name="roomid" />
+    <input type="hidden" name="imageid" />
     <table class="table table-bordered" id="table-edit-hotel-room" style="background-color: whitesmoke;">
         <tbody>
             <tr>
@@ -38,15 +41,15 @@
                 <td>Image</td>
                 <td>
                     <!--<input type="file" name="img_cover_new_room"/>-->
-                    <a class="btn btn-primary btn-xs" id="btn-pilih-image-room" data-id="{{$hotel->id}}" >Pilih Image</a>
+                    <a class="btn btn-primary btn-xs btn-pilih-image" data-id="{{$hotel->id}}" >Pilih Image</a>
                 </td>
             </tr>
             <tr>
                 <td colspan="4">Keterangan</td>
             </tr>
             <tr>
-                <td colspan="5">
-                    <textarea id="textarea-new-room" name="desc" class="tinymce-mini"></textarea>
+                <td colspan="5" class="">
+                    <textarea id="textarea-desc-edit-room" name="desc" class="textarea-edit-room"></textarea>
                 </td>
             </tr>
             <tr>
@@ -58,3 +61,21 @@
         </tbody>
     </table>
 </form>
+<!--END OF FORM EDIT-->
+
+<div class="modal" id="modal-pilih-image-edit-room" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pilih Image Room</h4><i>{{$hotel->nama}}</i>
+            </div>
+            <div class="modal-body">
+                <div class="row"></div>
+            </div>
+            <div class="modal-footer">
+                <i class="pull-left">Klik pada gambar untuk memilih</i>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

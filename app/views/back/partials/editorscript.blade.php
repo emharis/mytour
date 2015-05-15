@@ -46,7 +46,7 @@
     });
     tinymce.init({
         selector: "textarea.tinymce-full",
-        mode:'textareas',
+        mode: 'textareas',
         schema: "html5",
 //        plugins: [
 //            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -73,7 +73,7 @@
     });
     tinymce.init({
         selector: "textarea.tinymce-mid",
-        mode:'textareas',
+        mode: 'textareas',
         schema: "html5",
 //        plugins: [
 //            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -129,7 +129,7 @@
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons template paste textcolor colorpicker textpattern autoresize"
         ],
-        mode:'textareas',
+        mode: 'textareas',
         selector: "textarea.tinymce-mini",
         toolbar: "undo redo | bold italic",
         menubar: false,
@@ -147,7 +147,7 @@
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons template paste textcolor colorpicker textpattern autoresize"
         ],
-        mode:'textareas',
+        mode: 'textareas',
         selector: "textarea.tinymce-list-only",
         toolbar: "undo redo | bold italic | bullist numlist",
         menubar: false,
@@ -158,7 +158,28 @@
         height: 90,
         autoresize_max_height: 800,
     });
-    $(document).ready(function () {
+
+    function setMidTinymce(selector) {
+        tinyMCE.init({
+            selector: selector,
+            mode: 'textareas',
+            schema: "html5",
+            plugins: "table link image code hr charmap autolink lists importcss",
+            // Toolbar
+            toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap",
+            removed_menuitems: "newdocument",
+            image_advtab: true,
+            autosave_ask_before_unload: false,
+            resize: "both",
+            height: "200",
+            // URL
+            relative_urls: true,
+            remove_script_host: false,
+            document_base_url: "{{URL::to('/')}}/",
+            file_browser_callback: RoxyFileBrowser
+        });
+    }
+    $(document).ready(function() {
 
     });
 </script>

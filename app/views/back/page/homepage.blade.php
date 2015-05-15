@@ -295,7 +295,7 @@
                                         <td>{{$trf->nama}}</td>
                                         <td>
                                             <a class="btn btn-success btn-xs btn-view-travel" data-id="{{$trf->id}}" ><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-danger btn-xs btn-delete-travel" data-id="{{$trf->id}}" ><i class="fa fa-trash-o"></i></a>
+                                            <a class="btn btn-danger btn-xs btnDeleteTravelpackFavorit" data-id="{{$trf->id}}" ><i class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -336,7 +336,7 @@
                 <h4 class="modal-title">Pilih Paket Travel</h4><i></i>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered datatable" id="table-pilih-travel">
+                <table class="table table-bordered datatable" id="tablePilihTravelPack">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -364,14 +364,15 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
+<script src="js/jquery.formatCurrency-1.4.0.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         //sembunyikan/tampilkan input setting side navigation
         if ($('select[name=slc_sidenav]').val() == 'N') {
             $('.tr-sidenav-setting').hide();
         }
-        $('select[name=slc_sidenav]').change(function () {
+        $('select[name=slc_sidenav]').change(function() {
             //show/hide sidenav setting
             if ($(this).val() == 'Y') {
                 $('.tr-sidenav-setting').fadeIn(500);
@@ -384,7 +385,7 @@
          * TAB 1
          */
         //Save tab 1
-        $('#btn-save-1').click(function () {
+        $('#btn-save-1').click(function() {
             //            alert('Simpan');
             var postUrl = "{{URL::to('admin/page/homepage/upsetting')}}";
             $.post(postUrl, {
@@ -394,10 +395,10 @@
                 'blog_slider_count': $('input[name=tx-jml-blog]').val(),
                 'show_testimony': $('select[name=cb-testi-slider]').val(),
                 'testimony_count': $('input[name=tx-jml-testi]').val()
-            }, function (e) {
+            }, function(e) {
                 alert('Data telah disimpan');
                 //                alert(e);
-            }).fail(function (e) {
+            }).fail(function(e) {
                 alert('Data gagal disimpan');
             });
         });
@@ -406,7 +407,7 @@
         if ($('select[name=cb-blog-slider]').val() == 'N') {
             $('input[name=tx-jml-blog]').hide();
         }
-        $('select[name=cb-blog-slider]').change(function () {
+        $('select[name=cb-blog-slider]').change(function() {
             var val = $(this).val();
             if (val == 'Y') {
                 //tampilkan input jumlah blog
@@ -418,7 +419,7 @@
         if ($('select[name=cb-testi-slider]').val() == 'N') {
             $('input[name=tx-jml-testi]').hide();
         }
-        $('select[name=cb-testi-slider]').change(function () {
+        $('select[name=cb-testi-slider]').change(function() {
             var val = $(this).val();
             if (val == 'Y') {
                 //tampilkan input jumlah testi
@@ -435,7 +436,7 @@
          * TAB 2
          * -----------------------------------------------------
          */
-        $('#btn-save-2').click(function () {
+        $('#btn-save-2').click(function() {
             var postUrl = "{{URL::to('admin/page/homepage/sidenav')}}";
             $.post(postUrl, {
                 'show_sidenav': $('select[name=slc_sidenav]').val(),
@@ -447,10 +448,10 @@
                 'sidenav_buy_travel_subtitle': $('input[name=tx_buy_ticket_sbt]').val(),
                 'sidenav_wts': $('input[name=tx_wts]').val(),
                 'sidenav_wts_subtitle': $('input[name=tx_wts_sbt]').val()
-            }, function (e) {
+            }, function(e) {
                 alert('Data telah disimpan');
                 //                alert(e);
-            }).fail(function (e) {
+            }).fail(function(e) {
                 alert('Data gagal disimpan');
             });
         });
@@ -464,9 +465,9 @@
         //sembunyikan file upload
         $('.tr-upload-image').hide();
         //tampilkan file upload
-        $('#btn-tambah-slider,.btn-cancel-upload').click(function () {
+        $('#btn-tambah-slider,.btn-cancel-upload').click(function() {
             //toggle
-            $('.tr-upload-image').fadeToggle(500, null, function () {
+            $('.tr-upload-image').fadeToggle(500, null, function() {
                 //clear img
                 $('#img-preview').removeAttr('src');
                 $('#file').val(null);
@@ -475,11 +476,11 @@
         //upload slider
         ////tampilkan image yang d upload
         var _URL = window.URL || window.webkitURL;
-        $('#file').on('change', function (ev) {
+        $('#file').on('change', function(ev) {
             var f = ev.target.files[0];
             var fr = new FileReader();
 
-            fr.onload = function (ev2) {
+            fr.onload = function(ev2) {
                 console.dir(ev2);
                 $('#img-preview').attr('src', ev2.target.result);
             };
@@ -490,7 +491,7 @@
             var image, file;
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function () {
+                image.onload = function() {
                     //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 770 || this.height < 354) {
@@ -508,7 +509,7 @@
             }
         });
         //Upload image
-        $('#slider-form').ajaxForm(function (e) {
+        $('#slider-form').ajaxForm(function(e) {
             alert("Image telah disimpan.");
             //kosongkan input file
 
@@ -526,18 +527,18 @@
         });
 
         //delette image slider
-        $(document).on('click', '.btn-delete-slider', function (e) {
+        $(document).on('click', '.btn-delete-slider', function(e) {
             if (confirm('Hapus image slider ini?')) {
                 var id = $(this).data('id');
                 var postUrl = "{{URL::to('admin/page/homepage/deleteslider')}}";
                 $btn = $(this);
                 $.post(postUrl, {
                     'id': id
-                }, function (e) {
+                }, function(e) {
                     //                   alert('Image slider telah dihapus'); 
                     //delete from table                   
                     $btn.parent('td').parent('tr').hide(500);
-                }).fail(function (e) {
+                }).fail(function(e) {
                     alert('Image slider gagal dihapus');
                 });
             }
@@ -545,12 +546,85 @@
 
         //END TAB 3
         //------------------------------------------------------
-        
+
         //================TAB TRAVEL FAVORIT====================
-        $('#btn-tambah-travel-favorit').click(function(e){
-           //tampilkan form pilih travel favorit;
-           $('#modal-tambah-travel').modal('show');
+        var travelpackTersedia;
+        $('#btn-tambah-travel-favorit').click(function(e) {
+
+            //tampilkan form pilih travel favorit;
+            //get data travelpack dari database tampilkan ke modal pilih
+            var getTravelUrl = "{{URL::to('admin/page/homepage/travel')}}";
+            $.get(getTravelUrl, null, function(ge) {
+                //clear table
+                $('#tablePilihTravelPack').dataTable().fnClearTable();
+                //add new row
+                var dataTravel = JSON.parse(ge);
+                travelpackTersedia = dataTravel;
+                $.each(dataTravel, function(i, row) {
+                    $('#tablePilihTravelPack').dataTable().fnAddData([
+                        null,
+                        row.nama,
+                        '<i class="currency pull-right" >' + row.harga + '</i>',
+                        '<a class="btn btn-primary btn-xs btnPilihTravelpack" data-id="' + row.id + '" >Pilih</a>'
+                    ]);
+                });
+                //format currency
+                setCurrency();
+                $('#modal-tambah-travel .modal-dialog').css('max-width', '800px');
+                $('#modal-tambah-travel').modal('show');
+//                //tamilkan modal
+//                $('#modal-tambah-travel').modal('show');
+//                ​
+            });
+
         });
+
+        function setCurrency() {
+            $('.currency').formatCurrency({symbol: ''});
+        }
+        //pilih travelpack untuk jadi favorit
+        $(document).on('click', '.btnPilihTravelpack', function() {
+            var travelpackid = $(this).data('id');
+            var travelpack;
+            $.each(travelpackTersedia, function(i, row) {
+                if (row.id == travelpackid) {
+                    travelpack = row;
+                }
+            });
+            //tambahkan ke database
+            var postToDatabaseUrl = "{{URL::to('admin/page/homepage/add-travelpack')}}";
+            $.post(postToDatabaseUrl, {
+                'travelpackid': travelpackid
+            }, function() {
+
+            });
+            //tambahkan ke tabel
+            $('#table-travel-favorit').dataTable().fnAddData([
+                null,
+                travelpack.nama,
+                '<a class="btn btn-success btn-xs btn-view-travel" data-id="' + travelpack.id + '" ><i class="fa fa-eye"></i></a>&nbsp;' +
+                        '<a class="btn btn-danger btn-xs btnDeleteTravelpackFavorit" data-id="' + travelpack.id + '" ><i class="fa fa-trash-o"></i></a>'
+            ]);
+            //sembunyikan modal
+            $('#modal-tambah-travel').modal('hide');
+        });
+        //hapus travelpack favorit
+        $(document).on('click', '.btnDeleteTravelpackFavorit', function() {
+            if (confirm('Hapus travelpack favorit ini?')) {
+                var travelpackid = $(this).data('id');
+                var delTravelpackUrl = "{{URL::to('admin/page/homepage/delete-travelpack')}}" + "/" + travelpackid;
+                var btn = $(this);
+                $.get(delTravelpackUrl, null, function() {
+                    //delete dari table
+                    btn.parent('td').parent('tr').hide(250, function() {
+                        var row = btn.closest('tr');
+                        var nRow = row[0];
+                        $('#table-travel-favorit').dataTable().fnDeleteRow(nRow);
+                    });
+                });
+            }
+        });
+
         //=================END TRAVEL FAVORIT===================
 
 
