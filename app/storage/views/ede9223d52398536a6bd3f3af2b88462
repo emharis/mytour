@@ -25,261 +25,22 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td class="col-md-4">Welcome Title</td>
-                                        <td>
-                                            <textarea name="tx_welcome" class="tinymce-mini"><?php echo $homepage['welcome_title']['big_value']; ?></textarea>
-                                    </tr>
-                                    <tr>
-                                        <td>Welcome Subtitle</td>
-                                        <td>
-                                            <textarea name="tx_welcome_sub" class="tinymce-mini"><?php echo $homepage['welcome_subtitle']['big_value']; ?></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Slider Blog Terbaru/Jumlah</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <select name="cb-blog-slider" class="form-control" >
-                                                        <option value="Y" <?php echo $homepage['show_blog_slider']['value']=='Y'?'selected':''; ?>>Tampilkan</option>
-                                                        <option value="N" <?php echo $homepage['show_blog_slider']['value']=='N'?'selected':''; ?>>Sembunyikan</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" name="tx-jml-blog" class="form-control text-right" value="<?php echo $homepage['blog_slider_count']['value']; ?>" />
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Slider Testimony/Jumlah</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <select name="cb-testi-slider" class="form-control">
-                                                        <option value="Y" <?php echo $homepage['show_testimony']['value']=='Y'?'selected':''; ?>>Tampilkan</option>
-                                                        <option value="N" <?php echo $homepage['show_testimony']['value']=='N'?'selected':''; ?>>Sembunyikan</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" name="tx-jml-testi" class="form-control text-right" value="<?php echo $homepage['testimony_count']['value']; ?>" />
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td class="text-right">
-                                            <a id="btn-save-1" class="btn btn-primary">Save</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <?php echo $__env->make('back.page.homepage.inc_content', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_2">
-                            <form action="admin/homepage/sidenav" method="POST">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-md-4">Tampilkan Side Navigation</td>
-                                            <td colspan="2">
-                                                <select name="slc_sidenav" class="form-control">
-                                                    <option value="Y" <?php echo ($homepage['show_sidenav']['value']=='Y'?'selected':''); ?>>Tampilkan</option>
-                                                    <option value="N" <?php echo ($homepage['show_sidenav']['value']=='N'?'selected':''); ?>>Sembunyikan</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td><label>Setting Side Navigation</label></td>
-                                            <td colspan="2"></td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td rowspan="3">Find Destination</td>
-                                            <td>
-                                                Icon
-                                            </td>
-                                            <td>
-                                                <img src="frontend/img/icon/find-dest.png" />
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Title
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_find_destination']['value']; ?>" type="text" name="tx_find_dest" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Subtitle
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_find_destination_subtitle']['value']; ?>" type="text" name="tx_find_dest_sbt" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td rowspan="3">Read News</td>
-                                            <td>
-                                                Icon
-                                            </td>
-                                            <td>
-                                                <img src="frontend/img/icon/news.png" />
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Title
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_read_news']['value']; ?>"type="text" name="tx_read_news" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Subtitle
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_read_news_subtitle']['value']; ?>"type="text" name="tx_read_news_sbt" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td rowspan="3">Buy Travel Guide</td>
-                                            <td>
-                                                Icon
-                                            </td>
-                                            <td>
-                                                <img src="frontend/img/icon/ticket.png" />
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Title
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_buy_travel']['value']; ?>"type="text" name="tx_buy_ticket" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Subtitle
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_buy_travel_subtitle']['value']; ?>"type="text" name="tx_buy_ticket_sbt" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td rowspan="3">What They Say</td>
-                                            <td>
-                                                Icon
-                                            </td>
-                                            <td>
-                                                <img src="frontend/img/icon/what-they-say.png" />
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Title
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_wts']['value']; ?>"type="text" name="tx_wts" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr class="tr-sidenav-setting" >
-                                            <td>
-                                                Subtitle
-                                            </td>
-                                            <td>
-                                                <input value="<?php echo $homepage['sidenav_wts_subtitle']['value']; ?>"type="text" name="tx_wts_sbt" class="form-control"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td class="text-right" colspan="2">
-                                                <a id="btn-save-2" class="btn btn-primary">Save</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
+                            <?php echo $__env->make('back.page.homepage.inc_sidenav', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-pane -->
                         <div class="tab-pane" id="tab_3">
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr class="tr-setting-image">
-                                        <td><label>Setting Image</label></td>
-                                        <td>
-                                            <a class="btn btn-success" id="btn-tambah-slider">Tambah Image</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="tr-upload-image tr-setting-image" style="background-color: whitesmoke;">
-                                <form id="slider-form" action="admin/page/homepage/addslider" method="POST" enctype="multipart/form-data">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <td><label>Upload Image</label><br/>770x354px</td>
-                                                <td>
-                                                    <input type="file" id="file" name="upl-slider"/>
-                                                </td>
-                                                <td rowspan="2" class="col-md-2">
-                                                    <img id="img-preview" style="width:100%;" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    <button type="submit" id="btn-save-image" class="btn btn-primary btn-sm">Upload</button>  
-                                                    <a class="btn btn-warning btn-sm btn-cancel-upload">Cancel</a>                                              
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </form>
-                            </div>
-
-                            <div class=" tr-setting-image">
-                                <h4>Data Image Slider</h4>
-                                <table id="table-image-slider" class="table table-bordered datatable">
-                                    <thead>
-                                        <tr>
-                                            <th>Preview</th>
-                                            <th>Nama File</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($sliders as $dt): ?>
-                                        <tr>
-                                            <td class="col-sm-2">
-                                                <img style="width:100%;" src="<?php echo $constval['img_slider_path'].$dt->filename; ?>" />
-                                            </td>
-                                            <td><?php echo $dt->filename; ?></td>
-                                            <td class="text-center">
-                                                <a class="btn btn-danger btn-delete-slider" data-id="<?php echo $dt->id; ?>"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>                            
-                            </div><!-- /.tab-pane -->
+                            <?php echo $__env->make('back.page.homepage.inc_slider', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-content -->
-
                         <div class="tab-pane" id="tab_4">
                            <?php echo $__env->make('back.page.homepage.inc_travelpack', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-content -->
-
                         <div class="tab-pane" id="tab_5">
-                            <h4>Hotel Favorit</h4>
+                            <?php echo $__env->make('back.page.homepage.inc_hotel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-content -->
-
                         <div class="tab-pane" id="tab_6">
-                            <h4>Rental Favorit</h4>
+                            <?php echo $__env->make('back.page.homepage.inc_rental', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </div><!-- /.tab-content -->
 
                     </div><!-- nav-tabs-custom -->
@@ -299,34 +60,7 @@
 </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<div class="modal" id="modal-tambah-travel" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Pilih Paket Travel</h4><i></i>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered datatable" id="tablePilihTravelPack">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Harga</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" data-dismiss="modal" >Close</a>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 
 <?php $__env->stopSection(); ?>
@@ -591,13 +325,160 @@
                         var row = btn.closest('tr');
                         var nRow = row[0];
                         $('#table-travel-favorit').dataTable().fnDeleteRow(nRow);
+                        //tampilkan tombol tambah hotel
+                        $('#btn-tambah-travel-favorit').show();
                     });
                 });
             }
         });
 
         //=================END TRAVEL FAVORIT===================
+        
+        //=================== HOTEL FAVORIT =====================
+        //
+        var hotelTersedia;
+        $('#btnTambahHotelFavorit').click(function(){
+            //tampilkan form pilih hotel favorit;
+            //get data hotel dari database tampilkan ke modal pilih
+            var getHotelUrl = "<?php echo URL::to('admin/page/homepage/hotel'); ?>";
+            $.get(getHotelUrl, null, function(ge) {
+                //clear table
+                $('#tablePilihHotel').dataTable().fnClearTable();
+                //add new row
+                var dataHotel = JSON.parse(ge);
+                hotelTersedia = dataHotel;
+                $.each(dataHotel, function(i, row) {
+                    $('#tablePilihHotel').dataTable().fnAddData([
+                        null,
+                        row.nama,
+                        row.alamat,                        
+                        '<a class="btn btn-primary btn-xs btnPilihHotel" data-id="' + row.id + '" >Pilih</a>'
+                    ]);
+                });
+                $('#modalTambahHotel .modal-dialog').css('max-width', '800px');
+                $('#modalTambahHotel').modal('show');
+            });
+        });
+        //pilih hotel
+        //pilih hotel untuk jadi favorit
+        $(document).on('click', '.btnPilihHotel', function() {
+            var hotelid = $(this).data('id');
+            var hotel;
+            $.each(hotelTersedia, function(i, row) {
+                if (row.id == hotelid) {
+                    hotel = row;
+                }
+            });
+            //tambahkan ke database
+            var postToDatabaseUrl = "<?php echo URL::to('admin/page/homepage/add-hotel'); ?>";
+            $.post(postToDatabaseUrl, {
+                'hotelid': hotelid
+            }, function() {
 
+            });
+            //tambahkan ke tabel
+            $('#tableHotelFavorit').dataTable().fnAddData([
+                null,
+                hotel.nama,
+                hotel.alamat,
+                '<a class="btn btn-success btn-xs btnViewHotel" data-id="' + hotel.id + '" ><i class="fa fa-eye"></i></a>&nbsp;' +
+                        '<a class="btn btn-danger btn-xs btnDeleteHotelFavorit" data-id="' + hotel.id + '" ><i class="fa fa-trash-o"></i></a>'
+            ]);
+            //sembunyikan modal
+            $('#modalTambahHotel').modal('hide');
+        });
+        //hapus hotel favorit
+        $(document).on('click', '.btnDeleteHotelFavorit', function() {
+            if (confirm('Hapus hotel favorit ini?')) {
+                var hotelid = $(this).data('id');
+                var delHotelUrl = "<?php echo URL::to('admin/page/homepage/delete-hotel'); ?>" + "/" + hotelid;
+                var btn = $(this);
+                $.get(delHotelUrl, null, function() {
+                    //delete dari table
+                    btn.parent('td').parent('tr').hide(250, function() {
+                        var row = btn.closest('tr');
+                        var nRow = row[0];
+                        $('#tableHotelFavorit').dataTable().fnDeleteRow(nRow);
+                        //tampilkan tombol tambah hotel
+                        $('#btnTambahHotelFavorit').show();
+                    });
+                });
+            }
+        });
+        //
+        //=================== END OF HOTEL FAVORIT =====================
+        
+        //===================MANAGE RENTAL==============================
+        var rentalTersedia;
+        $('#btnTambahRentalFavorit').click(function(){
+            var getRentalUrl = "<?php echo URL::to('admin/page/homepage/rentals'); ?>";
+            $.get(getRentalUrl, null, function(ge) {
+                //clear table
+                $('#tablePilihRental').dataTable().fnClearTable();
+                //add new row
+                var dataRental = JSON.parse(ge);
+                rentalTersedia = dataRental;
+                $.each(dataRental, function(i, row) {
+                    $('#tablePilihRental').dataTable().fnAddData([
+                        null,
+                        row.nama,
+                        '<i class="pull-right currency" >'+row.harga+'</i>' + ' ' + row.currency,                        
+                        '<a class="btn btn-primary btn-xs btnPilihRental" data-id="' + row.id + '" >Pilih</a>'
+                    ]);
+                });
+                $('#modalTambahRental .modal-dialog').css('max-width', '800px');
+                $('#modalTambahRental').modal('show');
+                setCurrency();
+            });
+        });
+        //pilih rental
+        $(document).on('click','.btnPilihRental',function(){
+            var rentalid = $(this).data('id');
+            var rental;
+            $.each(rentalTersedia, function(i, row) {
+                if (row.id == rentalid) {
+                    rental = row;
+                }
+            });
+            //tambahkan ke database
+            var postToDatabaseUrl = "<?php echo URL::to('admin/page/homepage/add-rental'); ?>";
+            $.post(postToDatabaseUrl, {
+                'rentalid': rentalid
+            }, function() {
+
+            });
+            //tambahkan ke tabel
+            $('#tableRentalFavorit').dataTable().fnAddData([
+                null,
+                rental.nama,
+                '<i class="currency" >'+rental.harga+ '</i>&nbsp' + rental.currency, 
+                '<a class="btn btn-success btn-xs btnViewRental" data-id="' + rental.id + '" ><i class="fa fa-eye"></i></a>&nbsp;' +
+                        '<a class="btn btn-danger btn-xs btnDeleteRentalFavorit" data-id="' + rental.id + '" ><i class="fa fa-trash-o"></i></a>'
+            ]);
+            //format currency
+            setCurrency();
+            //sembunyikan modal
+            $('#modalTambahRental').modal('hide');
+        });
+         //hapus rental favorit
+        $(document).on('click', '.btnDeleteRentalFavorit', function() {
+            if (confirm('Hapus rental favorit ini?')) {
+                var rentalid = $(this).data('id');
+                var delRentalUrl = "<?php echo URL::to('admin/page/homepage/delete-rental'); ?>" + "/" + rentalid;
+                var btn = $(this);
+                $.get(delRentalUrl, null, function() {
+                    //delete dari table
+                    btn.parent('td').parent('tr').hide(250, function() {
+                        var row = btn.closest('tr');
+                        var nRow = row[0];
+                        $('#tableRentalFavorit').dataTable().fnDeleteRow(nRow);
+                        //tampilkan tombol tambah rental
+                        $('#btnTambahRentalFavorit').show();
+                    });
+                });
+            }
+        });
+        //===================END OF MANAGE RENTAL=======================
 
 
     });

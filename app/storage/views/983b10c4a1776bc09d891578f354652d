@@ -1,0 +1,51 @@
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+        <div class="span12">
+            <h4 class="title-bg"> Search "<?php echo $key; ?>" on blogs</h4>
+            
+            <!-- Carousel
+            ================================================== -->
+            <div class="row">
+                <div class="span12">
+                    <blockquote>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante. Praesent nulla arcu, condimentum eu lobortis.</p>
+                        <small>Someone famous <cite title="Source Title">Source Title</cite></small>
+                    </blockquote>
+
+                    <button class="btn btn-small btn-inverse" type="button">Find out more</button>
+                </div>
+
+            </div>
+
+            <h3 class="title-bg"> This is a sub head divider</h3>
+            <div class="row">
+                <div class="span4">
+                    <img src="img/gallery/gallery-img-1-3col.jpg" alt="image">
+                    <h5>3 Column Layout</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem, quis gravida nunc iaculis ac. Proin tristique tellus in est vulputate luctus fermentum ipsum molestie. Vivamus tincidunt sem eu magna varius elementum. Maecenas felis tellus, fermentum vitae laoreet vitae, volutpat et urna. Nulla faucibus ligula eget ante varius ac euismod odio placerat. Nam sit amet felis non lorem faucibus rhoncus vitae id dui.</p>
+                    <button class="btn btn-small btn-inverse" type="button">Read more</button>
+                </div>
+                <div class="span4">
+                    <img src="img/gallery/gallery-img-1-3col.jpg" alt="image">
+                    <h5>3 Column Layout</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem, quis gravida nunc iaculis ac. Proin tristique tellus in est vulputate luctus fermentum ipsum molestie. Vivamus tincidunt sem eu magna varius elementum. Maecenas felis tellus, fermentum vitae laoreet vitae, volutpat et urna. Nulla faucibus ligula eget ante varius ac euismod odio placerat. Nam sit amet felis non lorem faucibus rhoncus vitae id dui.</p>
+                    <button class="btn btn-small btn-inverse" type="button">Read more</button>
+                </div>
+                <div class="span4">
+                    <img src="img/gallery/gallery-img-1-3col.jpg" alt="image">
+                    <h5>3 Column Layout</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem, quis gravida nunc iaculis ac. Proin tristique tellus in est vulputate luctus fermentum ipsum molestie. Vivamus tincidunt sem eu magna varius elementum. Maecenas felis tellus, fermentum vitae laoreet vitae, volutpat et urna. Nulla faucibus ligula eget ante varius ac euismod odio placerat. Nam sit amet felis non lorem faucibus rhoncus vitae id dui.</p>
+                    <button class="btn btn-small btn-inverse" type="button">Read more</button>
+                </div>
+            </div>
+
+        </div> 
+    </div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.nothome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

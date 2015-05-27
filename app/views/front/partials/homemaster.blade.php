@@ -74,6 +74,9 @@
                 $("#btn-client-prev").click(function () {
                     $('#clientCarousel').carousel('prev');
                 });                
+                $('#menuKategori').click(function(){
+                   location.href = $(this).attr('href');
+                });
 
             });
 

@@ -1,0 +1,1 @@
+@extends('back.partials.mailbox')

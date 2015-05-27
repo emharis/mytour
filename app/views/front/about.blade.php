@@ -27,14 +27,7 @@
     <div class="span4 sidebar page-sidebar"><!-- Begin sidebar column -->
         
         @if($constval['show_search_input']=='Y')
-        <h5 class="title-bg">Search</h5>        
-        <section>
-            <div class="input-append">
-                <form action="#">
-                    <input size="16" type="text" placeholder="Search"><button class="btn" type="button"><i class="icon-search"></i></button>
-                </form>
-            </div>
-        </section>
+        @include('front.partials.search')
         @endif
         
         @if($constval['show_customer_support']=='Y')

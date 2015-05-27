@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/datapro/projects/src/mytour/app/views/back/paket/rental/edit.blade.php</file>
-            <file>file:/datapro/projects/src/mytour/app/controllers/Admin/RentalController.php</file>
+            <file>file:/datapro/projects/src/mytour/app/controllers/Front/DestinasiController.php</file>
+            <file>file:/datapro/projects/src/mytour/app/routes.php</file>
+            <file>file:/datapro/projects/src/mytour/app/views/front/dest/index.blade.php</file>
         </group>
     </open-files>
 </project-private>

@@ -117,7 +117,7 @@
                             <tr>
                                 <td>Image Cover</td>
                                 <td>
-                                    <input type="file" name="img-upl-image-kategori" required/>
+                                    <input type="file" name="imageUploader" required/>
                                 </td>
                             </tr>
                             <tr>
@@ -246,12 +246,14 @@
                     $('#form-tambah-kategori-destinasi').loader('hide');
                     //close modal
                     $('#btn-cancel-tambah-kategori').click();
-                    var kategori = JSON.parse(sc);
+//                    var kategori = JSON.parse(sc);
                     //tampilkan ke select kategori
-                    var o = new Option(kategori.nama, kategori.id);
-                    $(o).html(kategori.nama);
-                    $("select[name=kategori]").append(o);
+                    location.reload();
+//                    var o = new Option(kategori.nama, kategori.id);
+//                    $(o).html(kategori.nama);
+//                    $("select[name=kategori]").append(o);
                     //tampilkan ke select option kategori
+                    
                 }
             });
 

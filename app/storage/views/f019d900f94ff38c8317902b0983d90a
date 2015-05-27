@@ -146,12 +146,12 @@
 
                                         </td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td>Tags</td>
                                         <td colspan="2">
                                             <input type="text" class="form-control" name="tags"/>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td></td>
                                         <td colspan="2">
@@ -232,12 +232,12 @@
 
                                         </td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td>Tags</td>
                                         <td colspan="2">
                                             <input type="text" class="form-control" name="tags"/>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td></td>
                                         <td colspan="2">
@@ -418,7 +418,7 @@
         });
         $('#form-new-blog').ajaxForm(function(e) {
             //add new row to table blog
-            alert('Blog baru telah disimpan');
+//            alert('Blog baru telah disimpan');
 //            alert(e);
             var blogObj = JSON.parse(e);
             //set label
@@ -434,7 +434,7 @@
                 blogObj.title,
                 blogObj.kategori,
                 label,
-                '<a class="btn btn-xs btn-primary btn-edit-blog" data-id="' + blogObj.id + '" >' +
+                '<a class="btn btn-xs btn-primary btn-edit-blog" data-id="' + blogObj.id + '" >&nbsp;' +
                         '<i class="fa fa-edit"></i></a><a class="btn btn-xs btn-danger btn-del-blog" data-id="' + blogObj.id + '" ><i class="fa fa-trash-o"></i></a>'
             ]);
             //clear input

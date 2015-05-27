@@ -63,14 +63,14 @@
                             <tr>
                                 <td>Image Cover</td>
                                 <td>
-                                    <input type="file" name="img-upl-image-kategori" required/>
+                                    <input type="file" name="imageUploader" required/>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
                                     <button type="submit" class="btn btn-primary">Save</button>
-                                    <a class="btn btn-danger" id="btn-cancel-tambah-kategori" data-dismiss="modal" >Cancel</a>
+                                    <a class="btn btn-danger" id="btn-cancel-tambah-kategori" data-dismiss="modal" href="admin/page/destinasi" >Cancel</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -142,12 +142,13 @@
                     $('#form-tambah-kategori-destinasi').loader('hide');
                     //close modal
                     $('#btn-cancel-tambah-kategori').click();
-                    var kategori = JSON.parse(sc);
+//                    var kategori = JSON.parse(sc);
                     //tampilkan ke select option kategori
-                    var o = new Option(kategori.nama, kategori.id);
-                    $(o).html(kategori.nama);
-                    $("select[name=kategori]").append(o);
-
+                    location.reload();
+//                    var o = new Option(kategori.nama, kategori.id);
+//                    $(o).html(kategori.nama);
+//                    $("select[name=kategori]").append(o);
+                    
                 }
             });
 
@@ -279,7 +280,7 @@
                         newimg.filename,
                         null,
                         imgprev,
-                        '<a class="btn btn-danger btn-del-image btn-xs" data-id="' + newimg.id + '" ><i class="fa fa-trash-o"></i></a>' +
+                        '<a class="btn btn-danger btn-del-image btn-xs" data-id="' + newimg.id + '" ><i class="fa fa-trash-o"></i></a>&nbsp;' +
                                 '<a class="btn btn-primary btn-set-cover btn-xs" data-id="' + newimg.id + '" >Set Image Cover</a>'
                     ]);
                 });
@@ -437,8 +438,6 @@
                 $('#btn-cancel-tambah-youtube').click();
                 //tampilkan ke table
                 var newyoutube = JSON.parse(res);
-
-//                var youtubeprev = 'http://img.youtube.com/vi/' + newyoutube.filename + '/' + newyoutube.vidthumb + '.jpg';                
                 var youtubeprev = '<a class="colorbox" href="http://www.youtube.com/embed/' + newyoutube.filename + '" title="' + newyoutube.filename + '">'+
                     '<img style="width: 100%;"  src="http://img.youtube.com/vi/' + newyoutube.filename + '/' +  newyoutube.vidthumb + '.jpg">' +
                 '</a>';

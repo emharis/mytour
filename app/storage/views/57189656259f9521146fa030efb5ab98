@@ -14,11 +14,20 @@
 
             <ul class="nav">
                 <?php for($i=0;$i<count($menus);$i++): ?>
-
-                    <?php if(isset($menus[$i]['childs'])): ?>
+                    <?php if($menus[$i]['tipe_id']==12): ?>
+                    <!--khusus untuk menu destinasi-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="menuKategori" href="<?php echo $menus[$i]['link']; ?>"><?php echo $menus[$i]['nama']; ?> </a>
+                        <ul class="dropdown-menu">
+                            <?php foreach($kategoridestinasi as $kat): ?>
+                            <li><a href="<?php echo $menus[$i]['link'].'/kategori/'.$kat->id; ?>"><?php echo $kat->nama; ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <?php elseif(isset($menus[$i]['childs'])): ?>
                     <?php $childs = $menus[$i]['childs']; ?>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo $menus[$i]['link']; ?>"><?php echo $menus[$i]['nama']; ?> <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo $menus[$i]['link']; ?>"><?php echo $menus[$i]['nama']; ?> </a>
                         <ul class="dropdown-menu">
                             <?php foreach($childs as $cld): ?>
                             <li><a href="<?php echo $cld->link; ?>"><?php echo $cld->nama; ?></a></li>

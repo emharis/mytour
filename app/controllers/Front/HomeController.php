@@ -14,26 +14,26 @@ class HomeController extends \BaseController {
         //imagesg slider
         $sliders = \DB::table('homepage_slider')->get();
         //favorit travel pack
-        $favtrav = \DB::table('homepage_travelpack')
-                    ->select('travelpack.id','travelpack.nama','travelpack.harga','travelpack.currency','travelpack.desc','travelpack_image.filename')
-                    ->join('travelpack', 'homepage_travelpack.travelpack_id', '=', 'travelpack.id')
-                    ->join('travelpack_image','travelpack.id','=','travelpack_image.travelpack_id')
-                    ->where('travelpack_image.main_img','=','Y')
-                    ->get();
+        $favtrav = \DB::table('VIEW_HOMEPAGE_TRAVEL')->get();
+//        $favtrav = \DB::table('homepage_travelpack')
+//                    ->select('travelpack.id','travelpack.nama','travelpack.harga','travelpack.currency','travelpack.desc','travelpack_image.filename')
+//                    ->join('travelpack', 'homepage_travelpack.travelpack_id', '=', 'travelpack.id')
+//                    ->join('travelpack_image','travelpack.id','=','travelpack_image.travelpack_id')
+//                    ->where('travelpack_image.main_img','=','Y')
+//                    ->get();
         //best deal hotel
-        $hotels = \DB::table('view_homepage_hotel')
+        $hotels = \DB::table('VIEW_HOMEPAGE_HOTEL')
                 ->get();
         //best deal rental
-        $rentals = \DB::table('homepage_rental')
-                ->join('rental','homepage_rental.rental_id','=','rental.id')
-                ->join('rental_image','rental.id','=','rental_image.rental_id')
-                ->where('rental_image.main_img','=','Y')
+        $rentals = \DB::table('VIEW_HOMEPAGE_RENTAL')
                 ->get();
         //blog rotator
-        $blogs = \DB::table('view_blogs')
+        $limitBlogRotator = \DB::table('homepage')->where('name','blog_slider_count')->first()->value;
+        $blogs = \DB::table('VIEW_BLOGS')
+                ->limit($limitBlogRotator)
                 ->get();
         //blog rotator
-        $testimoni = \DB::table('testimony')
+        $testimoni = \DB::table('VIEW_TESTIMONI')
                 ->get();
         
         return \View::make('front/home',array(

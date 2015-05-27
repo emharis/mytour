@@ -1,0 +1,205 @@
+<?php $__env->startSection('styles'); ?>
+<style type="text/css">
+    .img-blog{
+        background-size:cover; 
+        background-position:center center; 
+        background-repeat:no-repeat;
+    }
+    .img-blog.img-header{
+        width: 770px;
+        height: 300px; 
+    }
+    .img-blog.img-thumb{
+        width: 70px;
+        height: 70px; 
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row"><!--Container row-->
+
+    <!-- Blog Full Post
+    ================================================== --> 
+    <div class="span8 blog">
+
+        <!-- Blog Post 1 -->
+        <article>
+            <h3 class="title-bg"><a ><?php echo $blog->title; ?></a></h3>
+            <div class="post-content">
+                <a href="#">
+
+                    <?php if($blog->islocal =='Y'): ?>
+                    <?php $imgpath = URL::to($constval['img_blog_path'] . $blog->img_cover); ?>
+                    <?php else: ?>
+                    <?php $imgpath = $blog->img_cover; ?>
+                    <?php endif; ?>
+                    <img class="img-blog img-header" style="background-image: url('<?php echo $imgpath; ?>')">
+                </a>
+
+                <div class="post-body">
+                    <?php echo $blog->content; ?>
+
+                </div>
+
+                <div class="post-summary-footer">
+                    <ul class="post-data">
+                        <li><i class="icon-calendar"></i> <?php echo date_format(new DateTime($blog->created_at),'m/d/Y'); ?></li>
+                        <li><i class="icon-user"></i> <a href="#">Admin</a></li>
+                        <li><i class="icon-comment"></i> <a ><?php echo $blog->comments; ?> Comments</a></li>
+                        <li><i class="icon-tags"></i> <a href="front/blog/by-kategori/<?php echo $blog->category_id; ?>"><?php echo $blog->kategori; ?></a></li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- Post Comments
+        ================================================== --> 
+
+        <section class="comments">
+            <?php if($blog->comments > 0): ?>
+            <h4 class="title-bg"><a name="comments"></a><?php echo $blog->comments; ?> Comments so far</h4>
+            <ul>  
+                <?php foreach($comments as $cmt): ?>
+                <li id="comment-item-<?php echo $cmt->id; ?>">
+                    <img src="frontend/img/user-avatar.jpg" alt="Image" />
+                    <span class="comment-name"><?php echo $cmt->name; ?></span>
+                    <span class="comment-date"><?php echo date_format(new datetime($cmt->created_at),'M d, Y'); ?></span>
+                    <div class="comment-content">
+                        <?php echo $cmt->content; ?>
+
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+
+            <!-- Comment Form -->
+            <div class="comment-form-container" id="comment-here">
+                <h6>Leave a Comment</h6>
+                <div class="alert alert-success" id="commentSuccessAlert">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <?php echo $constval['blog_comment_success_message']; ?>
+
+                </div>
+                <form action="front/blog/add-comment" method="POST" id="comment-form">
+                    <?php echo Form::hidden('blogid',$blog->id); ?>
+
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        <input class="span4" id="prependedInput" size="16" type="text" placeholder="Name" name="name" required>
+                    </div>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-envelope"></i></span>
+                        <input class="span4" id="prependedInput" size="16" type="email" placeholder="Email Address" name="email" required>
+                    </div>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-globe"></i></span>
+                        <input name="url" class="span4" id="prependedInput" size="16" type="url" placeholder="Website URL">
+                    </div>
+                    <textarea class="span6" required name="message" ></textarea>
+                    <div class="row">
+                        <div class="span2">
+                            <input type="submit" class="btn btn-inverse" value="Post My Comment" >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section><!-- Close comments section-->
+
+    </div><!--Close container row-->
+
+    <!-- Blog Sidebar
+    ================================================== --> 
+    <div class="span4 sidebar">
+
+        <!--Search-->
+        <section>
+            <div class="input-append">
+                <form action="#">
+                    <input id="appendedInputButton" size="16" type="text" placeholder="Search"><button class="btn" type="button"><i class="icon-search"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <!--Categories-->
+        <h5 class="title-bg">Categories</h5>
+        <ul class="post-category-list">
+            <?php foreach($kategoris as $kat): ?>
+            <li><a href="front/blog/by-kategori/<?php echo $kat->id; ?>"><i class="icon-plus-sign"></i><?php echo $kat->name; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <!--Popular Posts-->
+        <h5 class="title-bg">Others in <?php echo $blog->kategori; ?></h5>
+        <ul class="popular-posts">
+            <?php foreach($othersin as $oth): ?>
+            <?php if($oth->islocal == 'Y'): ?>
+            <?php $imgpath = URL::to($constval['img_blog_path'] . $oth->img_cover); ?>
+            <?php else: ?>
+            <?php $imgpath = $oth->img_cover; ?>
+            <?php endif; ?>
+
+            <li>
+                <a href="#">
+                    <img class="img-blog img-thumb" style="background-image: url('<?php echo $imgpath; ?>')" />
+                </a>
+                <h6><a href="front/blog/show/<?php echo $oth->id; ?>"><?php echo $oth->title; ?></a></h6>
+                <em>Posted on <?php echo date_format(new DateTime($oth->created_at),'m/d/Y'); ?></em>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+
+        <!--Popular Posts-->
+        <h5 class="title-bg">Popular Posts</h5>
+        <ul class="popular-posts">
+            <?php foreach($popularposts as $pop): ?>
+            <li>
+                <a href="front/blog/show/<?php echo $pop->id; ?>">
+                    <?php if($pop->islocal == 'Y'): ?>
+                    <?php $imgpath = URL::to($constval['img_blog_path'] . $pop->img_cover); ?>
+                    <?php else: ?>
+                    <?php $imgpath = $pop->img_cover; ?>
+                    <?php endif; ?>
+                    <img class="img-blog img-thumb" style="background-image: url('<?php echo $imgpath; ?>')" />
+                </a>
+                <h6><a href="front/blog/show/<?php echo $pop->id; ?>"><?php echo $pop->title; ?></a></h6>
+                <em>Posted on <?php echo date_format(new DateTime($pop->created_at),'m/d/Y'); ?></em>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<script src="backend/plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
+<script src="backend/plugins/jqloader/jquery.loading-overlay.min.js" type="text/javascript"></script>
+<script>
+    $('#commentSuccessAlert').hide();
+    $(document).ready(function () {
+        $('#comment-form').submit(function (e) {
+            //loader
+            $('#comment-form').loader('show');
+            $('#comment-form').ajaxSubmit(function (res) {
+                //clear input
+                $('#comment-form input[type=text]').val(null);
+                $('#comment-form input[type=email]').val(null);
+                $('#comment-form input[type=url]').val(null);
+                $('#comment-form textarea').val(null);
+                $('#comment-form').loader('hide');
+                $('#commentSuccessAlert').fadeIn(100, function () {
+                    setTimeout(function () {
+                        $('#commentSuccessAlert').fadeOut(500);
+                    }, 5000);
+                });
+
+
+            });
+            return false;
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.nothome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

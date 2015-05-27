@@ -18,10 +18,54 @@ class RentalController extends \BaseController {
     }
 
     /**
+     * New Rental
+     */
+    function getNew() {
+        return \View::make('back.paket.rental.new', array());
+    }
+
+    /**
+     * Simpan rental
+     */
+    function postNew() {
+        $id = \DB::table('rental')->insertGetId(array(
+            'nama' => \Input::get('nama'),
+            'desc' => \Input::get('desc'),
+            'harga' => str_replace('.00', '', str_replace(',', '', \Input::get('harga'))),
+            'currency' => \Input::get('currency'),
+        ));
+
+        $imgname = "";
+        if (\Input::get('islocal') == 'Y') {
+            if (\Input::hasFile('imageUploader')) {
+                //upload image
+                $image = \Input::file('imageUploader');
+                $imgname = 'img_rental_' . $image->getClientOriginalName();
+                $imgname = str_replace(' ', '_', $imgname);
+                $image->move($this->rental_img_path, $imgname);
+                //resize image            
+                \ImagineResizer::crop($this->rental_img_path . $imgname, $this->rental_img_path . $imgname, new \Imagine\Image\Box(170, 139));
+            }
+        } else {
+            $imgname = \Input::get('imageUrl');            
+        }
+        
+        //save ke database image
+        \DB::table('rental_image')->insert(array(
+            'rental_id' => $id,
+            'filename' => $imgname,
+            'main_img' => 'Y',
+            'islocal' => \Input::get('islocal'),
+        ));
+        
+        return \Redirect::to('admin/paket/rental');
+    }
+
+    /**
      * edit data rental
      */
     function getEdit($id) {
-        $rental = \DB::table('view_rental')->find($id);
+        $rental = \DB::table('VIEW_RENTAL')->find($id);
         $images = \DB::table('rental_image')->where('rental_id', $id)->get();
         $cover = \DB::table('rental_image')->where('rental_id', $id)->where('main_img', '=', 'Y')->first();
 
@@ -106,7 +150,7 @@ class RentalController extends \BaseController {
         \db::table('rental_image')->where('id', '=', $imageid)->update(array(
             'main_img' => 'Y'
         ));
-        
+
         $img = \db::table('rental_image')->where('id', '=', $imageid)->first();
         $img->img_path = $this->rental_img_path;
         return json_encode($img);

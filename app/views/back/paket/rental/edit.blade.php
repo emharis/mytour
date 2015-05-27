@@ -151,7 +151,7 @@
                                 </td>
                                 <td>
                                     @if($img->main_img == 'Y')
-                                    <label class="label label-success label-image-cover">IMAGE COVER</label>
+                                    <label class="label label-success label-image-cover"><i class="fa fa-check"></i></label>
                                     @endif
                                 </td>
                                 <td >
@@ -261,12 +261,14 @@
                     newrental.filename,
                     null,
                     '<img src="{{$img_path}}' + newrental.filename + '" class="col-md-12" >',
-                    '<a class="btn btn-danger btn-xs btn-del-image" data-id="' + newrental.id + '" ><i class="fa fa-trash-o"></i></a>' +
+                    '<a class="btn btn-danger btn-xs btn-del-image" data-id="' + newrental.id + '" ><i class="fa fa-trash-o"></i></a>&nbsp;' +
                             '<a class="btn btn-success btn-xs btn-set-cover" data-id="' + newrental.id + '" >Set Image Cover</a>'
                 ]);
                 //clear input
                 $('input[name=img-upload]').val(null);
                 $('#img-prev').removeAttr('src');
+                //close input form
+                $('#btn-reset-upload').click();
             });
             return false;
         });
@@ -298,7 +300,7 @@
                     //remove image cover label 
                     $('.label-image-cover').remove();
                     //set the new image cover label
-                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover" >IMAGE COVER</label>');
+                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover" ><i class="fa fa-check"></i></label>');
                     //tampilkan image cover baaru di halaman depan
                     var image = JSON.parse(e);
                     if(image.islocal == 'Y'){

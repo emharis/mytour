@@ -9,7 +9,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Rental</h1>
+        <h1>Rental</h1>`
     </section>
 
     <!-- Main content -->
@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <!--<h3 class="box-title">Upload Foto</h3>-->
                         <!--<a class="btn btn-primary btn-sm pull-right" id="btn-tambah-hotel" >Tambah</a>-->
-                        <a class="btn btn-primary pull-right" href="admin/paket/hotel/new" >Tambah</a>
+                        <a class="btn btn-primary pull-right" href="admin/paket/rental/new" >Tambah</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered datatable" id="table-hotel">
@@ -35,15 +35,15 @@
                             </thead>
                             <tbody>
                                 @foreach($rentals as $rt)
-                                	<tr>
-                                		<td></td>
-                                		<td>{{$rt->nama}}</td>
-                                		<td>{{$rt->harga}}</td>
-                                		<td>{{$rt->currency}}</td>
-                                		<td>
-                                			<a class="btn btn-primary btn-sm btn-edit-rental" data-id="{{$rt->id}}" href="admin/paket/rental/edit/{{$rt->id}}" ><i class="fa fa-edit"></i></a>
-                                		</td>
-                                	</tr>
+                                <tr>
+                                    <td></td>
+                                    <td>{{$rt->nama}}</td>
+                                    <td><i class="currency pull-right" >{{$rt->harga}}</i></td>
+                                    <td>{{$rt->currency}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-edit-rental" data-id="{{$rt->id}}" href="admin/paket/rental/edit/{{$rt->id}}" ><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -66,8 +66,9 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script>
-    $(document).ready(function () {
-
+    $(document).ready(function() {
+        //format currency
+        $('.currency').formatCurrency({symbol: ''});
     });
 </script>
 

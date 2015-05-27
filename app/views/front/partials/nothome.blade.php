@@ -26,7 +26,8 @@
         <link rel="apple-touch-icon" href="frontend/img/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="frontend/img/apple-touch-icon-72x72.png" />
         <link rel="apple-touch-icon" sizes="114x114" href="frontend/img/apple-touch-icon-114x114.png" />
-        @yield('sctyles')
+        
+        @yield('styles')
     </head>
 
     <body class="nothome">
@@ -42,7 +43,8 @@
             @yield('content')
 
         </div> <!-- End Container -->
-
+        <div class="clearfix" ></div>
+        <br/>
         <!-- Footer Area
             ================================================== -->
         @include('front.partials.footer')
@@ -57,6 +59,14 @@
         <script src="frontend/js/bootstrap.js"></script>
         <script src="frontend/js/jquery.prettyPhoto.js"></script>
         <script src="frontend/js/jquery.custom.js"></script>
+        
+        <script>
+            $(document).ready(function(){
+                $('#menuKategori').click(function(){
+                   location.href = $(this).attr('href');
+                });
+            })
+        </script>
         
         @yield('scripts')
 

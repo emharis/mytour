@@ -15,11 +15,15 @@ class HomepageController extends \BaseController {
 
         //travelpack favorit
         $travpackfav = \DB::table('VIEW_HOMEPAGE_TRAVEL')->get();
+        $hotelfav = \DB::table('VIEW_HOMEPAGE_HOTEL')->get();
+        $rentals = \DB::table('VIEW_HOMEPAGE_RENTAL')->get();
 
         return \View::make('back.page.homepage.homepage', array(
                     'homepage' => $hmpage,
                     'sliders' => $sliders,
-                    'travpackfav' => $travpackfav
+                    'travpackfav' => $travpackfav,
+                    'hotelfav' => $hotelfav,
+                    'rentals' => $rentals
         ));
     }
 
@@ -70,15 +74,15 @@ class HomepageController extends \BaseController {
             $image = $imgine->open($savePath->value . $name);
 
             $wFactor = (int) ($image->getSize()->getWidth() / $box->getWidth());
-            $hFactor = (int) ($image->getSize()->getHeight() / $box->getHeight());
+            $hFactor = (int) ($image->getSize()->getHeighr() / $box->getHeighr());
 
             if ($wFactor > $hFactor) {
-                $box = new \Imagine\Image\Box($box->getWidth() * $hFactor, $box->getHeight() * $hFactor);
+                $box = new \Imagine\Image\Box($box->getWidth() * $hFactor, $box->getHeighr() * $hFactor);
             } else {
-                $box = new \Imagine\Image\Box($box->getWidth() * $wFactor, $box->getHeight() * $wFactor);
+                $box = new \Imagine\Image\Box($box->getWidth() * $wFactor, $box->getHeighr() * $wFactor);
             }
             //cropping with aspect ratio
-            $image->crop(new \Imagine\Image\Point(($image->getSize()->getWidth() - $box->getWidth()) / 2, ($image->getSize()->getHeight() - $box->getHeight()) / 2), $box);
+            $image->crop(new \Imagine\Image\Point(($image->getSize()->getWidth() - $box->getWidth()) / 2, ($image->getSize()->getHeighr() - $box->getHeighr()) / 2), $box);
             $image->save($savePath->value . $name);
 
 
@@ -110,29 +114,81 @@ class HomepageController extends \BaseController {
         //hapus database
         \DB::table('homepage_slider')->where('id', '=', $id)->delete();
     }
-    
+
     //============= TRAVEL FAVORIT ==================================
     //
-    function getTravel(){
-        $travelpacks = \DB::select('select * from travelpack as tp where tp.id not in (select ht.travelpack_id from homepage_travelpack as ht)');
+    function getTravel() {
+        $travelpacks = \DB::select('select * from travelpack as rt where rt.id not in (select hr.travelpack_id from homepage_travelpack as hr) and rt.publish="Y"');
         return json_encode($travelpacks);
     }
+
     /**
      * Tambahkan Travelpack
      */
-    function postAddTravelpack(){
+    function postAddTravelpack() {
         \DB::table('homepage_travelpack')->insert(array(
             'travelpack_id' => \Input::get('travelpackid')
         ));
     }
+
     /**
      * Delete travelpack favorit
      * @param type $id
      */
-    function getDeleteTravelpack($id){
-        \DB::table('homepage_travelpack')->where('travelpack_id',$id)->delete();
+    function getDeleteTravelpack($id) {
+        \DB::table('homepage_travelpack')->where('travelpack_id', $id)->delete();
     }
+
     //
     //============= END OF TRAVEL FAVORIT ==================================
+    //============= HOTEL FAVORIT ==================================
+    //
+    function getHotel() {
+        $hotels = \DB::select('select * from hotel as rt where rt.id not in (select hr.hotel_id from homepage_hotel as hr)');
+        return json_encode($hotels);
+    }
 
+    /**
+     * Tambahkan Hotel
+     */
+    function postAddHotel() {
+        \DB::table('homepage_hotel')->insert(array(
+            'hotel_id' => \Input::get('hotelid')
+        ));
+    }
+
+    /**
+     * Delete hotel favorit
+     * @param type $id
+     */
+    function getDeleteHotel($id) {
+        \DB::table('homepage_hotel')->where('hotel_id', $id)->delete();
+    }
+
+    //
+    //============= END OF HOTEL FAVORIT ==================================
+    
+    //=================RENTAL FAVORIT=======================================
+    /**
+     * Get data rentals
+     */
+    function getRentals(){
+        return json_encode(\DB::select('select * from rental as rt where rt.id not in (select hr.rental_id from homepage_rental as hr) and rt.publish = "Y"'));
+    }
+    /**
+     * Add new rental to homepage_rental
+     */
+    function postAddRental() {
+        \DB::table('homepage_rental')->insert(array(
+            'rental_id' => \Input::get('rentalid')
+        ));
+    }
+    /**
+     * Delete rental favorit
+     * @param type $id
+     */
+    function getDeleteRental($id) {
+        \DB::table('homepage_rental')->where('rental_id', $id)->delete();
+    }
+    //==================END OF RENTAL FAVORIT===============================
 }

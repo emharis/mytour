@@ -7,7 +7,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Rental</h1>
+        <h1>Rental</h1>`
     </section>
 
     <!-- Main content -->
@@ -18,7 +18,7 @@
                     <div class="box-header with-border">
                         <!--<h3 class="box-title">Upload Foto</h3>-->
                         <!--<a class="btn btn-primary btn-sm pull-right" id="btn-tambah-hotel" >Tambah</a>-->
-                        <a class="btn btn-primary pull-right" href="admin/paket/hotel/new" >Tambah</a>
+                        <a class="btn btn-primary pull-right" href="admin/paket/rental/new" >Tambah</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered datatable" id="table-hotel">
@@ -33,15 +33,15 @@
                             </thead>
                             <tbody>
                                 <?php foreach($rentals as $rt): ?>
-                                	<tr>
-                                		<td></td>
-                                		<td><?php echo $rt->nama; ?></td>
-                                		<td><?php echo $rt->harga; ?></td>
-                                		<td><?php echo $rt->currency; ?></td>
-                                		<td>
-                                			<a class="btn btn-primary btn-sm btn-edit-rental" data-id="<?php echo $rt->id; ?>" href="admin/paket/rental/edit/<?php echo $rt->id; ?>" ><i class="fa fa-edit"></i></a>
-                                		</td>
-                                	</tr>
+                                <tr>
+                                    <td></td>
+                                    <td><?php echo $rt->nama; ?></td>
+                                    <td><i class="currency pull-right" ><?php echo $rt->harga; ?></i></td>
+                                    <td><?php echo $rt->currency; ?></td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-edit-rental" data-id="<?php echo $rt->id; ?>" href="admin/paket/rental/edit/<?php echo $rt->id; ?>" ><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -64,8 +64,9 @@
 <?php echo $__env->make('back.partials.tablescript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script>
-    $(document).ready(function () {
-
+    $(document).ready(function() {
+        //format currency
+        $('.currency').formatCurrency({symbol: ''});
     });
 </script>
 

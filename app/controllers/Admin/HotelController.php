@@ -14,7 +14,7 @@ class HotelController extends \BaseController {
     }
 
     function getIndex() {
-        $hotels = \DB::table('view_hotel')->get();
+        $hotels = \DB::table('VIEW_HOTEL')->get();
 
         return \View::make('back.paket.hotel.hotel', array(
                     'hotels' => $hotels
@@ -77,7 +77,7 @@ class HotelController extends \BaseController {
      * @param int $hotelid
      */
     function getEdit($hotelid) {
-        $hotel = \DB::table('view_hotel')->find($hotelid);
+        $hotel = \DB::table('VIEW_HOTEL')->find($hotelid);
         $rooms = \DB::table('hotel_room')->where('hotel_id', '=', $hotelid)->get();
         $images = \DB::table('hotel_image')->where('hotel_id', '=', $hotelid)->get();
         $cover = \DB::table('hotel_image')->where('hotel_id', '=', $hotelid)->where('main_img', '=', 'Y')->first();
@@ -222,7 +222,7 @@ class HotelController extends \BaseController {
      * @param int $id
      */
     function getHotelById($id) {
-        $hotel = \DB::table('view_hotel')->find($id);
+        $hotel = \DB::table('VIEW_HOTEL')->find($id);
         return json_encode($hotel);
     }
 
@@ -267,7 +267,7 @@ class HotelController extends \BaseController {
             'hotel_image_id' => \Input::get('hotel_image_id')
         ));
 
-        //get hotel from view_hotel table
+        //get hotel from VIEW_HOTEL table
         $ahotel = \DB::table('hotel_room')->find($id);
 //        echo json_encode($ahotel);
         return \Redirect::to('admin/paket/hotel/edit/'.\Input::get('hotelid').'#tab_3');

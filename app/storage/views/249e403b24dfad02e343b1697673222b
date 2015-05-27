@@ -1,0 +1,54 @@
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <td class="col-md-4">Welcome Title</td>
+            <td>
+                <textarea name="tx_welcome" class="tinymce-mini"><?php echo $homepage['welcome_title']['big_value']; ?></textarea>
+        </tr>
+        <tr>
+            <td>Welcome Subtitle</td>
+            <td>
+                <textarea name="tx_welcome_sub" class="tinymce-mini"><?php echo $homepage['welcome_subtitle']['big_value']; ?></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Slider Blog Terbaru/Jumlah</td>
+            <td>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="cb-blog-slider" class="form-control" >
+                            <option value="Y" <?php echo $homepage['show_blog_slider']['value']=='Y'?'selected':''; ?>>Tampilkan</option>
+                            <option value="N" <?php echo $homepage['show_blog_slider']['value']=='N'?'selected':''; ?>>Sembunyikan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="tx-jml-blog" class="form-control text-right" value="<?php echo $homepage['blog_slider_count']['value']; ?>" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Slider Testimony/Jumlah</td>
+            <td>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="cb-testi-slider" class="form-control">
+                            <option value="Y" <?php echo $homepage['show_testimony']['value']=='Y'?'selected':''; ?>>Tampilkan</option>
+                            <option value="N" <?php echo $homepage['show_testimony']['value']=='N'?'selected':''; ?>>Sembunyikan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="tx-jml-testi" class="form-control text-right" value="<?php echo $homepage['testimony_count']['value']; ?>" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="text-right">
+                <a id="btn-save-1" class="btn btn-primary">Save</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

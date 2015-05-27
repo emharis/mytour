@@ -11,7 +11,7 @@ class DestinasiController extends \BaseController {
     }
 
     function getIndex() {
-        $destinasi = \DB::table('view_destinasi')->get();
+        $destinasi = \DB::table('VIEW_DESTINASI')->get();
         $kategori = \DB::table('VIEW_DESTINASI_KATEGORI')->get();
         $selectKategori = array();
         foreach ($kategori as $kat) {
@@ -45,82 +45,82 @@ class DestinasiController extends \BaseController {
      * Submit/save new destinasi
      */
     function postNew() {
-//        $destinasiId = null;
-//
-//        \DB::transaction(function($destinasiId)use($destinasiId) {
-//            //input data destinasi ke database
-//            $destinasiId = \DB::table('destinasi')->insertgetId(array(
-//                'destinasi_kategori_id' => \Input::get('kategori'),
-//                'nama' => \Input::get('nama'),
-//                'desc' => \Input::get('desc'),
-//                'publish' => 'Y'
-//            ));
-//
-//            if (\Input::get('islocal') == 'Y') {
-//                //cek image cover
-//                $imgname = "";
-//                if (\Input::hasFile('img-upload-image-destinasi')) {
-//                    //upload image
-//                    $image = \Input::file('img-upload-image-destinasi');
-//                    $imgname = 'img_destinasi_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
-//                    $imgname = str_replace(' ', '_', $imgname);
-//                    $path = $this->IMG_PATH;
-//                    $image->move($path, $imgname);
-//                    //resize image            
-//                    \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
-//                }
-//            } else {
-//                $imgname = \Input::get('image-url');
-//            }
-//
-//            //input ke database destinasi_image
-//            $imageId = \DB::table('destinasi_image')->insertGetId(array(
-//                'filename' => $imgname,
-//                'main_img' => 'Y',
-//                'destinasi_id' => $destinasiId,
-//                'islocal' => \Input::get('islocal')
-//            ));
-//
-//            //update imagename
-//            \DB::table('destinasi')->where('id', '=', $destinasiId)->update(array(
-//                'main_img' => $imgname
-//            ));
-//
-//            $dest = \DB::table('destinasi')->find($destinasiId);
-//            $dest->img_path = $this->IMG_PATH;
-//            echo json_encode($dest);
-//        });
-        
-        return \Input::get('desc');
+        $destinasiId = null;
+
+        \DB::transaction(function($destinasiId)use($destinasiId) {
+            //input data destinasi ke database
+            $destinasiId = \DB::table('destinasi')->insertgetId(array(
+                'destinasi_kategori_id' => \Input::get('kategori'),
+                'nama' => \Input::get('nama'),
+                'desc' => \Input::get('desc'),
+                'publish' => 'Y'
+            ));
+
+            if (\Input::get('islocal') == 'Y') {
+                //cek image cover
+                $imgname = "";
+                if (\Input::hasFile('img-upload-image-destinasi')) {
+                    //upload image
+                    $image = \Input::file('img-upload-image-destinasi');
+                    $imgname = 'img_destinasi_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+                    $imgname = str_replace(' ', '_', $imgname);
+                    $path = $this->IMG_PATH;
+                    $image->move($path, $imgname);
+                    //resize image            
+                    \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+                }
+            } else {
+                $imgname = \Input::get('image-url');
+            }
+
+            //input ke database destinasi_image
+            $imageId = \DB::table('destinasi_image')->insertGetId(array(
+                'filename' => $imgname,
+                'main_img' => 'Y',
+                'destinasi_id' => $destinasiId,
+                'islocal' => \Input::get('islocal')
+            ));
+
+            //update imagename
+            \DB::table('destinasi')->where('id', '=', $destinasiId)->update(array(
+                'main_img' => $imgname
+            ));
+
+            $dest = \DB::table('destinasi')->find($destinasiId);
+            $dest->img_path = $this->IMG_PATH;
+            echo json_encode($dest);
+        });
+
+//        return \Input::get('desc');
     }
 
     /**
      * New kategori
      */
-    function postNewKategori() {
-        //upload gambar
-        $imgname = "";
-        if (\Input::hasFile('img-upl-image-kategori')) {
-            //upload image
-            $image = \Input::file('img-upl-image-kategori');
-            $imgname = 'img_kat_dest_'. \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
-            $imgname = str_replace(' ', '_', $imgname);
-            $path = $this->IMG_PATH;
-//            echo $imgname;
-            $image->move($path, $imgname);
-            //resize image            
-            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
-        }
-        //simpan ke database
-        $id = \DB::table('destinasi_kategori')->insertGetId(array(
-            'nama' => \Input::get('nama'),
-            'filename' => $imgname
-        ));
-
-        $res = \DB::table('destinasi_kategori')->find($id);
-        $res->img_path = $this->IMG_PATH;
-        return json_encode($res);
-    }
+//    function postNewKategori() {
+//        //upload gambar
+//        $imgname = "";
+//        if (\Input::hasFile('img-upl-image-kategori')) {
+//            //upload image
+//            $image = \Input::file('img-upl-image-kategori');
+//            $imgname = 'img_kat_dest_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+//            $imgname = str_replace(' ', '_', $imgname);
+//            $path = $this->IMG_PATH;
+////            echo $imgname;
+//            $image->move($path, $imgname);
+//            //resize image            
+//            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+//        }
+//        //simpan ke database
+//        $id = \DB::table('destinasi_kategori')->insertGetId(array(
+//            'nama' => \Input::get('nama'),
+//            'filename' => $imgname
+//        ));
+//
+//        $res = \DB::table('destinasi_kategori')->find($id);
+//        $res->img_path = $this->IMG_PATH;
+//        return json_encode($res);
+//    }
 
     /**
      * Edit destinasi
@@ -175,12 +175,12 @@ class DestinasiController extends \BaseController {
                 \File::delete(public_path() . '/' . $pathToDel);
                 //upload image
                 $image = \Input::file('img-upload-image-destinasi');
-                $imgname = 'img_destinasi_'. \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+                $imgname = 'img_destinasi_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
                 $imgname = str_replace(' ', '_', $imgname);
                 $path = $this->IMG_PATH;
                 $image->move($path, $imgname);
                 //resize image            
-                \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+//                \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
 
                 //delete dari databaase file yang lama
                 \DB::table('destinasi_image')->where('destinasi_id', '=', $destinasiId)->where('main_img', '=', 'Y')->delete();
@@ -211,12 +211,12 @@ class DestinasiController extends \BaseController {
         if (\Input::hasFile('input-tambah-image')) {
             //upload image
             $image = \Input::file('input-tambah-image');
-            $imgname = 'img_destinasi_'. \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+            $imgname = 'img_destinasi_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
             $imgname = str_replace(' ', '_', $imgname);
             $path = $this->IMG_PATH;
             $image->move($path, $imgname);
             //resize image            
-            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+//            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
         } else {
             $imgname = \Input::get('filename');
         }
@@ -374,6 +374,70 @@ class DestinasiController extends \BaseController {
         });
     }
 
+    // ====================== KATEGORI SECTION ===============================
+    function getNewKategori() {
+        return \View::make('back.page.destinasi.kategori.new');
+    }
+
+    function postNewKategori() {
+        $imgname = "";
+        if (\Input::hasFile('imageUploader')) {
+            //upload image
+            $image = \Input::file('imageUploader');
+            $imgname = 'img_destinasi_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+            $imgname = str_replace(' ', '_', $imgname);
+            $path = $this->IMG_PATH;
+            $image->move($path, $imgname);
+            //resize image            
+//            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+
+            $id = \DB::table('destinasi_kategori')->insertGetId(array(
+                'nama' => \Input::get('nama'),
+                'filename' => $imgname
+            ));
+            
+            $destkat = \DB::table('destinasi_kategori')->find($id);
+            echo json_encode($destkat);
+        }
+
+        return \Redirect::to('admin/page/destinasi#tab_2');
+    }
+    
+    function getEditKategori($id){
+        $kategori = \DB::table('destinasi_kategori')->find($id);
+        $kategori->img_path = $this->IMG_PATH;
+        return \View::make('back.page.destinasi.kategori.edit', array(
+            'kategori' => $kategori
+        ));
+    }
+    
+    function postEditKategori(){
+         $kategori = \DB::table('destinasi_kategori')->find(\Input::get('kategoriid'));
+        //upload gambar
+        $imgname = $kategori->filename;
+        if (\Input::hasFile('imageUploader')) {
+            //hapus image yang lama
+            //delete image file
+            $dest = $this->IMG_PATH . $kategori->filename;
+            $pathToDel = str_replace(\URL::to('/'), '', $dest);
+            \File::delete(public_path() . '/' . $pathToDel);
+            //upload image
+            $image = \Input::file('imageUploader');
+            $imgname = 'img_kat_dest_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+            $imgname = str_replace(' ', '_', $imgname);
+            $path = $this->IMG_PATH;
+            $image->move($path, $imgname);
+        }
+        //simpan ke database
+        $id = \DB::table('destinasi_kategori')->where('id', '=', $kategori->id)->update(array(
+            'nama' => \Input::get('nama'),
+            'filename' => $imgname
+        ));        
+        return \Redirect::back();        
+    }
+
+    //=================== END OF KATEGORI SECTION ============================
+
     /**
      * Delete kategori by ID
      * @param type $id
@@ -387,54 +451,58 @@ class DestinasiController extends \BaseController {
             $pathToDel = str_replace(\URL::to('/'), '', $dest);
             \File::delete(public_path() . '/' . $pathToDel);
             //delete from database
-            \DB::table('destinasi_kategori')->where('id','=',$kat->id)->delete();
+            \DB::table('destinasi_kategori')->where('id', '=', $kat->id)->delete();
         });
+        
+        return \Redirect::to('admin/page/destinasi#tab_2');
     }
+
     /**
      * Get kategori by ID
      * @param type $id
      */
-    function getKategoriById($id){
+    function getKategoriById($id) {
         $kategori = \DB::table('destinasi_kategori')->find($id);
         $kategori->img_path = $this->IMG_PATH;
         return json_encode($kategori);
     }
+
     /**
      * Simpann edit kategori
      * @return type
      */
-    function postEditKategori() {
-        $kategori = \DB::table('destinasi_kategori')->find(\Input::get('kategoriid'));
-        //upload gambar
-        $imgname = $kategori->filename;
-        if (\Input::hasFile('img-upl-image-kategori')) {
-            //hapus image yang lama
-            //delete image file
-            $dest = $this->IMG_PATH . $kategori->filename;
-            $pathToDel = str_replace(\URL::to('/'), '', $dest);
-            \File::delete(public_path() . '/' . $pathToDel);
-            //upload image
-            $image = \Input::file('img-upl-image-kategori');
-            $imgname = 'img_kat_dest_'. \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
-            $imgname = str_replace(' ', '_', $imgname);
-            $path = $this->IMG_PATH;
-//            echo $imgname;
-            $image->move($path, $imgname);
-            //resize image            
-            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
-        }
-        //simpan ke database
-        $id = \DB::table('destinasi_kategori')->where('id','=',$kategori->id)->update(array(
-            'nama' => \Input::get('nama'),
-            'filename' => $imgname
-        ));
+//    function postEditKategori() {
+//        $kategori = \DB::table('destinasi_kategori')->find(\Input::get('kategoriid'));
+//        //upload gambar
+//        $imgname = $kategori->filename;
+//        if (\Input::hasFile('img-upl-image-kategori')) {
+//            //hapus image yang lama
+//            //delete image file
+//            $dest = $this->IMG_PATH . $kategori->filename;
+//            $pathToDel = str_replace(\URL::to('/'), '', $dest);
+//            \File::delete(public_path() . '/' . $pathToDel);
+//            //upload image
+//            $image = \Input::file('img-upl-image-kategori');
+//            $imgname = 'img_kat_dest_' . \Incremental::getIncrementValue() . '_' . $image->getClientOriginalName();
+//            $imgname = str_replace(' ', '_', $imgname);
+//            $path = $this->IMG_PATH;
+////            echo $imgname;
+//            $image->move($path, $imgname);
+//            //resize image            
+//            \ImagineResizer::crop($path . $imgname, $path . $imgname, new \Imagine\Image\Box(270, 220));
+//        }
+//        //simpan ke database
+//        $id = \DB::table('destinasi_kategori')->where('id', '=', $kategori->id)->update(array(
+//            'nama' => \Input::get('nama'),
+//            'filename' => $imgname
+//        ));
+//
+//        $kategori = \DB::table('destinasi_kategori')->find(\Input::get('kategoriid'));
+//        $kategori->img_path = $this->IMG_PATH;
+//        return json_encode($kategori);
+//    }
 
-        $kategori = \DB::table('destinasi_kategori')->find(\Input::get('kategoriid'));
-        $kategori->img_path = $this->IMG_PATH;
-        return json_encode($kategori);
-    }
-    
-    function getIncrement(){
+    function getIncrement() {
         echo \Incremental::getIncrementValue() . '_';
     }
 

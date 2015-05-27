@@ -1,0 +1,74 @@
+<?php $__env->startSection('styles'); ?>
+<style type="text/css">
+    .img-blog{
+        background-size:cover; 
+        background-position:center center; 
+        background-repeat:no-repeat;
+    }
+    .img-blog.img-dest{
+        width: 270px;
+        height: 220px; 
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+
+        <!-- Gallery Items
+        ================================================== --> 
+        <div class="span9 gallery">
+                <h2>Destination on <?php echo $kategori->nama; ?></h2>
+            <div class="row clearfix">
+                <ul class="gallery-post-grid holder">
+                    <?php foreach($destinasi as $dest): ?>
+                    <?php $image; ?>
+                    <?php if($dest->islocal == 'Y'): ?>
+                    <?php $image=$constval['destinasi_img_path'].$dest->main_img;?>
+                    <?php else: ?>
+                    <?php $image=$dest->main_img;?>
+                    <?php endif; ?>
+                    
+                    <!-- Gallery Item 1 -->
+                    <li  class="span3 gallery-item" data-id="id-<?php echo $dest->id; ?>" data-type="illustration">
+                        <span class="gallery-hover-4col hidden-phone hidden-tablet">
+                            <span class="gallery-icons">
+                                <a href="<?php echo $image; ?>" class="item-zoom-link lightbox" title="Custom Illustration" data-rel="prettyPhoto"></a>
+                                <a href="front/dest/show/<?php echo $dest->id; ?>" class="item-details-link"></a>
+                            </span>
+                        </span>
+                        <a href="gallery-single.htm">
+                            <img class="img-blog img-dest" style="background-image: url('<?php echo $image; ?>');"  >
+                        </a>
+                        <span class="project-details"><a href="front/dest/show/<?php echo $dest->id; ?>"><?php echo $dest->nama; ?></a></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            
+        </div><!-- End gallery list-->
+        
+        <div class="span3 sidebar page-sidebar">
+        <!--Search-->
+        <?php if($constval['show_search_input']=='Y'): ?>
+        <?php echo $__env->make('front.partials.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+        <?php endif; ?>
+
+        <!--Categories-->
+        <h5 class="title-bg">Destinations</h5>
+        <ul class="post-category-list">
+            <?php foreach($kategoris as $kat): ?>
+            <li><a href="front/dest/kategori/<?php echo $kat->id; ?>"><i class="icon-plus-sign"></i><?php echo $kat->nama; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+
+        
+    </div>
+
+    </div><!-- End container row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<script src="js/jquery.quicksand.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.nothome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

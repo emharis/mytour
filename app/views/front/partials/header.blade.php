@@ -14,11 +14,20 @@
 
             <ul class="nav">
                 @for($i=0;$i<count($menus);$i++)
-
-                    @if(isset($menus[$i]['childs']))
+                    @if($menus[$i]['tipe_id']==12)
+                    <!--khusus untuk menu destinasi-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="menuKategori" href="{{$menus[$i]['link']}}">{{$menus[$i]['nama']}} </a>
+                        <ul class="dropdown-menu">
+                            @foreach($kategoridestinasi as $kat)
+                            <li><a href="{{$menus[$i]['link'].'/kategori/'.$kat->id}}">{{$kat->nama}}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @elseif(isset($menus[$i]['childs']))
                     <?php $childs = $menus[$i]['childs']; ?>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="{{$menus[$i]['link']}}">{{$menus[$i]['nama']}} <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="{{$menus[$i]['link']}}">{{$menus[$i]['nama']}} </a>
                         <ul class="dropdown-menu">
                             @foreach($childs as $cld)
                             <li><a href="{{$cld->link}}">{{$cld->nama}}</a></li>

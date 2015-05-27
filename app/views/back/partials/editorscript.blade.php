@@ -64,7 +64,7 @@
         image_advtab: true,
         autosave_ask_before_unload: false,
         resize: "both",
-        height: "550",
+        height: "350",
         // URL
         relative_urls: true,
         remove_script_host: false,

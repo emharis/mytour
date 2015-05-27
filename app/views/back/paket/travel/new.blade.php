@@ -30,23 +30,25 @@
                                         <td>
                                             <input autocomplete="off" type="text" class="form-control" name="nama" required/>
                                         </td>
-                                        <td class="col-md-4" rowspan="6">
+                                        <td class="col-md-4" rowspan="7">
                                             <img style="width: 100%" id="img-new-travel-prev"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Harga</td>
                                         <td>
-                                            <input autocomplete="off" type="text" class="form-control currency text-right" name="harga" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Currency</td>
-                                        <td>
-                                            <select name="currency" class="form-control">
-                                                <option value="IDR">IDR</option>
-                                                <option value="USD">USD</option>
-                                            </select>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input autocomplete="off" type="text" class="form-control currency text-right" name="harga" />  
+                                                </div>
+                                                <div class="col-md-4" >
+                                                    <select name="currency" class="form-control">
+                                                        <option value="IDR">IDR</option>
+                                                        <option value="USD">USD</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -59,9 +61,35 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Image Cover <i>min. 170x139px</i></td>
+                                        <td rowspan="2" >Image Cover <br/> <i>min. 170x139px</i></td>
+                                        <td>
+                                            <div class="row" >
+                                                <div class="col-md-4" >
+                                                    <select name="islocal" class="form-control" >
+                                                        <option value="Y" >LOCAL</option>
+                                                        <option value="N" >URL</option>
+                                                    </select>  
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <input type="file" name="input-img-new-travel"/>
+                                            <input type="text" name="imgUrl" class="form-control"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Publish</td>
+                                        <td>
+                                            <div class="row" >
+                                                <div class="col-md-4" >
+                                                    <select name="publish" class="form-control" >
+                                                        <option value="Y" >PUBLISH</option>
+                                                        <option value="N" >DRAFT</option>
+                                                    </select>  
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -102,10 +130,10 @@
 @include('back.partials.tablescript')
 @include('back.partials.editorscript')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         //trigger save
-        $('#btn-save-new-travel').click(function(e){
-           tinyMCE.triggerSave();
+        $('#btn-save-new-travel').click(function(e) {
+            tinyMCE.triggerSave();
         });
         //save form
 //        $('#form-new-travel').ajaxForm(function(){
@@ -118,19 +146,19 @@
 ////            tinyMCE.setContent(''); 
 //        });
         //auto format currency
-        $('.currency').blur(function(){
-           $(this).formatCurrency({symbol:''});
+        $('.currency').blur(function() {
+            $(this).formatCurrency({symbol: ''});
         });
         //Image cover upload
-         //event upload imageon new hotel
+        //event upload imageon new hotel
         var _URL = window.URL && window.webkitURL;
-        $('input[name=input-img-new-travel]').change(function (ev) {
+        $('input[name=input-img-new-travel]').change(function(ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#img-new-travel-prev');
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function () {
+                image.onload = function() {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 170 || this.height < 139) {
@@ -141,7 +169,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function (ev2) {
+                        fr.onload = function(ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -151,6 +179,32 @@
                 image.src = _URL.createObjectURL(file);
             }
         });
+
+        //===========IMAGE UPLOAD CONTROL====================
+        /////sembunyikan input url
+        $('input[name=imgUrl]').hide();
+        ////Select islocal change
+        $('select[name=islocal]').change(function() {
+            //clear input dan preview
+            $('#img-new-travel-prev').removeAttr('src');
+            $('input[name=imgUrl]').val(null);
+            $('input[name=input-img-new-travel]').val(null);
+            //set islocal value
+            var islocal = $(this).val();
+            if (islocal == 'Y') {
+                $('input[name=imgUrl]').hide();
+                $('input[name=input-img-new-travel]').show();
+            } else {
+                $('input[name=input-img-new-travel]').hide();
+                $('input[name=imgUrl]').show();
+            }
+        });
+        ////Input image url change
+        $('input[name=imgUrl]').blur(function() {
+            $('#img-new-travel-prev').attr('src', $(this).val());
+        });
+        //===================================================
+
     });
 </script>
 

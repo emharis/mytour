@@ -12,11 +12,11 @@ class BaseController extends Controller {
         View::share('constval', $constval);
         
         //latest post
-        $lastpost = \DB::table('view_blogs')->orderBy('created_at','desc')->limit(5)->get();
+        $lastpost = \DB::table('VIEW_BLOGS')->orderBy('created_at','desc')->limit($constval['footer_latest_post'])->get();
         View::share('lastposts',$lastpost);
         
         //random footer gallery
-        $randgals = \DB::table('gallery')->orderByRaw('rand()')->limit(12)->get();
+        $randgals = \DB::table('gallery')->orderByRaw('rand()')->limit($constval['footer_rand_gallery'])->get();
         View::share('randgals',$randgals);
     }
 
@@ -77,6 +77,7 @@ class BaseController extends Controller {
                 $menus[$idx]['nama'] = $mn->nama;
                 $menus[$idx]['position'] = $mn->position;
                 $menus[$idx]['link'] = $mn->link;
+                $menus[$idx]['tipe_id'] = $mn->tipe_id;
                 
                 //cek punya downline gak
                 $childs = DB::table('menu')->where('parent_id', $mn->id)->get();
@@ -87,6 +88,9 @@ class BaseController extends Controller {
                 $idx++;
             }
             $view->with('menus', $menus);
+            //kategori destinasi
+            $kategoridestinasi = \DB::table('destinasi_kategori')->get();
+            $view->with('kategoridestinasi', $kategoridestinasi);
         });
     }
 

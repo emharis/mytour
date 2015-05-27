@@ -1,0 +1,80 @@
+<?php $__env->startSection('styles'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>Testimonial</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" id="row-table">
+            <div class="col-md-12" id="box-upload">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <!--<h3 class="box-title">Upload Foto</h3>-->
+                        <!--<a class="btn btn-primary btn-sm pull-right" id="btn-tambah-testimoni" >Tambah</a>-->
+                        <a class="btn btn-primary pull-right" href="admin/testimoni/new" >Tambah</a>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered datatable" id="table-testimoni">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Negara</th>
+                                    <th class="col-md-8">Message</th>                                    
+                                    <th>Publish</th>
+                                    <th class="col-md-1"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($testimonis as $test): ?>
+                                <tr>
+                                    <td></td>
+                                    <td><?php echo $test->nama; ?> </td>
+                                    <td><?php echo $test->country; ?> </td>
+                                    <td><?php echo $test->message; ?> </td>
+                                    <td>
+                                    <?php if($test->publish == 'Y'): ?>
+                                    <label class="label label-success" ><i class="fa fa-check" ></i></label>
+                                    <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-xs btn-edit-testimoni" href="admin/testimoni/edit/<?php echo $test->id; ?>"  data-id="<?php echo $test->id; ?>" ><i class="fa fa-edit"></i></a>
+                                        <a href="admin/testimoni/delete/<?php echo $test->id; ?>" class="btn btn-danger btn-xs btnDeleteTestimonial" data-id="<?php echo $test->id; ?>" ><i class="fa fa-trash-o"></i></a>
+                                    </td>
+
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('back.partials.tablescript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script>
+    $(document).ready(function(){
+       //delete testimoni
+       $('.btnDeleteTestimonial').click(function(e){
+          if(confirm('Delete testimoni ini?')) {
+              return true;
+          }else{
+              return false;
+          }
+       });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.partials.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

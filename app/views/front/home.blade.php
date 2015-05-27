@@ -22,6 +22,14 @@
                 -moz-box-shadow: 1px 1px 5px #999; -webkit-box-shadow: 1px 1px 5px #999; box-shadow: 1px 1px 5px #999;
             }
         }
+
+        .img-blog-slider{
+            width: 370px;
+            height: 220px; 
+            background-size:cover; 
+            background-position:center center; 
+            background-repeat:no-repeat;
+        }
     </style>
 
     <!-- Slider Carousel
@@ -63,12 +71,20 @@
                 <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
                     <span class="gallery-hover-6col hidden-phone hidden-tablet">
                         <span class="gallery-icons">
+                            @if($ft->islocal == 'Y')
                             <a href="{{$constval['travelpack_img_path'].$ft->filename}}" class="item-zoom-link lightbox" title="{{$ft->nama}}" data-rel="prettyPhoto"></a>
+                            @else
+                            <a href="{{$ft->filename}}" class="item-zoom-link lightbox" title="{{$ft->nama}}" data-rel="prettyPhoto"></a>
+                            @endif
                             <a href="gallery-single.htm" class="item-details-link"></a>
                         </span>
                     </span>
                     <a href="gallery-single.htm" >
+                        @if($ft->islocal == 'Y')
                         <img src="{{$constval['travelpack_img_path'].$ft->filename}}" alt="Gallery">
+                        @else
+                        <img style="width: 170px;height: 139px; background-size:cover; background-position:center center; background-repeat:no-repeat; background-image:url('{{$ft->filename}}');" >
+                        @endif
                     </a>
                     <span class="project-details"><a href="gallery-single.htm">{{$ft->nama}}</a>
                         @if($ft->currency == $constval['default_currency'])
@@ -98,18 +114,22 @@
                 <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
                     <span class="gallery-hover-6col hidden-phone hidden-tablet">
                         <span class="gallery-icons">
+                            @if($htl->islocal == 'Y')
                             <a href="{{$constval['hotel_img_path'].$htl->filename}}" class="item-zoom-link lightbox" title="{{$htl->nama}}" data-rel="prettyPhoto"></a>
+                            @else
+                            <a href="{{$htl->filename}}" class="item-zoom-link lightbox" title="{{$htl->nama}}" data-rel="prettyPhoto"></a>
+                            @endif
                             <a href="gallery-single.htm" class="item-details-link"></a>
                         </span>
                     </span>
-                    <a href="gallery-single.htm"><img src="{{$constval['hotel_img_path'].$htl->filename}}" alt="Gallery"></a>
-                    <span class="project-details"><a href="gallery-single.htm">{{$htl->nama .' ['. $htl->room.']' }}</a>
-                        @if($htl->currency == $constval['default_currency'])
-                        {{$htl->currency}}  {{$htl->harga}}
-                        @else
-                        <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($htl->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
+                    <a href="gallery-single.htm">
+                        @if($htl->islocal == 'Y')
+                        <img src="{{$constval['hotel_img_path'].$htl->filename}}" alt="Gallery">
+                        @else                        
+                        <img style="width: 170px;height: 139px; background-size:cover; background-position:center center; background-repeat:no-repeat; background-image:url('{{$htl->filename}}');" >
                         @endif
-                    </span>
+                    </a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$htl->nama  }}</a></span>
                 </li>
                 @endforeach
             </ul>
@@ -131,17 +151,23 @@
                 <li  class="span2 gallery-item" data-id="id-1" data-type="illustration">
                     <span class="gallery-hover-6col hidden-phone hidden-tablet">
                         <span class="gallery-icons">
+                            @if($rntl->islocal =='Y')
                             <a href="{{$constval['rental_img_path'].$rntl->filename}}" class="item-zoom-link lightbox" title="Custom Illustration" data-rel="prettyPhoto"></a>
+                            @else
+                            <a href="{{$rntl->filename}}" class="item-zoom-link lightbox" title="Custom Illustration" data-rel="prettyPhoto"></a>
+                            @endif
                             <a href="gallery-single.htm" class="item-details-link"></a>
                         </span>
                     </span>
-                    <a href="gallery-single.htm"><img src="{{$constval['rental_img_path'].$rntl->filename}}" alt="Gallery"></a>
-                    <span class="project-details"><a href="gallery-single.htm">{{$rntl->nama}}</a>
-                        @if($rntl->currency == $constval['default_currency'])
-                        {{$rntl->currency}}  {{$rntl->harga}}
+                    <a href="gallery-single.htm">
+                        @if($rntl->islocal =='Y')
+                        <img src="{{$constval['rental_img_path'].$rntl->filename}}" alt="Gallery">
                         @else
-                        <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($rntl->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
+                        <img style="width: 170px;height: 139px; background-size:cover; background-position:center center; background-repeat:no-repeat; background-image:url('{{$rntl->filename}}');" >
                         @endif
+                    </a>
+                    <span class="project-details"><a href="gallery-single.htm">{{$rntl->nama}}</a>
+
                     </span>
                 </li>
                 @endforeach
@@ -159,16 +185,9 @@
     </div>
 
     <div class="span4 sidebar page-sidebar"><!-- Begin sidebar column -->
-
+       
         @if($constval['show_search_input']=='Y')
-        <h5 class="title-bg">Search</h5>        
-        <section>
-            <div class="input-append">
-                <form action="#">
-                    <input size="16" type="text" placeholder="Search"><button class="btn" type="button"><i class="icon-search"></i></button>
-                </form>
-            </div>
-        </section>
+        @include('front.partials.search')
         @endif
 
         @if($constval['show_customer_support']=='Y')
@@ -242,42 +261,34 @@
         </h5>
 
         <div id="blogCarousel" class="carousel slide ">
-
             <!-- Carousel items -->
             <div class="carousel-inner">
-
+                <?php $idx=0; ?>
                 @foreach($blogs as $blg)
                 <!-- Blog Item 1 -->
-                <div class="active item">
-                    <a href="blog-single.htm"><img src="{{$constval['img_blog_path'].$blg->img_cover}}" alt="" class="align-left blog-thumb-preview" /></a>
+                <div class="{{($idx==0?'active':'')}} item">
+                    <a href="front/blog/show/{{$blg->id}}">
+                        <?php $idx++; ?>
+                        @if($blg->islocal == 'Y')
+                        <?php $image = URL::to($constval['img_blog_path'] . $blg->img_cover); ?>
+                        @else
+                        <?php $image = $blg->img_cover; ?>
+                        @endif
+                        <img style="background-image: url('{{$image}}');"  class="align-left blog-thumb-preview img-blog-slider" />
+
+                    </a>
                     <div class="post-info clearfix">
-                        <h4><a href="blog-single.htm">{{$blg->title}}</a></h4>
+                        <h6 style="margin-top: 0;padding-top: 0;" ><a href="front/blog/show/{{$blg->id}}">{{$blg->title}}</a></h6>
                         <ul class="blog-details-preview">
                             <li><i class="icon-calendar"></i><strong>Posted on:</strong> <?php echo date('M d, Y', strtotime($blg->created_at)); ?> <li>
                             <li><i class="icon-user"></i><strong>Posted by:</strong> <a href="#" title="Link">{{$blg->username}}</a><li>
                             <li><i class="icon-comment"></i><strong>Comments:</strong> <a href="#" title="Link">12</a><li>
-                            <li><i class="icon-tags"></i> <a href="#">photoshop</a>, <a href="#">tutorials</a>, <a href="#">illustration</a>
+                            <li><i class="icon-tags"></i> <a href="front/blog/by-kategori/{{$blg->category_id}}">{{$blg->kategori}}</a>
                         </ul>
                     </div>
-                    <p class="blog-summary"><?php echo substr($blg->content, 0, 196); ?>. <a href="#">Read more</a><p>
+                    <p class="blog-summary">{{$blg->min_content}}<a href="#">Read more</a><p>
                 </div>
                 @endforeach
-
-                <!-- Blog Item 3 -->
-                <div class="item">
-                    <a href="blog-single.htm"><img src="frontend/img/gallery/blog-med-img-1.jpg" alt="" class="align-left blog-thumb-preview" /></a>
-                    <div class="post-info clearfix">
-                        <h4><a href="blog-single.htm">Is art everything to anybody?</a></h4>
-                        <ul class="blog-details-preview">
-                            <li><i class="icon-calendar"></i><strong>Posted on:</strong> Sept 4, 2015<li>
-                            <li><i class="icon-user"></i><strong>Posted by:</strong> <a href="#" title="Link">Admin</a><li>
-                            <li><i class="icon-comment"></i><strong>Comments:</strong> <a href="#" title="Link">12</a><li>
-                            <li><i class="icon-tags"></i> <a href="#">photoshop</a>, <a href="#">tutorials</a>, <a href="#">illustration</a>
-                        </ul>
-                    </div>
-                    <p class="blog-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In interdum felis fermentum ipsum molestie sed porttitor ligula rutrum. Vestibulum lectus tellus, aliquet et iaculis sed, volutpat vel erat. <a href="#">Read more</a><p>
-                </div>
-
             </div>
         </div> 
         @endif
@@ -301,12 +312,10 @@
                 <?php $tstidx = 0; ?>
                 @foreach($testimoni as $tst)
                 <div class="item {{$tstidx==0?'active':''}}">
-                    <p class="quote-text">"{{$tst->content}}."<cite>- {{$tst->nama}}, {{$tst->company}}</cite></p>
+                    <p class="quote-text">"{{$tst->message}}."<cite>- {{$tst->nama}}, {{$tst->country}}</cite></p>
                 </div>
                 <?php $tstidx++; ?>
                 @endforeach
-
-
             </div>
         </div>
         @endif
@@ -317,4 +326,9 @@
 @stop
 
 @section('scripts')
+<script>
+    $(document).ready(function(){
+       
+    });
+</script>
 @stop

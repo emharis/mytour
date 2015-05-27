@@ -63,7 +63,7 @@
             <tr>
                 <td colspan="3">
                     <button type="submit" class="btn btn-primary " id="btn-save-new-destinasi" >Save</button>
-                    <a  class="btn btn-danger btn-cancel-edit-destinasi" data-dismiss="modal" >Cancel</a>
+                    <a  class="btn btn-danger btn-cancel-edit-destinasi" data-dismiss="modal" href="admin/page/destinasi" >Cancel</a>
                 </td>
             </tr>
         </tbody>

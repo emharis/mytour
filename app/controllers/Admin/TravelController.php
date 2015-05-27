@@ -31,7 +31,8 @@ class TravelController extends \BaseController {
 
     function postNew() {
         \DB::transaction(function() {
-            //upload image
+//            //upload image
+            $imgname = "";
             if (\Input::hasFile('input-img-new-travel')) {
                 //upload image
                 $image = \Input::file('input-img-new-travel');
@@ -40,27 +41,30 @@ class TravelController extends \BaseController {
                 $image->move($this->travel_img_path, $imgname);
                 //resize image            
                 \ImagineResizer::crop($this->travel_img_path . $imgname, $this->travel_img_path . $imgname, new \Imagine\Image\Box(170, 139));
-
-                //save ke database
-                $id = \DB::table('travelpack')->insertGetId(array(
-                    'nama' => \Input::get('nama'),
-                    'harga' => str_replace('.00','',str_replace(',', '', \Input::get('harga'))),                    
-//                    'harga' => str_replace(',', '', \Input::get('harga')),
-                    'currency' => \Input::get('currency'),
-                    'day' => \Input::get('day'),
-                    'night' => \Input::get('night'),
-                    'desc' => \Input::get('desc')
-                ));
-
-                //save image ke database
-                \DB::table('travelpack_image')->insert(array(
-                    'travelpack_id' => $id,
-                    'filename' => $imgname,
-                    'main_img' => 'Y'
-                ));
+            } else {
+                $imgname = \Input::get('imgUrl');
             }
-        });
 
+            //save ke database
+            $id = \DB::table('travelpack')->insertGetId(array(
+                'nama' => \Input::get('nama'),
+                'harga' => str_replace('.00', '', str_replace(',', '', \Input::get('harga'))),
+                'currency' => \Input::get('currency'),
+                'day' => \Input::get('day'),
+                'night' => \Input::get('night'),
+                'desc' => \Input::get('desc'),
+                'publish' => \Input::get('publish')
+            ));
+
+            //save image ke database
+            \DB::table('travelpack_image')->insert(array(
+                'travelpack_id' => $id,
+                'filename' => $imgname,
+                'main_img' => 'Y',
+                'islocal' => \Input::get('islocal')
+            ));
+        });
+//
         return \Redirect::to('admin/paket/travel');
     }
 
@@ -70,16 +74,18 @@ class TravelController extends \BaseController {
      * @return type
      */
     function getEdit($id) {
-        $travel = \DB::table('view_travel')->find($id);
+        $travel = \DB::table('VIEW_TRAVEL')->find($id);
         $travel->imgpath = $this->travel_img_path;
-        $hotels = \DB::table('view_travelpack_hotel')->where('travelpack_id', '=', $id)->get();
+        $hotels = \DB::table('VIEW_TRAVELPACK_HOTEL')->where('travelpack_id', '=', $id)->get();
         $images = \DB::table('travelpack_image')->where('travelpack_id', '=', $id)->get();
+        $cover = \DB::table('travelpack_image')->where('travelpack_id', '=', $id)->where('main_img', 'Y')->first();
 
         return \View::make('back.paket.travel.edit', array(
                     'travel' => $travel,
                     'hotels' => $hotels,
                     'images' => $images,
-                    'img_path' => $this->travel_img_path
+                    'img_path' => $this->travel_img_path,
+                    'cover' => $cover
         ));
     }
 
@@ -88,7 +94,7 @@ class TravelController extends \BaseController {
         \DB::table('travelpack')->where('id', '=', $travel->id)->update(array(
             'nama' => \Input::get('nama'),
 //            'harga' => str_replace(',', '', \Input::get('harga')),
-            'harga' => str_replace('.00','',str_replace(',', '', \Input::get('harga'))),
+            'harga' => str_replace('.00', '', str_replace(',', '', \Input::get('harga'))),
             'currency' => \Input::get('currency'),
             'desc' => \Input::get('desc'),
             'include' => \Input::get('include'),
@@ -132,7 +138,7 @@ class TravelController extends \BaseController {
      * @return
      */
     function getHotels($travelpackId) {
-        $hotels = \DB::table('view_hotel')->where('jumlah_room', '>', 0)->whereRaw('id not in (select hotel_id from travelpack_hotel where travelpack_id = ' . $travelpackId . ')')->get();
+        $hotels = \DB::table('VIEW_HOTEL')->whereRaw('id not in (select hotel_id from travelpack_hotel where travelpack_id = ' . $travelpackId . ')')->get();
         return json_encode($hotels);
     }
 
@@ -160,28 +166,34 @@ class TravelController extends \BaseController {
     function postUploadImage() {
         $travelId = \Input::get('travelId');
 
-        if (\Input::hasFile('new-img-upload')) {
-            //upload image
-            $image = \Input::file('new-img-upload');
-            $imgname = 'img_travelpack_' . $image->getClientOriginalName();
-            $imgname = str_replace(' ', '_', $imgname);
-            $image->move($this->travel_img_path, $imgname);
+        $imgname = "";
+        if (\Input::get('islocal') == 'Y') {
 
-            //resize image            
-            \ImagineResizer::crop($this->travel_img_path . $imgname, $this->travel_img_path . $imgname, new \Imagine\Image\Box(170, 139));
-//
-            //save ke database
-            $id = \DB::table('travelpack_image')->insertGetId(array(
-                'travelpack_id' => $travelId,
-                'filename' => $imgname
-            ));
+            if (\Input::hasFile('new-img-upload')) {
+                //upload image
+                $image = \Input::file('new-img-upload');
+                $imgname = 'img_travelpack_' . $image->getClientOriginalName();
+                $imgname = str_replace(' ', '_', $imgname);
+                $image->move($this->travel_img_path, $imgname);
 
-            $newimg = \DB::table('travelpack_image')->where('id', '=', $id)->first();
-            $newimg->img_path = $this->travel_img_path;
-            return json_encode($newimg);
+                //resize image            
+                \ImagineResizer::crop($this->travel_img_path . $imgname, $this->travel_img_path . $imgname, new \Imagine\Image\Box(170, 139));
+            }
         } else {
-            return 'no image';
+            $imgname = \Input::get('imgUrl');
         }
+
+        //save ke database
+        $id = \DB::table('travelpack_image')->insertGetId(array(
+            'travelpack_id' => $travelId,
+            'filename' => $imgname,
+            'islocal' => \Input::get('islocal')
+        ));
+
+        $newimg = \DB::table('travelpack_image')->where('id', '=', $id)->first();
+        $newimg->img_path = $this->travel_img_path;
+        
+        return json_encode($newimg);
     }
 
     /**
@@ -207,6 +219,10 @@ class TravelController extends \BaseController {
         \DB::table('travelpack_image')->where('id', '=', $imageid)->update(array(
             'main_img' => 'Y'
         ));
+        
+        $travel = \DB::table('travelpack_image')->where('id', '=', $imageid)->first();
+        $travel->img_path = $this->travel_img_path;
+        return json_encode($travel);
     }
 
 }

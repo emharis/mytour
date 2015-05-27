@@ -1,8 +1,6 @@
 <div class="box-header with-border">
     <h4 class="box-title" >Travel Favorit</h4>
-    @if(count($travpackfav)<4)
     <a class="btn btn-primary pull-right" id="btn-tambah-travel-favorit" >Tambah Travel Favorit</a>
-    @endif
 </div><!-- /.box-header -->
 
 <table class="table table-bordered datatable" id="table-travel-favorit">
@@ -26,3 +24,32 @@
         @endforeach
     </tbody>
 </table>
+
+<div class="modal" id="modal-tambah-travel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pilih Paket Travel</h4><i></i>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered datatable" id="tablePilihTravelPack">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" data-dismiss="modal" >Close</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

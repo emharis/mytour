@@ -1,0 +1,51 @@
+<?php $__env->startSection('styles'); ?>
+<style type="text/css">
+    .img-blog{
+        background-size:cover; 
+        background-position:center center; 
+        background-repeat:no-repeat;
+    }
+    .img-blog.img-dest{
+        width: 270px;
+        height: 220px; 
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+
+        <!-- Gallery Items
+        ================================================== --> 
+        <div class="span12 gallery">
+                <h2>Destination </h2>
+            <div class="row clearfix">
+                <ul class="gallery-post-grid holder">
+
+                    <?php foreach($kategoris as $kat): ?>
+                    <!-- Gallery Item 1 -->
+                    <li  class="span3 gallery-item" data-id="id-<?php echo $kat->id; ?>" data-type="illustration">
+                        <span class="gallery-hover-4col hidden-phone hidden-tablet">
+                            <span class="gallery-icons">
+                                <a href="<?php echo $imgpath . $kat->filename; ?>" class="item-zoom-link lightbox" title="Custom Illustration" data-rel="prettyPhoto"></a>
+                                <a href="front/dest/kategori/<?php echo $kat->id; ?>" class="item-details-link"></a>
+                            </span>
+                        </span>
+                        <a href="front/dest/kategori/<?php echo $kat->id; ?>">
+                            <img class="img-blog img-dest" style="background-image: url('<?php echo $imgpath . $kat->filename; ?>');"  >
+                        </a>
+                        <span class="project-details"><a href="front/dest/kategori/<?php echo $kat->id; ?>"><?php echo $kat->nama; ?></a></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            
+        </div><!-- End gallery list-->
+
+    </div><!-- End container row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<script src="js/jquery.quicksand.js"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.partials.nothome', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

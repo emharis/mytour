@@ -36,20 +36,26 @@
                                     <td>
                                         <input value="{{$travel->nama}}" autocomplete="off" type="text" class="form-control" name="nama" required/>
                                     </td>
-                                    <td class="col-md-4" rowspan="4">
-                                        <img style="width: 100%" id="img-new-travel-prev" src="{{$travel->imgpath . $travel->filename}}"/>
+                                    <td class="col-md-4" rowspan="5">
+                                        @if($cover->islocal == 'Y')
+                                        <img style="width: 100%" id="imgCoverPrev" src="{{$travel->imgpath . $travel->filename}}"/>
+                                        @else
+                                        <img style="width: 100%" id="imgCoverPrev" src="{{$travel->filename}}"/>
+                                        @endif
+
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Harga</td>
                                     <td>
-                                        <input value="{{$travel->harga}}" autocomplete="off" type="text" class="form-control currency text-right" name="harga" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Currency</td>
-                                    <td>
-                                        {{Form::select('currency',array('IDR'=>'IDR','USD'=>'USD'),$travel->currency,array('class'=>'form-control'))}}
+                                        <div class="row">
+                                            <div class="col-md-9" >
+                                                <input value="{{$travel->harga}}" autocomplete="off" type="text" class="form-control currency text-right" name="harga" />  
+                                            </div>
+                                            <div class="col-md-3" >
+                                                {{Form::select('currency',array('IDR'=>'IDR','USD'=>'USD'),$travel->currency,array('class'=>'form-control'))}}           
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,9 +68,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Image Cover <i>min. 170x139px</i></td>
+                                    <td>Publish</td>
                                     <td>
-                                        <input type="file" name="input-img-new-travel"/>
+                                        <div class="row" >
+                                            <div class="col-md-4" >
+                                                <?php echo Form::select('publish', array('Y' => 'PUBLISH', 'N' => 'DRAFT'), $travel->publish, array('class' => 'form-control')) ?>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -166,12 +176,21 @@
                             <table style="background-color: whitesmoke;"  class="table table-bordered" id="table-tambah-image-travel">
                                 <tbody>
                                     <tr>
-                                        <td>Pilih image : </td>
+                                        <td rowspan="2" >Pilih image : </td>
                                         <td>
-                                            <input type="file" id="new-img-upload" name="new-img-upload" required/>
+                                            <select name="islocal" class="form-control">
+                                                <option value="Y" >LOCAL</option>
+                                                <option value="N" >URL</option>
+                                            </select>
                                         </td>
-                                        <td rowspan="2" class="col-md-4" >
+                                        <td rowspan="3" class="col-md-4" >
                                             <img id="tamba-image-prev" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="file" id="newImgUpload" name="newImgUpload" />
+                                            <input type="text" class="form-control" name="imgUrl" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -200,20 +219,28 @@
                             @foreach($images as $img)
                             <tr>
                                 <td></td>
-                                <td>{{$img->filename}}</td>
                                 <td>
-                                    @if($img->main_img == 'Y')
-                                    <label class="label label-success label-image-cover">IMAGE COVER</label>
+                                    @if($img->islocal == 'Y')
+                                    <a target="_blank" href="{{$img_path . $img->filename}}" >{{substr($img->filename,0,50)}}[...]</a>
+                                    @else
+                                    <a target="_blank" href="{{$img->filename}}" >{{substr($img->filename,0,50)}}[...]</a>
                                     @endif
                                 </td>
                                 <td>
+                                    @if($img->main_img == 'Y')
+                                    <label class="label label-success label-image-cover"><i class="fa fa-check" ></i></label>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($img->islocal == 'Y')
                                     <img src="{{$img_path . $img->filename}}" style="width: 100%;" />
+                                    @else
+                                    <img src="{{$img->filename}}" style="width: 100%;" />
+                                    @endif
                                 </td>
                                 <td>
                                     <a data-id="{{$img->id}}" class="btn btn-danger btn-xs btn-del-image-travel"><i class="fa fa-trash-o" ></i></a>
-
                                     <a data-id="{{$img->id}}" class="btn btn-success btn-xs btn-set-image-cover ">Set as image cover</a>
-
                                 </td>
                             </tr>
                             @endforeach
@@ -292,13 +319,13 @@
                 $.each(hotels, function(i, hotel) {
                     tableHotel.fnAddData([
                         null,
-                        hotel.nama,
+                        '<a target="_blank" href="admin/paket/hotel/edit/' + hotel.id + '" >' + hotel.nama +'</a>',
                         hotel.alamat,
                         '<a class="btn btn-primary btn-xs btn-pilih-hotel" data-id="' + hotel.id + '" >Pilih</a>'
                     ]);
                 });
 //	            tampilkan modal
-                $('#modal-tambah-hotel .modal-dialog').css('width','800px');
+                $('#modal-tambah-hotel .modal-dialog').css('width', '800px');
                 $('#modal-tambah-hotel').modal('show');
             });
         });
@@ -350,6 +377,8 @@
         $('#btn-cancel-upload').click(function(e) {
             $('#form-new-image-upload').slideUp(250);
         });
+
+        //=========MANAGE IMAGE UPLOAD===========================================
         //Tambah image upload
         var _URL = window.URL && window.webkitURL;
         $('#form-new-image-upload input[type=file]').change(function(ev) {
@@ -392,14 +421,22 @@
 //                alert('cleared...');
                 //tampilkan data ke tabel
                 var newImg = JSON.parse(e);
+                var imgpreview = '<img src="' + newImg.img_path + newImg.filename + '" class="col-md-12" />';
+                if (newImg.islocal == 'N') {
+                    imgpreview = '<img src="' + newImg.filename + '" class="col-md-12" />';
+                }
+                var filename = '<a target="_blank" href="' + newImg.img_path + newImg.filename + '" >' + newImg.filename.substring(0, 50) + '[...]' + '</a>';
+                if (newImg.islocal == 'N') {
+                    filename = '<a target="_blank" href="' + newImg.filename + '" >' + newImg.filename.substring(0, 50) + '[...]' + '</a>';
+                }
                 var tableImage = $('#tabel-images-travel').dataTable();
 //                alert('show data to table...');
                 tableImage.fnAddData([
                     null,
-                    newImg.filename,
+                    filename,
                     null,
-                    '<img src="' + newImg.img_path + newImg.filename + '" class="col-md-12" />',
-                    '<a class="btn btn-danger btn-xs btn-del-image-travel" data-id="' + newImg.id + '"><i class="fa fa-trash-o"  ></i></a>' +
+                    imgpreview,
+                    '<a class="btn btn-danger btn-xs btn-del-image-travel" data-id="' + newImg.id + '"><i class="fa fa-trash-o"  ></i></a>&nbsp;' +
                             '<a class="btn btn-success btn-xs btn-set-image-cover " data-id="' + newImg.id + '" >Set as image cover</a>'
                 ]);
                 //hide form input
@@ -411,6 +448,28 @@
             });
             return false;
         });
+        ////sembunyikan input url
+        $('input[name=imgUrl]').hide();
+        ////Select islocal change
+        $('select[name=islocal]').change(function(e) {
+            //clear input
+            $('input[name=imgUrl]').val(null);
+            $('input[name=newImgUpload]').val(null);
+            $('#tamba-image-prev').removeAttr('src');
+            var islocal = $(this).val();
+            if (islocal == 'Y') {
+                $('input[name=imgUrl]').hide();
+                $('input[name=newImgUpload]').show();
+            } else {
+                $('input[name=newImgUpload]').hide();
+                $('input[name=imgUrl]').show();
+            }
+        });
+        //imgUrl change
+        $('input[name=imgUrl]').blur(function() {
+            $('#tamba-image-prev').attr('src', $(this).val());
+        });
+        //=========END OF MANAGE IMAGE UPLOAD===========================================
         //delete image 
         $(document).on('click', '.btn-del-image-travel', function() {
             var btn = $(this);
@@ -433,11 +492,18 @@
                 var dataId = $(this).data('id');
                 var btn = $(this);
                 var getUrl = "{{URL::to('admin/paket/travel/set-image-cover')}}" + "/" + dataId;
-                $.get(getUrl, null, function() {
+                $.get(getUrl, null, function(ge) {
+                    var imagecover = JSON.parse(ge);
                     //clear label-image-cover
                     $('.label-image-cover').hide();
                     //set current image cover
-                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover">IMAGE COVER</label>');
+                    btn.parent('td').prev().prev().html('<label class="label label-success label-image-cover"><i class="fa fa-check" ></i></label>');
+                    //ganti cover halaman depan dengan image cover sekarang
+                    if (imagecover.islocal == 'Y') {
+                        $('#imgCoverPrev').attr('src', imagecover.img_path + imagecover.filename);
+                    } else {
+                        $('#imgCoverPrev').attr('src', imagecover.filename);
+                    }
                 });
             }
         });

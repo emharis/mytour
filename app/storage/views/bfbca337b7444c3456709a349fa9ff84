@@ -48,8 +48,8 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary btn-edit-destinasi btn-sm" data-id="<?php echo $dest->id; ?>" href="admin/page/destinasi/edit/<?php echo $dest->id; ?>" ><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-delete-destinasi btn-sm" data-id="<?php echo $dest->id; ?>"><i class="fa fa-trash-o"></i></a>
+                                    <a class="btn btn-primary btn-edit-destinasi btn-xs" data-id="<?php echo $dest->id; ?>" href="admin/page/destinasi/edit/<?php echo $dest->id; ?>" ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-delete-destinasi btn-xs" data-id="<?php echo $dest->id; ?>"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -60,7 +60,8 @@
                 <div class="tab-pane" id="tab_2">
                     <div class='box-header with-border'>
                         <!--<h3 class='box-title'><i class="fa fa-tag"></i> Color Palette</h3>-->
-                        <a class="btn btn-primary btn-tambah-kategori pull-right"  >Tambah Kategori</a>
+                        <!--<a class="btn btn-primary btn-tambah-kategori pull-right"  >Tambah Kategori</a>-->
+                        <a class="btn btn-primary pull-right" href="admin/page/destinasi/new-kategori"   >Tambah Kategori</a>
                     </div>
                     <table class="table table-bordered datatable " id="table-kategori" >
                         <thead>
@@ -80,9 +81,9 @@
                                     <img src="<?php echo $img_path . $kat->filename; ?>" style="width: 100%;" />
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary btn-edit-kategori btn-sm" data-id="<?php echo $kat->id; ?>"  ><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-primary btn-edit-kategori btn-xs" data-id="<?php echo $kat->id; ?>" href="admin/page/destinasi/edit-kategori/<?php echo $kat->id; ?>" ><i class="fa fa-edit"></i></a>
                                     <?php if($kat->destinasi_sum == 0): ?>
-                                    <a class="btn btn-danger btn-delete-kategori btn-sm" data-id="<?php echo $kat->id; ?>"  ><i class="fa fa-trash-o"></i></a>
+                                    <a class="btn btn-danger btn-delete-kategori btn-xs" data-id="<?php echo $kat->id; ?>" href="admin/page/destinasi/delete-kategori/<?php echo $kat->id; ?>"  ><i class="fa fa-trash-o"></i></a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -273,13 +274,13 @@
 <?php echo $__env->make('back.partials.editorscript', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var _URL = window.URL && window.webkitURL;
 
         //hide page tambah
         $('#page-tambah').hide();
         //tambah destinasi
-        $('#btn-tambah-destinasi').click(function(e) {
+        $('#btn-tambah-destinasi').click(function (e) {
             //sembunyikan form index
             $('#page-index').hide();
             //tampilkan form tambah
@@ -287,7 +288,7 @@
 
         });
         //cancel tambah / edit
-        $('#btn-cancel-tambah-destinasi,.btn-cancel-edit-destinasi').click(function(e) {
+        $('#btn-cancel-tambah-destinasi,.btn-cancel-edit-destinasi').click(function (e) {
             //sembunyikan form index
             $('#page-tambah').hide();
             $('#page-edit').hide();
@@ -300,14 +301,14 @@
             tinyMCE.get('textarea-new-desc-destinasi').setContent('');
         });
         //tambah destinasi image upload
-        $('#form-new-destinasi input[type=file]').change(function(ev) {
+        $('#form-new-destinasi input[type=file]').change(function (ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#img-prev-image-destinasi');
             var imgInput = $(this);
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function() {
+                image.onload = function () {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 270 || this.height < 220) {
@@ -318,7 +319,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function(ev2) {
+                        fr.onload = function (ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -329,12 +330,12 @@
             }
         });
         //simpan destinasi baru
-        $('#form-new-destinasi').submit(function(e) {
+        $('#form-new-destinasi').submit(function (e) {
             tinyMCE.triggerSave();
             $('#form-new-destinasi').ajaxSubmit({
-                beforeSubmit: function(bs) {
+                beforeSubmit: function (bs) {
                     $('#form-new-destinasi').loader('show');
-                }, success: function(sc) {
+                }, success: function (sc) {
                     $('#form-new-destinasi').loader('hide');
                     //clear input
                     $('#form-new-destinasi input').val(null);
@@ -348,15 +349,15 @@
         /**
          * Delete destinasi
          */
-        $('.btn-delete-destinasi').click(function(e) {
+        $('.btn-delete-destinasi').click(function (e) {
             var btn = $(this);
             if (confirm('Delete destinasi ini?')) {
                 var id = $(this).data('id');
                 var getUrl = "<?php echo URL::to('admin/page/destinasi/delete-destinasi'); ?>" + "/" + id;
-                $.get(getUrl, null, function(res) {
+                $.get(getUrl, null, function (res) {
                     alert('Data deleted');
                     //remove from table
-                    btn.parent('td').parent('tr').hide(250, function() {
+                    btn.parent('td').parent('tr').hide(250, function () {
                         var row = btn.closest('tr');
                         var nRow = row[0];
                         $('#table-destinasi').dataTable().fnDeleteRow(nRow);
@@ -367,19 +368,19 @@
 
         //================SCRIPT OF KATEGORI===============
         //new kategori
-        $('.btn-tambah-kategori').click(function(e) {
+        $('.btn-tambah-kategori').click(function (e) {
             $('.modal-dialog').css('width', '50%');
             $('#modal-tambah-kategori').modal('show');
         });
         //image tambah kategori upload
-        $('#form-tambah-kategori-destinasi input[type=file]').change(function(ev) {
+        $('#form-tambah-kategori-destinasi input[type=file]').change(function (ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#form-tambah-kategori-destinasi #img-prev-image-kategori');
             var imgInput = $(this);
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function() {
+                image.onload = function () {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 270 || this.height < 220) {
@@ -390,7 +391,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function(ev2) {
+                        fr.onload = function (ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -401,18 +402,18 @@
             }
         });
         //cancel tambah kategori
-        $('#btn-cancel-tambah-kategori').click(function(e) {
+        $('#btn-cancel-tambah-kategori').click(function (e) {
             //clear input
             $('#form-tambah-kategori-destinasi input').val(null);
             $('#form-tambah-kategori-destinasi img').removeAttr('src');
         });
         //submit new kategori
-        $('#form-tambah-kategori-destinasi').submit(function(e) {
+        $('#form-tambah-kategori-destinasi').submit(function (e) {
             $('#form-tambah-kategori-destinasi').ajaxSubmit({
-                beforeSubmit: function(bs) {
+                beforeSubmit: function (bs) {
                     $('#form-tambah-kategori-destinasi').loader('show');
                 },
-                success: function(sc) {
+                success: function (sc) {
                     $('#form-tambah-kategori-destinasi').loader('hide');
                     //close modal
                     $('#btn-cancel-tambah-kategori').click();
@@ -435,45 +436,46 @@
             return false;
         });
         // Delete kategori
-        $(document).on('click', '.btn-delete-kategori', function(e) {
-            if (confirm('Delete kategori ini?')) {
-                var btn = $(this);
-                var katid = $(this).data('id');
-                var getUrl = "<?php echo URL::to('admin/page/destinasi/delete-kategori'); ?>" + "/" + katid;
-                $.get(getUrl, null, function(de) {
-                    //delete from table
-                    btn.parent('td').parent('tr').hide(250, function() {
-                        var row = btn.closest('tr');
-                        var nRow = row[0];
-                        $('#table-kategori').dataTable().fnDeleteRow(nRow);
-                    });
-                });
+        $(document).on('click', '.btn-delete-kategori', function (e) {
+            if (!confirm('Delete kategori ini?')) {
+//                var btn = $(this);
+//                var katid = $(this).data('id');
+//                var getUrl = "<?php echo URL::to('admin/page/destinasi/delete-kategori'); ?>" + "/" + katid;
+//                $.get(getUrl, null, function (de) {
+//                    //delete from table
+//                    btn.parent('td').parent('tr').hide(250, function () {
+//                        var row = btn.closest('tr');
+//                        var nRow = row[0];
+//                        $('#table-kategori').dataTable().fnDeleteRow(nRow);
+//                    });
+//                });
+                return false;
             }
         });
         //edit kategori
-        var btnEditKategori;
-        $(document).on('click', '.btn-edit-kategori', function(e) {
-            btnEditKategori = $(this);
-            
-            var katid = $(this).data('id');
-            var getUrl = "<?php echo URL::to('admin/page/destinasi/kategori-by-id'); ?>" + "/" + katid;
-            $.get(getUrl, null, function(ge) {
-                var kategori = JSON.parse(ge);
-                $('#modal-edit-kategori input[name=nama]').val(kategori.nama);
-                $('#modal-edit-kategori input[name=kategoriid]').val(kategori.id);
-                $('#modal-edit-kategori img').attr('src', kategori.img_path + kategori.filename);
-                $('#modal-edit-kategori').modal('show');
-            });
-        });
+//        var btnEditKategori;
+//        $(document).on('click', '.btn-edit-kategori', function (e) {
+//            btnEditKategori = $(this);
+//
+//            var katid = $(this).data('id');
+//            var getUrl = "<?php echo URL::to('admin/page/destinasi/kategori-by-id'); ?>" + "/" + katid;
+//            $.get(getUrl, null, function (ge) {
+//                var kategori = JSON.parse(ge);
+//                $('#modal-edit-kategori input[name=nama]').val(kategori.nama);
+//                $('#modal-edit-kategori input[name=kategoriid]').val(kategori.id);
+//                $('#modal-edit-kategori img').attr('src', kategori.img_path + kategori.filename);
+//                $('#modal-edit-kategori').modal('show');
+//            });
+//        });
         //edit kategori image change
-        $('#form-edit-kategori-destinasi input[type=file]').change(function(ev) {
+        $('#form-edit-kategori-destinasi input[type=file]').change(function (ev) {
             //cek dimensii image
             var image, file;
             var imgPrev = $('#form-edit-kategori-destinasi #img-prev-image-kategori');
             var imgInput = $(this);
             if ((file = this.files[0])) {
                 image = new Image();
-                image.onload = function() {
+                image.onload = function () {
 //                    alert("The image width is " + this.width + " and image height is " + this.height);                    
                     //cek dimension jika tidak sesuai sembunyikan tombol submit
                     if (this.width < 270 || this.height < 220) {
@@ -484,7 +486,7 @@
                     } else {
                         var f = ev.target.files[0];
                         var fr = new FileReader();
-                        fr.onload = function(ev2) {
+                        fr.onload = function (ev2) {
                             console.dir(ev2);
                             imgPrev.attr('src', ev2.target.result);
                         };
@@ -495,12 +497,12 @@
             }
         });
         //save edit kategori
-        $('#form-edit-kategori-destinasi').submit(function(e) {
+        $('#form-edit-kategori-destinasi').submit(function (e) {
             $('#form-edit-kategori-destinasi').ajaxSubmit({
-                beforeSubmit: function(bs) {
+                beforeSubmit: function (bs) {
                     $('#form-edit-kategori-destinasi').loader('show');
                 },
-                success: function(sc) {
+                success: function (sc) {
                     $('#form-edit-kategori-destinasi').loader('hide');
                     //close modal
                     $('#btn-cancel-edit-kategori').click();
@@ -508,7 +510,7 @@
                     //rubah di tabel
                     ////rubah image
                     var img = btnEditKategori.parent('td').prev().children('img');
-                    img.attr('src',kategori.img_path + kategori.filename);
+                    img.attr('src', kategori.img_path + kategori.filename);
                     ////rubah nama
                     btnEditKategori.parent('td').prev().prev().text(kategori.nama);
                     //tampilkan ke table kategori
@@ -526,6 +528,19 @@
         });
 
         //================END SCRIPT OF KATEGORI===============
+
+        // ============== TAB CONTROLLER ======================
+        /// Javascript to enable link to tab
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href=#' + url.split('#')[1] + ']').tab('show');
+        }
+
+        //Change hash for page-reload
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            window.location.hash = e.target.hash;
+        });
+        // ================END OF TAB CONTROLLER ==============
 
 
         //END OF SCRIPT
