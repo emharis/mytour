@@ -88,7 +88,7 @@
                     </a>
                     <span class="project-details"><a href="gallery-single.htm">{{$ft->nama}}</a>
                         @if($ft->currency == $constval['default_currency'])
-                        {{$ft->currency}}  {{$ft->harga}}
+                        {{$ft->currency}}  {{number_format($ft->harga,2,',','.')}}
                         @else
                         <a class="label" style="text-align: right;padding: 5px;">{{$constval['default_currency']}}  {{number_format($ft->harga * $constval['to_'.$constval['default_currency']], 2, '.', ',')}}</a>
                         @endif

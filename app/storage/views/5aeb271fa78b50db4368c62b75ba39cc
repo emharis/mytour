@@ -86,7 +86,7 @@
                     </a>
                     <span class="project-details"><a href="gallery-single.htm"><?php echo $ft->nama; ?></a>
                         <?php if($ft->currency == $constval['default_currency']): ?>
-                        <?php echo $ft->currency; ?>  <?php echo $ft->harga; ?>
+                        <?php echo $ft->currency; ?>  <?php echo number_format($ft->harga,2,',','.'); ?>
 
                         <?php else: ?>
                         <a class="label" style="text-align: right;padding: 5px;"><?php echo $constval['default_currency']; ?>  <?php echo number_format($ft->harga * $constval['to_'.$constval['default_currency']], 2, '.', ','); ?></a>

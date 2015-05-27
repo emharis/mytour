@@ -12,6 +12,9 @@ Route::group(array('prefix' => 'front'), function() {
     Route::controller('dest', 'App\Controllers\Front\DestinasiController');
     Route::controller('foto', 'App\Controllers\Front\FotoController');
     Route::controller('video', 'App\Controllers\Front\VideoController');
+    Route::controller('travel', 'App\Controllers\Front\TravelController');
+    Route::controller('hotel', 'App\Controllers\Front\HotelController');
+    Route::controller('rent', 'App\Controllers\Front\RentController');
     //Route::controller('contact', 'App\Controllers\Front\ContactController');
     //Route::controller('book', 'App\Controllers\Front\BookController');
 });
